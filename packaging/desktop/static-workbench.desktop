@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Static Workbench
+Comment=Open your local Static Collective workspace
+Exec=/opt/static-workbench/static-workbench-desktop
+Icon=static-workbench
+Terminal=false
+Categories=Utility;Development;
+StartupNotify=false

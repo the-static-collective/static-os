@@ -9,3 +9,11 @@ The distribution integrates independently governed organs without absorbing thei
 **Non-collapses:** installed != ready; discovered != authorized; build receipt != boot proof; image != installed persistence; candidate != admitted; source SHA != reproducible package closure.
 
 See the GENESIS-001 proposal branch and PR for the executable first slice. Until its image and boot gates are run, claims of a working STATIC OS are premature.
+
+## Workbench desktop installer preview
+
+[LAUNCHPAD-002](docs/LAUNCHPAD-002.md) packages the pinned Workbench with its own
+Python runtime for Zorin 17+/Ubuntu 22.04+ amd64. The **Desktop installer preview**
+workflow produces a native `.deb`: install it through Software Install, then
+open **Static Workbench** from the application menu. See the linked document for
+build status boundaries, compatibility, logs and removal behavior.
