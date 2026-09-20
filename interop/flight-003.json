@@ -3,8 +3,8 @@
   "status": "contract-candidate",
   "base": "genesis-001-live-iso",
   "candidate": {
-    "house_source_commit": "4d1d96ef4d7339332d6da7cc52a8f883edd2e6f9",
-    "elf_source_commit": "4d1d96ef4d7339332d6da7cc52a8f883edd2e6f9",
+    "house_source_commit": "2bf471172ab19b4232386f708a8f4d63d9ea4eba",
+    "elf_source_commit": "2bf471172ab19b4232386f708a8f4d63d9ea4eba",
     "manifest": "manifest/genesis-001.json",
     "triad": "interop/triad-001.json"
   },
@@ -12,7 +12,7 @@
     {
       "id": "workbench",
       "repository": "the-static-collective/static-workbench",
-      "commit": "4d1d96ef4d7339332d6da7cc52a8f883edd2e6f9",
+      "commit": "2bf471172ab19b4232386f708a8f4d63d9ea4eba",
       "role": "local-house-and-manual-elf",
       "image_status": "candidate-pinned-source",
       "authority": "none"
