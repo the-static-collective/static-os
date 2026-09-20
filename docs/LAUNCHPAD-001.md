@@ -5,8 +5,8 @@ This starts exact-manifest-pinned Workbench, not a live OS image.
 
 From an ordinary Zorin/Linux terminal in the STATIC OS launchpad branch:
 
-- ./scripts/start-train.sh --check : read-only prerequisites/source/config report.
-- ./scripts/start-train.sh --start : explicitly clone (or verify an existing
+- bash ./scripts/start-train.sh --check : read-only prerequisites/source/config report.
+- bash ./scripts/start-train.sh --start : explicitly clone (or verify an existing
   exact checkout), create a user-owned venv, install exact pinned Workbench
   source into it, create local config only if absent, and start HOUSE in the
   foreground at its configured loopback URL.
