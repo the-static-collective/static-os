@@ -37,7 +37,7 @@ if value["elf"]["source_commit"] != value["house"]["commit"]:
 print(value["house"]["commit"])
 PY
 )"
-WORKTREE="$HOME/static/static-workbench-flight1"
+WORKTREE="$HOME/static/static-workbench-launchpad"
 VENV="$WORKTREE/.venv"
 CONFIG="$HOME/.config/static-workbench/config.toml"
 if [[ -e "$WORKTREE" || -L "$WORKTREE" ]]; then
