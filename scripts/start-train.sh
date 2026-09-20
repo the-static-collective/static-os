@@ -8,7 +8,7 @@ MODE="--start"
 if [[ "$#" -gt 0 ]]; then MODE="$1"; fi
 case "$MODE" in
   --help)
-    printf '%s\n' "usage: ./scripts/start-train.sh [--start|--check|--help]" \
+    printf '%s\n' "usage: bash ./scripts/start-train.sh [--start|--check|--help]" \
       "--start: explicitly install a pinned local HOUSE checkout and launch it." \
       "--check: report local user-scope prerequisites only; no mutations." \
       "Run on your ordinary Zorin/Linux account, NOT as root or inside a live ISO."
