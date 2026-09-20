@@ -62,7 +62,7 @@ class TriadContractTests(unittest.TestCase):
         bad = copy.deepcopy(BASE)
         bad["handoffs"][0]["operationInput"] = {"command": "anything"}
         with self.assertRaisesRegex(ValueError, "unexpected/missing keys"):
-            module.validate(bad)
+            module.validate(bad, copy.deepcopy(MANIFEST))
 
 
 if __name__ == "__main__":
