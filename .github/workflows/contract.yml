@@ -1,0 +1,26 @@
+name: GENESIS-001 contract
+on:
+  push:
+  pull_request:
+jobs:
+  static-contract:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate candidate manifest
+        run: python3 scripts/validate-manifest.py manifest/genesis-001.json
+      - name: Validate script syntax
+        run: |
+          bash -n scripts/build-iso.sh
+          sh -n config/hooks/live/010-install-house.hook.chroot
+          sh -n config/includes.chroot/usr/local/bin/static-house-launch
+      - name: Run hostile manifest tests
+        run: python3 -m unittest discover -s tests -v
+      - name: Ensure offline HOUSE source has a declared exact owner SHA
+        run: |
+          test -r manifest/genesis-001.json
+          test -r config/includes.chroot/etc/systemd/user/static-workbench.service
+          test -r config/includes.chroot/etc/skel/.config/static-workbench/config.toml
+          test -r config/includes.chroot/etc/xdg/autostart/static-house.desktop

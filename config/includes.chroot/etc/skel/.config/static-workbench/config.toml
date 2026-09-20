@@ -1,0 +1,10 @@
+# HOUSE binds only to loopback; do not expose a control service to the LAN.
+bind_host = "127.0.0.1"
+port = 13700
+state_dir = "~/.local/state/static-workbench"
+max_repo_depth = 4
+preview_bytes = 131072
+
+[[roots]]
+id = "static"
+path = "~/static"
