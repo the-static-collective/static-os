@@ -1,8 +1,8 @@
 # GENESIS-ELF-001 — manual offline guest gate
 
-**Status:** Proposed integration on `feat/genesis-001-elf-guest-gate`. Contract tests and host-run deterministic carrier demo can be run in CI. **An ISO build, VM boot, guest execution, installed persistence, and live OpenManus provider conformance remain unverified** until independently observed.
+**Status:** Proposed integrated candidate on `flight/003-elf-triad-candidate`. Contract tests and host-run deterministic carrier demo can be run in CI. **An ISO build, VM boot, guest execution, installed persistence, and live OpenManus provider conformance remain unverified** until independently observed.
 
-This is a cross-repository composition of [STATIC OS GENESIS-001](GENESIS-001.md), [Workbench ELF carrier prototype PR #60](https://github.com/the-static-collective/static-workbench/pull/60), and the still-draft [LOADOUT OpenManus PR #18](https://github.com/the-static-collective/LOADOUT/pull/18). The image manifest pins exact Workbench commit `38c6b13747f62b70961b93a0124a06ebd2932f20` from the **draft** carrier PR, not an approved or merged release. The change is proposed in a child STATIC OS branch; no production/static-os main source pin is changed by this PR.
+This is a cross-repository composition of [STATIC OS GENESIS-001](GENESIS-001.md), [Workbench ELF carrier prototype PR #60](https://github.com/the-static-collective/static-workbench/pull/60), and the still-draft [LOADOUT OpenManus PR #18](https://github.com/the-static-collective/LOADOUT/pull/18). The image manifest pins exact Workbench commit `f0ee71a5a6941d2efdc36d48f0a06a7f39472884` from the **draft** carrier PR, not an approved or merged release. The change is proposed in a child STATIC OS branch; no production/static-os main source pin is changed by this PR.
 
 ## Why this cross-smash
 
@@ -42,3 +42,7 @@ The live ISO has no persistent installed data store. Rebooting it destroys the f
 * **OpenManus:** The exact-pinned provider still requires an actual live occurrence through the existing LOADOUT #18 effect membrane and independent STATIC-NODE delta verification. Neither ELF test nor successful VM boot proves live provider conformance.
 * **Persistence:** An immutable Ark/seed must be deliberately stored outside the disposable guest; another boot receives bytes and lineage, not credentials, authority, or identity. Defer to an explicitly designed persistence gate.
 * **System evolution:** A candidate capability may be built and verified in an isolated child, but incorporation into the image requires independent acceptance, explicit human approval, and rollback. The guest ELF command has **no** upgrade, OS write, launch-on-boot, root, merge, publication, or promotion rights.
+
+## FLIGHT-003 source reconciliation
+
+This branch pins combined Workbench composition+ELF draft PR #62 at the exact SHA above. The original standalone ELF implementation and tests originated in Workbench #60; the additional composition code is experimental Workbench #48/#57/#61 ancestry. The static contract and host-only ELF proof must be rerun on this exact combined source. Passing the host-only smoke never proves ISO boot, source-run equivalence for all new Workbench modules, real user persistence, or guest integration of TranchNode/Storyship/Corpus/Jubilee.
