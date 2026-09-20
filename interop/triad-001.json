@@ -1,0 +1,63 @@
+{
+  "schema": "static-os.triad/v0",
+  "status": "contract-only",
+  "genesis": {
+    "branch": "genesis-001-live-iso",
+    "bootGate": "unverified",
+    "isoInclusion": false
+  },
+  "sources": [
+    {
+      "id": "corpus",
+      "repository": "the-static-collective/corpus-os",
+      "commit": "289c6fa04d04a2bde6dffbe7265903db5bec56c0",
+      "role": "warranted-execution",
+      "integration": "reference-only"
+    },
+    {
+      "id": "jubilee",
+      "repository": "the-static-collective/Jubilee-Engine-VM",
+      "commit": "ec74819addeb41ebccf1667167f806bc77fb6e14",
+      "role": "act-preservation",
+      "integration": "reference-only"
+    },
+    {
+      "id": "workbench",
+      "repository": "the-static-collective/static-workbench",
+      "commit": "f0ee71a5a6941d2efdc36d48f0a06a7f39472884",
+      "role": "local-interface",
+      "integration": "existing-genesis-house-only"
+    }
+  ],
+  "handoffs": [
+    {
+      "from": "corpus",
+      "to": "jubilee",
+      "kind": "candidate-particular-evidence",
+      "authority": "evidence-only",
+      "review": "explicit-human-acceptance",
+      "implementation": "not-implemented"
+    },
+    {
+      "from": "jubilee",
+      "to": "workbench",
+      "kind": "verified-receipt-view",
+      "authority": "evidence-only",
+      "review": "display-only",
+      "implementation": "not-implemented"
+    }
+  ],
+  "deployment": {
+    "autoStartNewServices": false,
+    "allowHostEffects": false,
+    "allowNetworkListeners": false,
+    "allowOsMutation": false,
+    "allowAutomaticPromotion": false
+  },
+  "evidence": {
+    "integration": "unverified",
+    "isoBuild": "unverified",
+    "vmBoot": "unverified",
+    "offlineHouse": "unverified"
+  }
+}
