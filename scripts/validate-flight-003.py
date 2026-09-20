@@ -5,7 +5,7 @@ import re
 import sys
 from pathlib import Path
 
-SHA = re.compile(r"[0-9a-f]{40}\\Z")
+SHA = re.compile(r"[0-9a-f]{40}\Z")
 EXPECTED = (
     ("workbench", "the-static-collective/static-workbench", "local-house-and-manual-elf", "candidate-pinned-source"),
     ("storyship", "the-static-collective/STORYSHIP", "local-ark-arrival-evidence", "reference-only-not-packaged"),
