@@ -16,11 +16,25 @@ jobs:
           bash -n scripts/build-iso.sh
           sh -n config/hooks/live/010-install-house.hook.chroot
           sh -n config/includes.chroot/usr/local/bin/static-house-launch
+          sh -n config/includes.chroot/usr/local/bin/static-elf-proof
       - name: Run hostile manifest tests
         run: python3 -m unittest discover -s tests -v
+      - name: Run exact-pinned offline ELF carrier smoke (host only, not ISO/VM proof)
+        run: |
+          set -eu
+          HOUSE_SHA="$(python3 -c 'import json; print(json.load(open("manifest/genesis-001.json"))["house"]["commit"])')"
+          mkdir .ci-workbench
+          git -C .ci-workbench init -q
+          git -C .ci-workbench remote add origin https://github.com/the-static-collective/static-workbench.git
+          git -C .ci-workbench fetch --depth=1 origin "$HOUSE_SHA"
+          test "$(git -C .ci-workbench rev-parse FETCH_HEAD)" = "$HOUSE_SHA"
+          git -C .ci-workbench checkout -q --detach "$HOUSE_SHA"
+          PYTHONPATH="$PWD/.ci-workbench" python3 -m static_workbench.elf_genesis demo > elf-host-smoke.json
+          python3 -c 'import json; d=json.load(open("elf-host-smoke.json")); assert d["first_verified"] and d["second_verified"] and d["distinct_occurrences"]; assert d["live_provider_conformance"] == "NOT_RUN" and d["os_image_boot"] == "NOT_RUN"'
       - name: Ensure offline HOUSE source has a declared exact owner SHA
         run: |
           test -r manifest/genesis-001.json
           test -r config/includes.chroot/etc/systemd/user/static-workbench.service
           test -r config/includes.chroot/etc/skel/.config/static-workbench/config.toml
           test -r config/includes.chroot/etc/xdg/autostart/static-house.desktop
+          test -r config/includes.chroot/usr/local/bin/static-elf-proof
