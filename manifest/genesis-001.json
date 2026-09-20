@@ -11,13 +11,13 @@
   "house": {
     "owner": "the-static-collective/static-workbench",
     "url": "https://github.com/the-static-collective/static-workbench.git",
-    "commit": "4d1d96ef4d7339332d6da7cc52a8f883edd2e6f9",
+    "commit": "2bf471172ab19b4232386f708a8f4d63d9ea4eba",
     "bind_host": "127.0.0.1",
     "port": 13700
   },
   "elf": {
     "carrier": "static_workbench.elf_genesis",
-    "source_commit": "4d1d96ef4d7339332d6da7cc52a8f883edd2e6f9",
+    "source_commit": "2bf471172ab19b4232386f708a8f4d63d9ea4eba",
     "mode": "manual_guest_only",
     "producer": "deterministic_fixture_not_openmanus",
     "automatic": false,
