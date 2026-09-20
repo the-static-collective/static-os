@@ -31,6 +31,14 @@ jobs:
           git -C .ci-workbench checkout -q --detach "$HOUSE_SHA"
           PYTHONPATH="$PWD/.ci-workbench" python3 -m static_workbench.elf_genesis demo > elf-host-smoke.json
           python3 -c 'import json; d=json.load(open("elf-host-smoke.json")); assert d["first_verified"] and d["second_verified"] and d["distinct_occurrences"]; assert d["live_provider_conformance"] == "NOT_RUN" and d["os_image_boot"] == "NOT_RUN"'
+      - name: Verify exact-pinned Launchpad and HOUSE UI (host-only test)
+        run: |
+          set -eu
+          python3 -m venv .ci-launchpad-venv
+          .ci-launchpad-venv/bin/python -m pip install --disable-pip-version-check -e "$PWD/.ci-workbench[dev]"
+          PYTHONPATH="$PWD/.ci-workbench" .ci-launchpad-venv/bin/python -m pytest -q             .ci-workbench/tests/test_launchpad.py .ci-workbench/tests/test_ui.py
+          node --check .ci-workbench/static_workbench/web/launchpad.js
+          node --check .ci-workbench/static_workbench/web/app.js
       - name: Ensure offline HOUSE source has a declared exact owner SHA
         run: |
           test -r manifest/genesis-001.json
