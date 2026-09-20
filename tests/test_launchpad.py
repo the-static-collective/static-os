@@ -20,6 +20,15 @@ class LaunchpadTests(unittest.TestCase):
         self.assertEqual(result.returncode,2)
         self.assertIn("unknown launch mode",result.stderr)
 
+    def test_python_and_pip_preflight_precede_checkout_and_install(self):
+        content=SCRIPT.read_text(encoding="utf-8")
+        self.assertLess(content.index('PYTHON=""'), content.index('git clone --no-checkout'))
+        self.assertLess(content.index('Compatible Python:'), content.index('git clone --no-checkout'))
+        self.assertIn('BLOCKED: Workbench requires Python 3.11+', content)
+        self.assertIn('"$VENV/bin/python" -m ensurepip --upgrade', content)
+        self.assertIn('pip install --no-input --upgrade "pip>=23.1,<26"', content)
+        self.assertLess(content.index('-m pip install --no-input --upgrade'), content.index('-m pip install --no-input -e'))
+
     def test_no_privileged_or_destructive_command_in_script(self):
         content=SCRIPT.read_text(encoding="utf-8")
         for unexpected in ("sudo ", "mkfs", "dd if=", "lb build", "virsh destroy",
