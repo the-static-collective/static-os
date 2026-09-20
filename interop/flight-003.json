@@ -1,0 +1,54 @@
+{
+  "schema": "static-os.flight-003/v0",
+  "status": "contract-candidate",
+  "base": "genesis-001-live-iso",
+  "candidate": {
+    "house_source_commit": "f0ee71a5a6941d2efdc36d48f0a06a7f39472884",
+    "elf_source_commit": "f0ee71a5a6941d2efdc36d48f0a06a7f39472884",
+    "manifest": "manifest/genesis-001.json",
+    "triad": "interop/triad-001.json"
+  },
+  "sources": [
+    {
+      "id": "workbench",
+      "repository": "the-static-collective/static-workbench",
+      "commit": "f0ee71a5a6941d2efdc36d48f0a06a7f39472884",
+      "role": "local-house-and-manual-elf",
+      "image_status": "candidate-pinned-source",
+      "authority": "none"
+    },
+    {
+      "id": "storyship",
+      "repository": "the-static-collective/STORYSHIP",
+      "commit": "4c5de72915a24be0ee0188a0953f8850c9456799",
+      "role": "local-ark-arrival-evidence",
+      "image_status": "reference-only-not-packaged",
+      "authority": "none"
+    },
+    {
+      "id": "tranchnode",
+      "repository": "the-static-collective/tranchnode",
+      "commit": "ce2b16d0c15f8f890c823290629d254d79c5d6d1",
+      "role": "proposal-only-continuity-adapter",
+      "image_status": "reference-only-not-packaged",
+      "authority": "none"
+    }
+  ],
+  "claims": {
+    "source_contracts": "testable",
+    "os_iso": "unverified",
+    "vm_boot": "unverified",
+    "offline_guest": "unverified",
+    "cross_boot": "not_implemented",
+    "storyship_guest": "not_implemented",
+    "tranchnode_guest": "not_implemented",
+    "automatic_upgrade": false
+  },
+  "boundary": {
+    "operator_only": true,
+    "automatic_promotion": false,
+    "extra_user_services": false,
+    "os_mutation": false,
+    "run_untrusted_commands": false
+  }
+}
