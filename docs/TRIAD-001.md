@@ -6,7 +6,7 @@ Status: **contract-only**. Target: \`genesis-001-live-iso\`. No runtime, package
 
 STATIC OS owns the live image, local OS session and independent boot gates. HOUSE / Workbench owns its local user interface and state. Corpus OS owns *its own* code-owned declaration adoption, genuine in-process Action Warrant, Session admission/consumption, terminal receipt, reconciliation, and constituted-world derivation. Jubilee Engine VM owns *its own* ParticularActV0 review, compilation and verifiable ActReceiptV0. An imported Corpus terminal receipt **cannot** become a genuine Corpus warrant or, without an independently reviewed particular, a Jubilee act receipt.
 
-This is a **reference-only source inventory**, not an instruction to fetch, install or start the referenced projects. Source SHAs pin what was inspected; they do not prove cross-repository compatibility, successful builds, security, or any boot result. The existing GENESIS-001 HOUSE pin is copied here for comparison, not changed.
+This is a **reference-only source inventory**, not an instruction to fetch, install or start the referenced projects. Source SHAs pin what was inspected; they do not prove cross-repository compatibility, successful builds, security, or any boot result. The current candidate's ELF and HOUSE pins are equal and independently checked against this reference-only source inventory.
 
 ## Narrow proposed handoffs
 
