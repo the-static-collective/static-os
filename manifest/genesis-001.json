@@ -1,0 +1,52 @@
+{
+  "schema": "static-os.genesis/v0",
+  "status": "build-candidate",
+  "base": {
+    "family": "debian",
+    "codename": "bookworm",
+    "architecture": "amd64",
+    "image": "iso-hybrid",
+    "installer": false
+  },
+  "house": {
+    "owner": "the-static-collective/static-workbench",
+    "url": "https://github.com/the-static-collective/static-workbench.git",
+    "commit": "25efe8487efaf4af003cb887a8f0072ffcb77c9e",
+    "bind_host": "127.0.0.1",
+    "port": 13700
+  },
+  "stages": [
+    {
+      "id": "boot",
+      "requires": [],
+      "scope": "OS image; no project execution"
+    },
+    {
+      "id": "house",
+      "requires": [
+        "boot"
+      ],
+      "scope": "local user service; loopback UI and local user state"
+    },
+    {
+      "id": "foundry",
+      "requires": [
+        "house"
+      ],
+      "scope": "proposal only; no automatic promotion"
+    }
+  ],
+  "admission": {
+    "automatic": false,
+    "may_mutate_running_system": false
+  },
+  "evidence": {
+    "static_contract": "testable",
+    "iso_build": "unverified",
+    "vm_boot": "unverified",
+    "hardware_boot": "unverified",
+    "offline_house": "unverified",
+    "installed_persistence": "not_implemented",
+    "self_development": "not_implemented"
+  }
+}

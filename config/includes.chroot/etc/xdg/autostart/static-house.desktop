@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=STATIC OS HOUSE
+Comment=Open the local HOUSE interface after the user service is ready
+Exec=/usr/local/bin/static-house-launch
+Terminal=false
+OnlyShowIn=XFCE;
+X-GNOME-Autostart-enabled=true

@@ -1,0 +1,14 @@
+# GENESIS-001: desktop, local service prerequisites and recovery tools.
+xfce4
+lightdm
+xorg
+firefox-esr
+network-manager
+sudo
+git
+python3
+python3-venv
+python3-pip
+curl
+ca-certificates
+openssh-client

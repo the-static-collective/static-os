@@ -1,0 +1,11 @@
+#!/bin/sh
+# Debian live-build chroot hook: install pinned HOUSE source, with resolved
+# Python packages captured in the image for provenance.
+set -eu
+test -r /opt/static-os/workbench-src/pyproject.toml
+python3 -m venv /opt/static-os/workbench-venv
+/opt/static-os/workbench-venv/bin/python -m pip install --no-cache-dir /opt/static-os/workbench-src
+/opt/static-os/workbench-venv/bin/python -m pip freeze --all > /usr/share/static-os/house-python-freeze.txt
+dpkg-query -W -f='${Package}=${Version}\n' > /usr/share/static-os/debian-packages.txt
+# External Python dependencies are resolved at BUILD time, not at boot.
+# This is a traceable recipe, NOT a bit-for-bit reproducible image claim.
