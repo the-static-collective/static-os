@@ -1,0 +1,37 @@
+#!/bin/sh
+# GENESIS-ELF-001: manually invoked, guest-local deterministic carrier proof.
+# Ordinary-user operation only. No daemon, live provider, host mutation, or admission.
+set -eu
+if [ "$(id -u)" -eq 0 ]; then
+  echo "REFUSE: run static-elf-proof as the live-session user, not root" >&2
+  exit 2
+fi
+manifest=/usr/share/static-os/genesis-001.json
+source_commit=/usr/share/static-os/house-source-commit
+python=/opt/static-os/workbench-venv/bin/python
+for required in "$manifest" "$source_commit" "$python" \
+  /opt/static-os/workbench-src/static_workbench/elf_genesis.py; do
+  if [ ! -r "$required" ]; then
+    echo "REFUSE: missing GENESIS ELF component: $required" >&2
+    exit 2
+  fi
+done
+python3 - "$manifest" "$source_commit" <<'PY'
+import json
+from pathlib import Path
+import sys
+
+manifest = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+pinned = Path(sys.argv[2]).read_text(encoding="utf-8").strip()
+elf = manifest.get("elf", {})
+if (manifest["house"]["commit"] != pinned
+    or elf.get("source_commit") != pinned
+    or elf.get("carrier") != "static_workbench.elf_genesis"
+    or elf.get("mode") != "manual_guest_only"
+    or elf.get("producer") != "deterministic_fixture_not_openmanus"
+    or elf.get("automatic") is not False
+    or elf.get("authority") != "none"):
+    raise SystemExit("REFUSE: guest manifest/source/ELF declaration mismatch")
+PY
+echo "GENESIS-ELF-001: offline deterministic fixture; no live provider, OS boot or cross-boot persistence claim."
+exec "$python" -m static_workbench.elf_genesis demo

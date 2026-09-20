@@ -4,7 +4,7 @@
 
 This branch contains an actual Debian live-build ISO recipe, a pinned HOUSE source,
 a per-user loopback service and XFCE login handoff, plus deterministic contract
-refusal tests. It is **not** a verified bootable ISO. No installer, encrypted
+refusal tests. It is **not** a verified bootable ISO. The optional [manual ELF guest gate](GENESIS-ELF-001.md) pins the Workbench carrier from an experimental draft PR; its contract and host-run fixture are not a guest-boot or live-agent proof. No installer, encrypted
 persistent volume, auto-updater, AI privilege, LAN service or self-development
 engine is included.
 
@@ -58,7 +58,8 @@ hardware operation have not yet been tested.
    provide durable cross-boot persistence; do not present them as installed OS.
 6. **RECOVERY:** verify VT/terminal, stop HOUSE service, reboot without it,
    diagnose failure, and boot the original Zorin disk unchanged.
-7. **HARDWARE:** only after VM success, deliberately choose expendable removable
+7. **ELF OFFLINE GUEST (separate optional gate):** after independently witnessed VM boot and offline HOUSE, invoke `static-elf-proof` as the ordinary guest user; inspect two distinct deterministic carrier occurrences and their receipts. This fixture does not run OpenManus or prove persistence between boots. See [GENESIS-ELF-001](GENESIS-ELF-001.md).
+8. **HARDWARE:** only after VM success, deliberately choose expendable removable
    media; verify boot and TV display/firmware behavior on real machine.
 
 `GENESIS 001` passes only when image, VM boot and offline HOUSE gates have

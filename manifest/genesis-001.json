@@ -11,9 +11,17 @@
   "house": {
     "owner": "the-static-collective/static-workbench",
     "url": "https://github.com/the-static-collective/static-workbench.git",
-    "commit": "25efe8487efaf4af003cb887a8f0072ffcb77c9e",
+    "commit": "38c6b13747f62b70961b93a0124a06ebd2932f20",
     "bind_host": "127.0.0.1",
     "port": 13700
+  },
+  "elf": {
+    "carrier": "static_workbench.elf_genesis",
+    "source_commit": "38c6b13747f62b70961b93a0124a06ebd2932f20",
+    "mode": "manual_guest_only",
+    "producer": "deterministic_fixture_not_openmanus",
+    "automatic": false,
+    "authority": "none"
   },
   "stages": [
     {
@@ -27,6 +35,13 @@
         "boot"
       ],
       "scope": "local user service; loopback UI and local user state"
+    },
+    {
+      "id": "elf",
+      "requires": [
+        "house"
+      ],
+      "scope": "manually invoked offline deterministic carrier fixture; no live provider or admission"
     },
     {
       "id": "foundry",
@@ -46,6 +61,8 @@
     "vm_boot": "unverified",
     "hardware_boot": "unverified",
     "offline_house": "unverified",
+    "elf_offline_guest": "unverified",
+    "openmanus_live": "not_run",
     "installed_persistence": "not_implemented",
     "self_development": "not_implemented"
   }
