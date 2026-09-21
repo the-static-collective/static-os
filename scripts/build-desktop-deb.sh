@@ -12,7 +12,8 @@ git clone --no-checkout https://github.com/the-static-collective/static-workbenc
 git -C "$BUILD/source" checkout --detach "$SHA"
 [[ "$(git -C "$BUILD/source" rev-parse HEAD)" = "$SHA" ]] || exit 2
 python3 -m venv "$BUILD/venv"
-# Python 3.11 setuptools pkg_resources runtime hook needs its backports.tarfile dependency.\n"$BUILD/venv/bin/python" -m pip install 'pip>=23.1,<26' 'pyinstaller==6.16.0' 'backports.tarfile==1.2.0' "$BUILD/source"
+# Python 3.11 setuptools pkg_resources runtime hook needs its backports.tarfile dependency.
+"$BUILD/venv/bin/python" -m pip install 'pip>=23.1,<26' 'pyinstaller==6.16.0' 'backports.tarfile==1.2.0' "$BUILD/source"
 "$BUILD/venv/bin/python" -m pip freeze > "$BUILD/dependencies.txt"
 "$BUILD/venv/bin/pyinstaller" --noconfirm --onedir --name static-workbench-desktop \
   --collect-all static_workbench --collect-all uvicorn --collect-submodules backports --hidden-import backports.tarfile \
