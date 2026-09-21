@@ -24,7 +24,7 @@
     {
       "id": "workbench",
       "repository": "the-static-collective/static-workbench",
-      "commit": "b10f6918ffb04ae3a346c5c9e11a886280ff9311",
+      "commit": "f3829fa8767961f8993fda241715f49b06d7b29d",
       "role": "local-interface",
       "integration": "existing-genesis-house-only"
     }
