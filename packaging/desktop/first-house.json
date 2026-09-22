@@ -1,0 +1,33 @@
+{
+  "schema": "static-os.first-house-desktop/v0",
+  "status": "release-candidate-unverified",
+  "workbench": {
+    "repository": "the-static-collective/static-workbench",
+    "source_commit": "38d8840c053d3675818ac3b8b74ab56731434bd7",
+    "start_route": "/arg",
+    "required_routes": [
+      "/arg",
+      "/arg/world"
+    ],
+    "required_assets": [
+      "arg.html",
+      "arg.js",
+      "arg-theme.css",
+      "arg-world.html",
+      "arg-world.js"
+    ]
+  },
+  "claims": {
+    "desktop_package": "candidate-only",
+    "physical_install": "unverified",
+    "iso_boot": "not-applicable",
+    "cross_project_game": "not-integrated",
+    "offline_after_install": "pending-device-test"
+  },
+  "user_data": {
+    "import_existing": false,
+    "auto_seed": false,
+    "keep_user_state_on_uninstall": true,
+    "save_owner": "static-workbench"
+  }
+}
