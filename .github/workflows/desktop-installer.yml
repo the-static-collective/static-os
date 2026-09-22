@@ -2,7 +2,7 @@ name: Desktop installer preview
 on:
   workflow_dispatch:
   pull_request:
-    paths: ['packaging/desktop/**', 'scripts/build-desktop-deb.sh', '.github/workflows/desktop-installer.yml', 'manifest/genesis-001.json']
+    paths: ['packaging/desktop/**', 'scripts/build-desktop-deb.sh', 'scripts/validate-first-house.py', 'tests/test_first_house.py', '.github/workflows/desktop-installer.yml', 'manifest/genesis-001.json']
 permissions:
   contents: read
 jobs:
@@ -13,10 +13,27 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Build bundled installer and smoke test executable
-        run: bash scripts/build-desktop-deb.sh
-      - name: Inspect Debian package
-        run: dpkg-deb --info dist/static-workbench-desktop_amd64.deb
+      - name: Validate desktop release gates
+        run: |
+          python3 scripts/validate-first-house.py packaging/desktop/first-house.json
+          python3 -m unittest discover -s tests -p 'test_first_house.py'
+      - name: Build unchanged GENESIS desktop flavor
+        run: |
+          bash scripts/build-desktop-deb.sh
+          mkdir -p dist/genesis
+          mv dist/static-workbench-desktop_amd64.deb dist/SHA256SUMS dist/genesis/
+      - name: Build First House flavor and smoke test exact bundled game
+        run: |
+          bash scripts/build-desktop-deb.sh --first-house
+          mkdir -p dist/first-house
+          mv dist/static-workbench-desktop_amd64.deb dist/SHA256SUMS dist/first-house/
+      - name: Inspect independent packages and embedded First House declaration
+        run: |
+          dpkg-deb --info dist/genesis/static-workbench-desktop_amd64.deb
+          dpkg-deb --info dist/first-house/static-workbench-desktop_amd64.deb
+          dpkg-deb --fsys-tarfile dist/first-house/static-workbench-desktop_amd64.deb | tar -xOf - ./opt/static-workbench/first-house.json
+          (cd dist/genesis && sha256sum --check SHA256SUMS)
+          (cd dist/first-house && sha256sum --check SHA256SUMS)
       - uses: actions/upload-artifact@v4
         with:
           name: static-workbench-zorin-ubuntu-amd64
