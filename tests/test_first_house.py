@@ -46,6 +46,8 @@ class FirstHouseDesktopTests(unittest.TestCase):
         self.assertIn('python3 "$ROOT/scripts/validate-first-house.py"', source)
         self.assertIn('git -C "$BUILD/source" checkout --detach "$SHA"', source)
         self.assertIn('SELF_TEST=(--self-test --first-house)', source)
+        self.assertIn("'backports.tarfile==1.2.0'", source)
+        self.assertIn('--collect-all backports', source)
         self.assertIn('first-house.json" "$PKG/opt/static-workbench/first-house.json"', source)
 
     def test_desktop_entry_and_bundled_route_self_test(self):
