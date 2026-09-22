@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Static Collective · First House
+Comment=Enter the local First Door, then open Workbench when you choose
+Exec=/opt/static-workbench/static-workbench-desktop --first-house
+Icon=static-workbench
+Terminal=false
+Categories=Game;Education;Development;
+StartupNotify=false
