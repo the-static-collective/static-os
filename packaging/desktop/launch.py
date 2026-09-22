@@ -22,9 +22,17 @@ def main():
         from static_workbench.app import create_app
         from static_workbench.config import load_config
         app = create_app(load_config())
-        assert any(getattr(route, 'path', None) == '/' for route in app.routes)
+        paths = {getattr(route, 'path', None) for route in app.routes}
+        assert '/' in paths
+        if '--first-house' in sys.argv:
+            assert {'/arg', '/arg/world'} <= paths
         import static_workbench
-        assert (Path(static_workbench.__file__).parent / 'web/index.html').is_file()
+        web = Path(static_workbench.__file__).parent / 'web'
+        assert (web / 'index.html').is_file()
+        if '--first-house' in sys.argv:
+            for asset in ('arg.html', 'arg.js', 'arg-theme.css',
+                          'arg-world.html', 'arg-world.js'):
+                assert (web / asset).is_file(), asset
         print('Bundled Workbench imports and app construction: OK')
         return
     if os.getuid() == 0:
@@ -35,7 +43,8 @@ def main():
     from static_workbench.app import create_app
     config = load_config()
     host = '[' + config.bind_host + ']' if ':' in config.bind_host else config.bind_host
-    url = f'http://{host}:{config.port}/'
+    start_route = '/arg' if '--first-house' in sys.argv else '/'
+    url = f'http://{host}:{config.port}{start_route}'
     state = Path.home() / '.local/state/static-workbench-desktop'
     state.mkdir(parents=True, exist_ok=True, mode=0o700)
     with (state / 'launcher.lock').open('a') as lock:
