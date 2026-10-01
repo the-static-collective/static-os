@@ -1,0 +1,60 @@
+{
+  "schema": "static.roadkit-manifest/v0",
+  "id": "ROADKIT-001",
+  "status": "deployment-candidate",
+  "parent": {
+    "id": "LIVING-CODEX-ENDPOINT-001",
+    "commit": "fa72a854867ecde431d59896dc0725f957faa0af"
+  },
+  "organs": {
+    "relatte": {
+      "repository": "the-static-collective/reLATTE",
+      "commit": "9b4b7be38e67c8e9c3e43328ef0a940c08f7f2ca"
+    },
+    "tranchnode": {
+      "repository": "the-static-collective/tranchnode",
+      "commit": "1d731fbb228f68bbefc008d18c48d6be001935be"
+    }
+  },
+  "roads": {
+    "removable_file": {
+      "status": "implemented-candidate",
+      "transport": "relatte.file-bundle",
+      "material": "content-addressed attachments"
+    },
+    "lan_http": {
+      "status": "implemented-candidate",
+      "transport": "relatte.http-relay",
+      "material": "explicit operator pull from peer artifact endpoint",
+      "encryption": false,
+      "discovery": "manual-peer-address"
+    }
+  },
+  "house_surface": {
+    "schema": "static.house-identity/v0",
+    "authority": "self-asserted-local",
+    "status_command": "static-roadkit status <house-root>"
+  },
+  "laws": [
+    "TRANSPORT != AUTHORITY",
+    "RECEIVED != ADMITTED",
+    "PULLED != ADMITTED",
+    "HOLD != ADMIT",
+    "FOREIGN CROSSING != LOCAL CONSEQUENCE",
+    "HUMAN ACCEPTANCE REQUIRES LOCAL RE-CROSSING",
+    "SOURCE ADMIT != RECEIVER ADMIT",
+    "SHARED HISTORY != SHARED GLOBAL STATE",
+    "PEER ADDRESS != PEER IDENTITY",
+    "CONTENT ADDRESS != SEMANTIC TRUST"
+  ],
+  "claims_not_made": [
+    "encrypted LAN transport",
+    "automatic peer discovery",
+    "authenticated network peer identity",
+    "Bluetooth transport",
+    "LoRa transport",
+    "QR transport",
+    "physical removable-drive hardware proof",
+    "two-installed-machine proof"
+  ]
+}

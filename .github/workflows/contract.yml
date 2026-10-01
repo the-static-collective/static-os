@@ -14,6 +14,8 @@ jobs:
       - name: Validate script syntax
         run: |
           bash -n scripts/build-iso.sh
+          bash -n scripts/roadkit-setup.sh
+          bash -n scripts/roadkit.sh
           sh -n config/hooks/live/010-install-house.hook.chroot
           sh -n config/includes.chroot/usr/local/bin/static-house-launch
           sh -n config/includes.chroot/usr/local/bin/static-elf-proof
@@ -133,10 +135,51 @@ jobs:
           assert data['transport']['all_attachments_content_address_verified'] is True
           print('LIVING-CODEX-ENDPOINT-001 PASS')
           PY
-      - name: Show endpoint proof
+      - name: Run ROADKIT removable and LAN deployment contract
+        shell: bash
+        run: |
+          set -eu
+          OUT="$RUNNER_TEMP/roadkit-001"
+          rm -rf "$OUT"
+          .ci-tranchnode/node_modules/.bin/tsx \
+            interop/roadkit-contract.ts \
+            "$PWD/.ci-relatte" \
+            "$PWD/.ci-tranchnode" \
+            "$OUT" \
+            > roadkit-001.log
+          test -s "$OUT/roadkit-001-proof.json"
+      - name: Assert ROADKIT deployment proof
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os
+          path=os.path.join(os.environ['RUNNER_TEMP'],'roadkit-001','roadkit-001-proof.json')
+          data=json.load(open(path))
+          assert data['proof'] == 'PASS'
+          inv=data['invariants']
+          assert inv['received_not_admitted'] is True
+          assert inv['pulled_not_admitted'] is True
+          assert inv['foreign_crossing_never_receiver_admitted'] is True
+          assert inv['destination_human_recrossing_required'] is True
+          assert inv['house_identities_distinct'] is True
+          assert inv['shared_history_without_shared_global_state'] is True
+          assert inv['durable_receiver_reopen'] is True
+          assert data['removable_file']['source_disposition'] == 'ADMIT'
+          assert data['removable_file']['receiver_foreign_disposition'] == 'HOLD'
+          assert data['lan_http']['source_disposition'] == 'ADMIT'
+          assert data['lan_http']['receiver_foreign_disposition'] == 'HOLD'
+          assert data['lan_http']['explicit_pull_before_accept'] is True
+          assert data['lan_http']['pulled_is_semantic_effect'] is False
+          print('ROADKIT-001 PASS')
+          PY
+      - name: Show endpoint and ROADKIT proofs
         if: always()
         run: |
           cat living-codex-endpoint-001.log || true
+          cat roadkit-001.log || true
           if test -f "$RUNNER_TEMP/living-codex-endpoint-001/living-codex-endpoint-001-proof.json"; then
             cat "$RUNNER_TEMP/living-codex-endpoint-001/living-codex-endpoint-001-proof.json"
+          fi
+          if test -f "$RUNNER_TEMP/roadkit-001/roadkit-001-proof.json"; then
+            cat "$RUNNER_TEMP/roadkit-001/roadkit-001-proof.json"
           fi
