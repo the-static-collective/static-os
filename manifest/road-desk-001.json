@@ -1,0 +1,30 @@
+{
+  "schema": "static.road-desk-integration/v0",
+  "id": "ROAD-DESK-001",
+  "status": "integration-candidate",
+  "parent": {
+    "roadkit_commit": "67c4aa681cb6afb61bbe2e8bbeb6fe5c604f139c"
+  },
+  "workbench": {
+    "repository": "the-static-collective/static-workbench",
+    "base_branch": "integration/first-use-whole-house-20260920",
+    "base_commit": "f3829fa8767961f8993fda241715f49b06d7b29d",
+    "road_desk_commit": "d7ec75ed7ab6fe8a92805875091fe20754821960",
+    "pull_request": 88,
+    "surface": "GET /api/roadkit",
+    "execution_endpoints": []
+  },
+  "configuration": {
+    "key": "roadkit_house_root",
+    "default": null,
+    "law": "NO DEFAULT HOUSE != NO ROAD DESK"
+  },
+  "laws": [
+    "OBSERVATION != AUTHORITY",
+    "VISIBLE HOLD != ACCEPTANCE",
+    "UI != ROADKIT EXECUTION",
+    "RECEIPT PARSED != SIGNATURE VERIFIED",
+    "PULLED != ADMITTED",
+    "PIN CHANGE != SAFE UPGRADE"
+  ]
+}
