@@ -151,6 +151,39 @@ async function putJson(store: any, value: unknown) {
   return store.put(jsonBytes(value));
 }
 
+async function verifySourceIdentityBinding(store: any, crossing: any) {
+  const refs = crossing.payload_refs.filter((entry: any) => entry?.role === "source-house-identity");
+  if (refs.length !== 1) throw new Error("SOURCE_IDENTITY_REF_REQUIRED");
+  const identity = JSON.parse((await store.get(refs[0].address)).toString("utf8"));
+  if (
+    identity.schema !== IDENTITY_SCHEMA ||
+    identity.house_id !== crossing.source_particular ||
+    identity.world_id !== crossing.source_world ||
+    identity.authority !== "self-asserted-local"
+  ) {
+    throw new Error("SOURCE_IDENTITY_CROSSING_MISMATCH");
+  }
+  const expected = crossing.signing?.public_key;
+  const actual = identity.signing_public_key;
+  if (
+    !plain(expected) ||
+    !plain(actual) ||
+    expected.kty !== actual.kty ||
+    expected.crv !== actual.crv ||
+    expected.x !== actual.x ||
+    expected.y !== actual.y
+  ) {
+    throw new Error("SOURCE_IDENTITY_KEY_MISMATCH");
+  }
+  return {
+    identity_ref: refs[0].address,
+    house_id: identity.house_id,
+    world_id: identity.world_id,
+    authority: identity.authority,
+    law: "SIGNED HOUSE IDENTITY != HUMAN IDENTITY",
+  };
+}
+
 async function readArtifactFile(pathArg: string) {
   const absolute = resolve(pathArg);
   const info = await lstat(absolute);
@@ -493,6 +526,8 @@ export async function fileImport(
   const bundle = await readJson(join(carrierRoot, "bundle.json"));
   await verifyAndImportAttachments(donors, loaded.store, crossing, carrierRoot, bundle);
 
+  const sourceIdentity = await verifySourceIdentityBinding(loaded.store, crossing);
+
   const sourceAdmit = await readJson(join(carrierRoot, "source-admit-receipt.json"));
   if (!(await donors.relatte.verifyReceipt(sourceAdmit))) throw new Error("INVALID_SOURCE_ADMIT_RECEIPT");
   if (
@@ -524,6 +559,7 @@ export async function fileImport(
     receive_receipt_id: receive.receipt_id,
     hold_receipt_id: hold.receipt_id,
     source_admit_receipt_id: sourceAdmit.receipt_id,
+    source_identity: sourceIdentity,
     receiver_disposition: "HOLD",
     semantic_effect: "none",
   };
@@ -832,10 +868,13 @@ export async function pullHeldArtifacts(
     imported.push({ address: put.address, byte_length: put.byteLength, role: ref.role });
   }
 
+  const sourceIdentity = await verifySourceIdentityBinding(loaded.store, crossing);
+
   return {
     ok: true,
     status: "held-artifacts-pulled",
     crossing_id: crossingId,
+    source_identity: sourceIdentity,
     hold_receipt_id: hold.receipt_id,
     imported,
     semantic_effect: "none",
