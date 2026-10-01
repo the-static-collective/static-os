@@ -1,0 +1,80 @@
+{
+  "schema": "static.living-codex-endpoint-manifest/v0",
+  "id": "LIVING-CODEX-ENDPOINT-001",
+  "status": "integration-candidate",
+  "parent": {
+    "repository": "the-static-collective/static-os",
+    "branch": "integration/whole-house-desktop-candidate-20260920",
+    "commit": "850c42b7526e912f943eebed0262d96465a09a8e"
+  },
+  "organs": {
+    "relatte": {
+      "repository": "the-static-collective/reLATTE",
+      "commit": "9b4b7be38e67c8e9c3e43328ef0a940c08f7f2ca",
+      "owns": [
+        "signed-crossing",
+        "file-bundle-transport",
+        "local-receiver-journal",
+        "receive-hold-admit-receipts"
+      ]
+    },
+    "roroomom": {
+      "repository": "the-static-collective/ROroomOM",
+      "commit": "5e93843ceae80a2bca94ff438f0bc24dc49a4b85",
+      "branch_context": "experiment/relatte-com5-room-009-guest-port",
+      "owns": [
+        "room-score",
+        "play-memory",
+        "human-offer",
+        "guest-port",
+        "human-ai-crossing"
+      ]
+    },
+    "tranchnode": {
+      "repository": "the-static-collective/tranchnode",
+      "commit": "1d731fbb228f68bbefc008d18c48d6be001935be",
+      "owns": [
+        "content-addressed-artifact-store",
+        "continuity-floor"
+      ]
+    }
+  },
+  "proof": {
+    "transport": "file-bundle",
+    "houses": [
+      "static-house:a",
+      "static-house:b"
+    ],
+    "sequence": [
+      "house-a-human-governed-room-event",
+      "house-a-tranchnode-artifact-persist",
+      "house-a-local-admit",
+      "house-a-signed-relatte-crossing",
+      "file-bundle-with-addressed-attachments",
+      "house-b-verify-and-ingest",
+      "house-b-foreign-hold",
+      "house-b-human-local-recrossing",
+      "house-b-local-admit",
+      "durable-reopen",
+      "divergent-local-state-proof"
+    ]
+  },
+  "laws": [
+    "TRANSPORT != AUTHORITY",
+    "RECEIVED != ADMITTED",
+    "HOLD != ADMIT",
+    "FOREIGN CROSSING != LOCAL CONSEQUENCE",
+    "HUMAN ACCEPTANCE REQUIRES LOCAL RE-CROSSING",
+    "SHARED HISTORY != SHARED GLOBAL STATE",
+    "REPLICATION != IDENTITY",
+    "SOURCE ARTIFACT != RECEIVER ARTIFACT AUTHORITY"
+  ],
+  "claims_not_made": [
+    "bootable ISO proof",
+    "USB hardware proof",
+    "network mesh discovery",
+    "provider-authenticated AI identity",
+    "automatic peer admission",
+    "global consensus"
+  ]
+}
