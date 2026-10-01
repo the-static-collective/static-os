@@ -918,7 +918,7 @@ async function main() {
   console.log(JSON.stringify(result, null, 2));
 }
 
-const invoked = process.argv[1] && resolve(process.argv[1]) === resolve(new URL(import.meta.url).pathname);
+const invoked = (process.argv[1] ?? "").endsWith("roadkit-001.ts");
 if (invoked) {
   main().catch((error) => {
     console.error(error instanceof Error ? error.stack ?? error.message : String(error));
