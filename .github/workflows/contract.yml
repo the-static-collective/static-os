@@ -46,3 +46,97 @@ jobs:
           test -r config/includes.chroot/etc/skel/.config/static-workbench/config.toml
           test -r config/includes.chroot/etc/xdg/autostart/static-house.desktop
           test -r config/includes.chroot/usr/local/bin/static-elf-proof
+
+  living-codex-endpoint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read exact Living Codex donor pins
+        id: pins
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          data=json.load(open('manifest/living-codex-endpoint-001.json'))
+          print('relatte='+data['organs']['relatte']['commit'])
+          print('roroomom='+data['organs']['roroomom']['commit'])
+          print('tranchnode='+data['organs']['tranchnode']['commit'])
+          PY
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/reLATTE
+          ref: ${{ steps.pins.outputs.relatte }}
+          path: .ci-relatte
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/ROroomOM
+          ref: ${{ steps.pins.outputs.roroomom }}
+          path: .ci-roroomom
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/tranchnode
+          ref: ${{ steps.pins.outputs.tranchnode }}
+          path: .ci-tranchnode
+      - name: Verify exact donor commits
+        shell: bash
+        run: |
+          test "$(git -C .ci-relatte rev-parse HEAD)" = "${{ steps.pins.outputs.relatte }}"
+          test "$(git -C .ci-roroomom rev-parse HEAD)" = "${{ steps.pins.outputs.roroomom }}"
+          test "$(git -C .ci-tranchnode rev-parse HEAD)" = "${{ steps.pins.outputs.tranchnode }}"
+      - name: Install donor proof dependencies
+        run: |
+          npm ci --prefix .ci-relatte
+          npm ci --prefix .ci-tranchnode
+      - name: Verify reLATTE donor
+        run: npm run verify --prefix .ci-relatte
+      - name: Verify TranchNode donor
+        run: npm run check --prefix .ci-tranchnode
+      - name: Verify ROroomOM Guest Port donor
+        run: |
+          node --check .ci-roroomom/experiments/relatte-com5-room-001/room.mjs
+          node .ci-roroomom/experiments/relatte-com5-room-001/test.mjs
+      - name: Run two-house Living Codex endpoint
+        shell: bash
+        run: |
+          set -eu
+          OUT="$RUNNER_TEMP/living-codex-endpoint-001"
+          rm -rf "$OUT"
+          .ci-tranchnode/node_modules/.bin/tsx \
+            interop/living-codex-endpoint-001.ts \
+            "$PWD/.ci-relatte" \
+            "$PWD/.ci-roroomom" \
+            "$PWD/.ci-tranchnode" \
+            "$OUT" \
+            > living-codex-endpoint-001.log
+          test -s "$OUT/living-codex-endpoint-001-proof.json"
+      - name: Assert endpoint proof
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os
+          path=os.path.join(os.environ['RUNNER_TEMP'],'living-codex-endpoint-001','living-codex-endpoint-001-proof.json')
+          data=json.load(open(path))
+          assert data['proof'] == 'PASS'
+          inv=data['invariants']
+          assert inv['same_foreign_crossing_different_local_consequence'] is True
+          assert inv['node_signing_identity_distinct'] is True
+          assert inv['shared_history_without_shared_global_state'] is True
+          assert inv['foreign_crossing_not_admitted_by_house_b'] is True
+          assert inv['human_local_recrossing_required_for_house_b_consequence'] is True
+          assert inv['house_b_local_artifacts_absent_from_house_a'] is True
+          assert data['houses']['a']['disposition'] == 'ADMIT'
+          assert data['houses']['b']['foreign_crossing_disposition'] == 'HOLD'
+          assert data['houses']['b']['human_local_disposition'] == 'ADMIT'
+          assert data['houses']['a']['state_ref'] != data['houses']['b']['state_ref']
+          assert data['transport']['all_attachments_content_address_verified'] is True
+          print('LIVING-CODEX-ENDPOINT-001 PASS')
+          PY
+      - name: Show endpoint proof
+        if: always()
+        run: |
+          cat living-codex-endpoint-001.log || true
+          if test -f "$RUNNER_TEMP/living-codex-endpoint-001/living-codex-endpoint-001-proof.json"; then
+            cat "$RUNNER_TEMP/living-codex-endpoint-001/living-codex-endpoint-001-proof.json"
+          fi
