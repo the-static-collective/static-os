@@ -679,13 +679,13 @@ export async function startPeer(
   const host = options.host ?? "127.0.0.1";
   const relayPort = Number(options.relay_port);
   const artifactPort = Number(options.artifact_port);
-  if (!Number.isInteger(relayPort) || relayPort < 1024 || relayPort > 65535) {
-    throw new Error("INVALID_RELAY_PORT");
+  const validPort = (value: number) =>
+    Number.isInteger(value) && (value === 0 || (value >= 1024 && value <= 65535));
+  if (!validPort(relayPort)) throw new Error("INVALID_RELAY_PORT");
+  if (!validPort(artifactPort)) throw new Error("INVALID_ARTIFACT_PORT");
+  if (relayPort !== 0 && artifactPort !== 0 && relayPort === artifactPort) {
+    throw new Error("PORTS_MUST_DIFFER");
   }
-  if (!Number.isInteger(artifactPort) || artifactPort < 1024 || artifactPort > 65535) {
-    throw new Error("INVALID_ARTIFACT_PORT");
-  }
-  if (relayPort === artifactPort) throw new Error("PORTS_MUST_DIFFER");
 
   const relay = donors.relatte.createHttpRelayServer(async (crossing: any) => {
     await loaded.receiver.receive(crossing, now());
@@ -734,13 +734,18 @@ export async function startPeer(
     throw error;
   }
 
+  const relayAddress = relay.address();
+  const artifactAddress = artifactServer.address();
+  if (!relayAddress || typeof relayAddress === "string") throw new Error("RELAY_ADDRESS_UNAVAILABLE");
+  if (!artifactAddress || typeof artifactAddress === "string") throw new Error("ARTIFACT_ADDRESS_UNAVAILABLE");
+
   return {
     schema: "static.roadkit-peer/v0",
     house_id: loaded.house.house_id,
     world_id: loaded.house.world_id,
     host,
-    relay_url: `http://${host}:${relayPort}/relatte/v0/crossings`,
-    artifact_base_url: `http://${host}:${artifactPort}/roadkit/v0/artifacts/`,
+    relay_url: `http://${host}:${relayAddress.port}/relatte/v0/crossings`,
+    artifact_base_url: `http://${host}:${artifactAddress.port}/roadkit/v0/artifacts/`,
     authority: "transport-only",
     laws: [
       "PEER ADDRESS != PEER IDENTITY",
