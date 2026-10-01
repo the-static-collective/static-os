@@ -87,7 +87,7 @@ jobs:
           test "$(git -C .ci-tranchnode rev-parse HEAD)" = "${{ steps.pins.outputs.tranchnode }}"
       - name: Install donor proof dependencies
         run: |
-          npm ci --prefix .ci-relatte
+          npm install --prefix .ci-relatte --package-lock=false --no-audit --no-fund
           npm ci --prefix .ci-tranchnode
       - name: Verify reLATTE donor
         run: npm run verify --prefix .ci-relatte
