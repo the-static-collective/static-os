@@ -5,6 +5,10 @@ state_dir = "~/.local/state/static-workbench"
 max_repo_depth = 4
 preview_bytes = 131072
 
+# ROADKIT-001 observation is opt-in. The OS does not select or initialize
+# a sovereign House on the user's behalf.
+# roadkit_house_root = "~/.local/state/static-roadkit/my-house"
+
 [[roots]]
 id = "static"
 path = "~/static"

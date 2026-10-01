@@ -45,3 +45,19 @@ SHARED HISTORY != SHARED GLOBAL STATE
 CI pins and independently verifies exact reLATTE, ROroomOM Guest Port, and TranchNode commits before executing the composition.
 
 This remains a host-level integration proof. It does not claim a booted ISO, installed-system proof, physical USB test, network mesh discovery, or global consensus.
+
+## Road Desk
+
+[ROAD-DESK-001](docs/ROAD-DESK-001.md) pins a green Road Desk build from the same whole-house Workbench lineage already used by STATIC OS.
+
+Road Desk observes one explicitly configured ROADKIT House—identity, foreign crossings, HOLDs, and local ADMIT receipts—through a GET-only Workbench surface. It does not expose RoadKit execution actions.
+
+```text
+OBSERVATION != AUTHORITY
+VISIBLE HOLD != ACCEPTANCE
+UI != ROADKIT EXECUTION
+RECEIPT PARSED != SIGNATURE VERIFIED
+```
+
+House selection remains opt-in; STATIC OS does not choose or initialize a sovereign RoadKit House automatically.
+
