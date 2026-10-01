@@ -3,6 +3,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
+async function main() {
 const [relatteRootArg, roomRootArg, tranchRootArg, outputRootArg] = process.argv.slice(2);
 if (!relatteRootArg || !roomRootArg || !tranchRootArg || !outputRootArg) {
   throw new Error(
@@ -620,3 +621,10 @@ const proofPath = join(outputRoot, "living-codex-endpoint-001-proof.json");
 await mkdir(dirname(proofPath), { recursive: true });
 await writeFile(proofPath, JSON.stringify(summary, null, 2) + "\n", "utf8");
 console.log(JSON.stringify(summary, null, 2));
+
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
