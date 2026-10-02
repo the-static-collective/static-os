@@ -1,0 +1,39 @@
+{
+  "schema": "static.ghot-idle-operator-integration/v0",
+  "id": "GHOT-IDLE-OPERATOR-001",
+  "status": "integration-candidate",
+  "parent": {
+    "road_desk_commit": "d7ec75ed7ab6fe8a92805875091fe20754821960",
+    "static_os_branch": "deployment/road-desk-001"
+  },
+  "workbench": {
+    "repository": "the-static-collective/static-workbench",
+    "branch": "feat/ghot-idle-shell-001",
+    "commit": "78be3286daf8687be1b35a31c9b76edab5963253",
+    "pull_request": 89,
+    "default_view": "ghot",
+    "projection_surface": "GET /api/ghot"
+  },
+  "laws": [
+    "GAME STATE != CLAIMED REALITY",
+    "QUEST READY != AUTHORIZED",
+    "XP == WITNESS COUNT, NOT CAPABILITY",
+    "OBSERVATION != EXECUTION",
+    "HUMAN GATE != AGENT DECISION",
+    "PIN CHANGE != SAFE UPGRADE"
+  ],
+  "staticjack": {
+    "polsia": {
+      "status": "HELD",
+      "credentials": false,
+      "authority": "none",
+      "budget": null
+    }
+  },
+  "claims": {
+    "game_shell_present_in_pinned_workbench": true,
+    "idle_tick_external_execution": false,
+    "polsia_integration": false,
+    "autonomous_project_execution": false
+  }
+}

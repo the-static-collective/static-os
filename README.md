@@ -61,3 +61,18 @@ RECEIPT PARSED != SIGNATURE VERIFIED
 
 House selection remains opt-in; STATIC OS does not choose or initialize a sovereign RoadKit House automatically.
 
+
+
+## GHoT idle operator
+
+[GHOT-IDLE-OPERATOR-001](docs/GHOT-IDLE-OPERATOR-001.md) pins the first game-shaped Workbench control shell on top of the Road Desk lineage.
+
+GHoT makes the idle-clicker/RPG board the default operator view while preserving the existing desks as the actual owners of authority. Observed facts become resources; existing desks become quests; explicit human decisions remain boss gates.
+
+```text
+GAME STATE != CLAIMED REALITY
+QUEST READY != AUTHORIZED
+XP == WITNESS COUNT, NOT CAPABILITY
+```
+
+The Polsia STATICJACK quest is present but HELD: this candidate grants it no credentials, budget, repository access or execution authority.
