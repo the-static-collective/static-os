@@ -8,7 +8,7 @@ Pinned Workbench candidate:
 
     the-static-collective/static-workbench
     feat/ghot-idle-shell-001
-    c75addfde1ddd67f33d5348c83d77265b5da4d37
+    78be3286daf8687be1b35a31c9b76edab5963253
     PR #89
 
 The candidate composes directly on the Road Desk lineage already pinned by STATIC OS.
