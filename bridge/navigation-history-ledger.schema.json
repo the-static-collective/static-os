@@ -1,0 +1,21 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/navigation-history-ledger-v0.json",
+  "title":"Navigation history ledger v0",
+  "type":"object",
+  "required":[
+    "schema","head_cycle_digest","cycles","traces","transitions",
+    "reorientations","admissions","claim_limit"
+  ],
+  "properties":{
+    "schema":{"const":"static.navigation-history-ledger/v0"},
+    "head_cycle_digest":{"type":["string","null"],"pattern":"^[0-9a-f]{64}$"},
+    "cycles":{"type":"object","additionalProperties":{"type":"object"}},
+    "traces":{"type":"object","additionalProperties":{"type":"object"}},
+    "transitions":{"type":"object","additionalProperties":{"type":"object"}},
+    "reorientations":{"type":"object","additionalProperties":{"type":"object"}},
+    "admissions":{"type":"object","additionalProperties":{"type":"object"}},
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}
