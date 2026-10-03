@@ -257,6 +257,11 @@ def observe_plan(
         "packet_id": PACKET_ID,
         "status": "observed",
         "plan_sha256": _sha256(plan),
+        "ancestry": {
+            "ground_plan_sha256": _sha256(plan),
+            "world_primary_source_sha256": plan["world_source"]["primary_source_sha256"],
+            "world_candidate_source_sha256": plan["world_source"]["candidate_source_sha256"],
+        },
         "field_id": plan["field_id"],
         "observation_relation": relation,
         "observed": observed,
@@ -289,6 +294,15 @@ def validate_receipt(receipt):
     digest = receipt.get("plan_sha256")
     if not isinstance(digest, str) or len(digest) != 64:
         raise ValueError("ground receipt plan digest missing")
+    ancestry = receipt.get("ancestry")
+    if not isinstance(ancestry, dict):
+        raise ValueError("ground receipt ancestry missing")
+    if ancestry.get("ground_plan_sha256") != digest:
+        raise ValueError("ground receipt plan ancestry mismatch")
+    for key in ("world_primary_source_sha256", "world_candidate_source_sha256"):
+        value = ancestry.get(key)
+        if not isinstance(value, str) or len(value) != 64:
+            raise ValueError(f"ground receipt ancestry missing: {key}")
     if receipt.get("observation_relation") not in RELATIONS:
         raise ValueError("invalid ground observation relation")
     if not receipt.get("observed"):
