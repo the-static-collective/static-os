@@ -28,18 +28,22 @@
   },
   "crossings": {
     "accepts": [
-      "static.nav-receipt/v0"
+      "static.nav-receipt/v0",
+      "static.ground-receipt/v0",
+      "static.evidence-artifact/v0"
     ],
     "emits": [
-      "static.witness-intake/v0"
+      "static.witness-intake/v0",
+      "static.witness-reentry/v0"
     ],
-    "law": "A source may cross intact without its claims being upgraded."
+    "law": "A source may cross intact without its claims being upgraded; re-entry must preserve the ancestry that produced the new source."
   },
   "runtime": {
     "script": "scripts/witness.py",
     "commands": [
       "validate",
       "intake",
+      "reenter",
       "inspect"
     ],
     "proposal_only": true,

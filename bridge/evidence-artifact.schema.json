@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-static-collective.github.io/static-os/schema/evidence-artifact-v0.json",
+  "title": "Evidence artifact v0",
+  "type": "object",
+  "required": [
+    "schema",
+    "artifact_id",
+    "artifact_kind",
+    "capture_channel",
+    "content",
+    "claim_limit"
+  ],
+  "properties": {
+    "schema": {"const": "static.evidence-artifact/v0"},
+    "artifact_id": {"type": "string", "minLength": 1},
+    "artifact_kind": {"type": "string", "minLength": 1},
+    "capture_channel": {"type": "string", "minLength": 1},
+    "content": {"type": "object"},
+    "claim_limit": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}
