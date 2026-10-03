@@ -1,0 +1,18 @@
+{
+  "schema": "static.world-recursive-candidate/v0",
+  "candidate_id": "recursive-raw-run-001.json",
+  "source_sha256": "a1bed88447c2efb4054b0f03462a872d851fc7f874d287697c62c49c785f2aea",
+  "source_schema": "static.evidence-artifact/v0",
+  "novelty_status": "new_artifact",
+  "observation_status": "fresh_capture",
+  "generation_ancestry": {
+    "ground_receipt_sha256": "15fe1a79e895160c73b7e1aced62906f616f9d926f3b9915ad17125a66729f04",
+    "ground_plan_sha256": "e252e44d27fdf37fb2b4915eb3651e41d0b1909a83a18e6702ae218b861c8d8b",
+    "world_primary_source_sha256": "f89fb653b8122a99f92f7d61931dfb6617fec41ee1426927b2d75e281122c244",
+    "world_candidate_source_sha256": "41ee7d52a5c14ca41c8a58ee096cb14e35e76c3b78c87637944fa2ac7931da63"
+  },
+  "relation_to_upstream": "mixed",
+  "independence_status": "not_independent_by_generation",
+  "independence_claim": false,
+  "claim_limit": "This is a new captured artifact generated through a MAKE GROUND intervention that was itself caused by the upstream WORLD disagreement. Newness does not make the artifact independent of that generation ancestry."
+}

@@ -30,18 +30,23 @@
   "crossings": {
     "accepts": [
       "static.witness-intake/v0",
-      "static.world-candidate/v0"
+      "static.world-candidate/v0",
+      "static.witness-reentry/v0"
     ],
     "emits": [
-      "static.world-receipt/v0"
+      "static.world-receipt/v0",
+      "static.world-recursive-candidate/v0",
+      "static.world-recursion-receipt/v0"
     ],
-    "law": "DISTINCT SOURCE ≠ INDEPENDENT WITNESS."
+    "law": "DISTINCT SOURCE ≠ INDEPENDENT WITNESS. NEW EVIDENCE ≠ EVIDENCE FROM NOWHERE."
   },
   "runtime": {
     "script": "scripts/world.py",
     "commands": [
       "validate",
       "compare",
+      "candidate-from-reentry",
+      "classify-recursive",
       "inspect"
     ],
     "proposal_only": true,
