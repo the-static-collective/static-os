@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-static-collective.github.io/static-os/schema/edition-return-v0.json",
+  "title": "Edition return v0",
+  "type": "object",
+  "required": [
+    "schema",
+    "status",
+    "source",
+    "human_disposition",
+    "witness",
+    "field_delta",
+    "navigation_return",
+    "editorial_return",
+    "automatic_book_edit",
+    "claim_limit"
+  ],
+  "properties": {
+    "schema": {
+      "const": "static.edition-return/v0"
+    },
+    "status": {
+      "const": "candidate_material"
+    },
+    "source": {
+      "type": "object"
+    },
+    "human_disposition": {
+      "enum": [
+        "take",
+        "hold",
+        "pass"
+      ]
+    },
+    "witness": {
+      "type": "object"
+    },
+    "field_delta": {
+      "type": "object"
+    },
+    "navigation_return": {
+      "type": "object"
+    },
+    "editorial_return": {
+      "type": "object"
+    },
+    "automatic_book_edit": {
+      "const": false
+    },
+    "claim_limit": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}

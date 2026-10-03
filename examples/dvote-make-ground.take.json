@@ -1,0 +1,16 @@
+{
+  "schema": "dvote.witness-receipt.v1",
+  "id": "fixture-take-001",
+  "date": "2026-10-03T21:00:00.000Z",
+  "campaignId": "make-ground-001",
+  "campaignVersion": "1.0.0",
+  "day": 1,
+  "encounterId": "better-hole-001",
+  "encounter": "Make a Better Hole",
+  "doorId": "take",
+  "door": "TAKE",
+  "disposition": "take",
+  "weather": "changing",
+  "note": "I drew the problem as a timeline. The new question was not why I forget the task, but why the task becomes invisible after lunch.",
+  "object": "timeline with a noon gap"
+}

@@ -1,0 +1,37 @@
+{
+  "schema": "static.field-profile/v0",
+  "field_id": "dvote-better-hole-comparison-001",
+  "problem_statement": "One DVOTE reader reports that changing representation exposed a new question; a separate bounded field report says the same move produced no new question.",
+  "current_capabilities": [
+    "preserve portable DVOTE witness receipts",
+    "compare source fingerprints without deciding which report is true",
+    "return generated comparison material to WITNESS"
+  ],
+  "constraints": [
+    "do not rank the reader or the second observer",
+    "do not convert a new hash into independence",
+    "keep the comparison removable",
+    "preserve both source paths before interpretation"
+  ],
+  "preserve": [
+    "NEW REACHABILITY ≠ TRUTH.",
+    "both upstream witness paths",
+    "human authority over the next consequential move"
+  ],
+  "reversible_levers": [
+    {
+      "id": "dual-run-comparison-card-001",
+      "change": "Add a temporary comparison card that places both bounded field reports side by side and asks which conditions differ before asking which interpretation wins.",
+      "rollback": "Remove the comparison card while retaining both source receipts and the generated comparison worksheet."
+    }
+  ],
+  "selected_lever_id": "dual-run-comparison-card-001",
+  "observation_channels": [
+    {
+      "id": "comparison-worksheet-001",
+      "description": "Capture both source digests, declared relation, preserved disagreement, and the next comparison question.",
+      "capture": "content-addressed comparison worksheet plus provenance receipt"
+    }
+  ],
+  "selected_observation_channel_id": "comparison-worksheet-001"
+}

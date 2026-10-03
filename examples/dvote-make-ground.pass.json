@@ -1,0 +1,16 @@
+{
+  "schema": "dvote.witness-receipt.v1",
+  "id": "fixture-pass-001",
+  "date": "2026-10-03T21:00:00.000Z",
+  "campaignId": "make-ground-001",
+  "campaignVersion": "1.0.0",
+  "day": 1,
+  "encounterId": "better-hole-001",
+  "encounter": "Make a Better Hole",
+  "doorId": "pass",
+  "door": "PASS",
+  "disposition": "pass",
+  "weather": "changing",
+  "note": "This is the wrong problem for today; forcing an experiment would make the receipt less honest.",
+  "object": null
+}
