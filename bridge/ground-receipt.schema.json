@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-static-collective.github.io/static-os/schema/ground-receipt-v0.json",
+  "title": "MAKE GROUND receipt v0",
+  "type": "object",
+  "required": [
+    "schema",
+    "packet_id",
+    "status",
+    "plan_sha256",
+    "field_id",
+    "observation_relation",
+    "observed",
+    "evidence_artifacts",
+    "fertility_delta",
+    "rollback_used",
+    "claim_limit",
+    "truth_claimed",
+    "next_door"
+  ],
+  "properties": {
+    "schema": {"const": "static.ground-receipt/v0"},
+    "packet_id": {"const": "make-ground-001"},
+    "status": {"const": "observed"},
+    "plan_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "field_id": {"type": "string", "minLength": 1},
+    "observation_relation": {
+      "enum": [
+        "aligns_primary",
+        "aligns_candidate",
+        "mixed",
+        "inconclusive"
+      ]
+    },
+    "observed": {"type": "string", "minLength": 1},
+    "evidence_artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "fertility_delta": {
+      "type": "object",
+      "required": [
+        "new_capabilities",
+        "repeatability_changed",
+        "comparison_changed",
+        "maintenance_note"
+      ],
+      "properties": {
+        "new_capabilities": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "repeatability_changed": {"type": "boolean"},
+        "comparison_changed": {"type": "boolean"},
+        "maintenance_note": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "rollback_used": {"type": "boolean"},
+    "claim_limit": {"type": "string", "minLength": 1},
+    "truth_claimed": {"const": false},
+    "next_door": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}

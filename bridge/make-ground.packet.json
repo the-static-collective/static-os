@@ -1,0 +1,52 @@
+{
+  "schema": "static.bridge-packet/v0",
+  "id": "make-ground-001",
+  "name": "MAKE GROUND",
+  "title": "Grow the Field",
+  "core_distinction": "TERRAFORMING ≠ TOTAL DESIGN.",
+  "current_claim": "When independent evidence paths remain in meaningful disagreement, change the substrate only enough to make better evidence easier to produce, preserve, compare, and repeat.",
+  "source_ancestry": [
+    "BRIDGE PACKET 006 — MAKE GROUND",
+    "Lay the Bones, Wake the Soil",
+    "MAKE GROUND — A Field Manual for Growing Possible Futures",
+    "WITNESS → WORLD Crossing 001"
+  ],
+  "doors": {
+    "signal": "MAKE THE FIELD MORE CAPABLE OF MAKING ITS OWN NEXT LAYER.",
+    "story": "A disagreement becomes more resolvable when the environment makes repeatable observation cheaper than argument.",
+    "distinction": [
+      "UNCERTAINTY ≠ PARALYSIS.",
+      "INTERVENTION ≠ VERDICT.",
+      "FERTILITY ≠ CONFIRMATION.",
+      "GROUND ≠ OUTCOME."
+    ],
+    "theory": "Evidence fertility is a substrate property: the field makes future observation, comparison, correction, and repetition easier without deciding the result in advance.",
+    "instrument": "evidence-fertility field pass",
+    "witness": "ground receipt",
+    "runtime": "scripts/make_ground.py",
+    "field": "One reversible substrate change plus one declared observation channel.",
+    "return": "A measured fertility delta and a new source artifact that can re-enter WITNESS."
+  },
+  "crossings": {
+    "accepts": [
+      "static.world-receipt/v0",
+      "static.field-profile/v0"
+    ],
+    "emits": [
+      "static.ground-plan/v0",
+      "static.ground-receipt/v0"
+    ],
+    "law": "UNRESOLVED DISAGREEMENT ≠ LICENSE FOR TOTAL REDESIGN."
+  },
+  "runtime": {
+    "script": "scripts/make_ground.py",
+    "commands": [
+      "validate",
+      "plan",
+      "observe",
+      "inspect"
+    ],
+    "proposal_only": true,
+    "automatic_external_effects": false
+  }
+}

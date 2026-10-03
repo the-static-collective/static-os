@@ -1,0 +1,42 @@
+{
+  "schema": "static.field-profile/v0",
+  "field_id": "nav-reproduction-field-001",
+  "problem_statement": "The primary NAV receipt records a passing local software test while an independent candidate source reports that one behavior did not survive a separate reproduction attempt.",
+  "current_capabilities": [
+    "run the existing NAV and crossing unit tests",
+    "preserve source and WORLD receipts",
+    "compare machine-readable result artifacts"
+  ],
+  "constraints": [
+    "do not modify production behavior merely to force agreement",
+    "do not erase either source",
+    "keep the intervention removable",
+    "preserve raw result artifacts before interpretation"
+  ],
+  "preserve": [
+    "existing passing test suite",
+    "both upstream evidence paths",
+    "explicit uncertainty about which report generalizes"
+  ],
+  "reversible_levers": [
+    {
+      "id": "reproduction-fixture-001",
+      "change": "Add a test-only reproduction fixture that records the environment manifest, exact inputs, raw outputs, and exit status for the disputed behavior.",
+      "rollback": "Remove the test-only fixture and its workflow hook while retaining the captured evidence artifacts and receipts."
+    },
+    {
+      "id": "diagnostic-logging-001",
+      "change": "Add test-only structured diagnostic logging around the disputed behavior without changing the behavior itself.",
+      "rollback": "Remove the diagnostic logging and retain the captured logs as evidence artifacts."
+    }
+  ],
+  "selected_lever_id": "reproduction-fixture-001",
+  "observation_channels": [
+    {
+      "id": "fresh-isolated-runner-001",
+      "description": "Run the reproduction fixture in a fresh isolated environment whose manifest is captured with the result.",
+      "capture": "environment manifest, exact command, raw stdout/stderr, exit status, and generated test artifact"
+    }
+  ],
+  "selected_observation_channel_id": "fresh-isolated-runner-001"
+}

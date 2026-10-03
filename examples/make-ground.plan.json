@@ -1,0 +1,37 @@
+{
+  "schema": "static.ground-plan/v0",
+  "packet_id": "make-ground-001",
+  "status": "proposed",
+  "world_source": {
+    "primary_source_sha256": "f89fb653b8122a99f92f7d61931dfb6617fec41ee1426927b2d75e281122c244",
+    "candidate_source_sha256": "41ee7d52a5c14ca41c8a58ee096cb14e35e76c3b78c87637944fa2ac7931da63",
+    "lineage_class": "independent_candidate",
+    "claim_relation": "contradicts"
+  },
+  "field_id": "nav-reproduction-field-001",
+  "question": "What becomes easier to observe, preserve, compare, or repeat if this reversible substrate change is made without deciding the disagreement in advance?",
+  "intervention": {
+    "lever_id": "reproduction-fixture-001",
+    "change": "Add a test-only reproduction fixture that records the environment manifest, exact inputs, raw outputs, and exit status for the disputed behavior.",
+    "rollback": "Remove the test-only fixture and its workflow hook while retaining the captured evidence artifacts and receipts."
+  },
+  "preserve": [
+    "existing passing test suite",
+    "both upstream evidence paths",
+    "explicit uncertainty about which report generalizes"
+  ],
+  "observation": {
+    "channel_id": "fresh-isolated-runner-001",
+    "description": "Run the reproduction fixture in a fresh isolated environment whose manifest is captured with the result.",
+    "capture": "environment manifest, exact command, raw stdout/stderr, exit status, and generated test artifact"
+  },
+  "fertility_target": [
+    "produce a reusable evidence artifact",
+    "make another comparison easier to repeat",
+    "preserve enough context for later WITNESS intake"
+  ],
+  "success_condition": "The selected observation channel produces and preserves at least one new comparison artifact without requiring either source to be declared correct.",
+  "rollback_condition": "Rollback if any preserve condition is violated, the observation channel cannot produce the declared capture, or the intervention begins deciding the disputed outcome by construction.",
+  "claim_limit": "This plan changes evidence-producing conditions. It does not establish which source is true or guarantee that the disagreement will resolve.",
+  "truth_claimed": false
+}
