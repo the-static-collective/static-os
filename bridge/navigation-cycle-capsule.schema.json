@@ -1,0 +1,24 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/navigation-cycle-capsule-v0.json",
+  "title":"Navigation cycle capsule v0",
+  "type":"object",
+  "required":[
+    "schema","cycle_index","from_heading","admitted_heading","root_cycle_digest",
+    "parent_cycle_digest","trace_ledger_sha256","transition_sha256",
+    "reorientation_sha256","admission_sha256"
+  ],
+  "properties":{
+    "schema":{"const":"static.navigation-cycle-capsule/v0"},
+    "cycle_index":{"type":"integer","minimum":0},
+    "from_heading":{"type":"string","minLength":1},
+    "admitted_heading":{"type":"string","minLength":1},
+    "root_cycle_digest":{"type":["string","null"],"pattern":"^[0-9a-f]{64}$"},
+    "parent_cycle_digest":{"type":["string","null"],"pattern":"^[0-9a-f]{64}$"},
+    "trace_ledger_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "transition_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "reorientation_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "admission_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"}
+  },
+  "additionalProperties":false
+}
