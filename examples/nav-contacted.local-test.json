@@ -1,0 +1,20 @@
+{
+  "schema": "static.nav-receipt/v0",
+  "packet_id": "nav-001",
+  "status": "contacted",
+  "heading": "Prove one Bridge Packet can survive page, card, game, runtime, field protocol, and receipt without losing its invariant.",
+  "preserve": [
+    "ORIENTATION PRECEDES FORCE.",
+    "no automatic external effects",
+    "receipt is not a scalar score"
+  ],
+  "aperture": [
+    "an isolated Python execution of the hostile runtime tests"
+  ],
+  "bounded_move": "Run the seven NAV contract tests against the packet and runtime before proposing repository integration.",
+  "stop_condition": "Stop the integration if invariant, contact-state, or automatic-effect refusal tests fail.",
+  "claim_limit": "Passing this local software test does not establish human field usefulness, operating-system integration, or physical-world success.",
+  "observed": "Seven NAV runtime tests passed in an isolated local Python test run.",
+  "delta": "The packet and runtime contract survived the tested software translation; the remaining uncertainty moved outward to repository CI/review and a real human field traversal.",
+  "next_heading": "Let repository CI and review answer next, then use the same packet for one real bounded change and preserve that receipt."
+}
