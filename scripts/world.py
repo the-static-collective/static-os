@@ -447,22 +447,27 @@ def validate_recursion_receipt(receipt):
     return receipt
 
 
+def inspect_receipt(receipt):
+    """Backward-compatible inspector for the original WORLD receipt."""
+    validate_receipt(receipt)
+    return {
+        "schema": "static.world-inspection/v0",
+        "packet_id": PACKET_ID,
+        "lineage_axis": receipt["lineage_class"],
+        "claim_axis": receipt["claim_relation"],
+        "independence_status": receipt["independence_status"],
+        "counts_as_second_witness": receipt["independence_claim_accepted"],
+        "truth_claimed": False,
+        "next_door": receipt["next_door"],
+    }
+
+
 def inspect_any(value):
     if not isinstance(value, dict):
         raise ValueError("unsupported WORLD inspection input")
     schema = value.get("schema")
     if schema == RECEIPT_SCHEMA:
-        validate_receipt(value)
-        return {
-            "schema": "static.world-inspection/v0",
-            "packet_id": PACKET_ID,
-            "lineage_axis": value["lineage_class"],
-            "claim_axis": value["claim_relation"],
-            "independence_status": value["independence_status"],
-            "counts_as_second_witness": value["independence_claim_accepted"],
-            "truth_claimed": False,
-            "next_door": value["next_door"],
-        }
+        return inspect_receipt(value)
     if schema == RECURSION_RECEIPT_SCHEMA:
         validate_recursion_receipt(value)
         return {
