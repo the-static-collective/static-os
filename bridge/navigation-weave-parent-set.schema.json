@@ -1,0 +1,27 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/navigation-weave-parent-set-v0.json",
+  "title":"Navigation weave typed parent set v0",
+  "type":"object",
+  "required":["schema","root_cycle_digest","parents"],
+  "properties":{
+    "schema":{"const":"static.navigation-weave-parent-set/v0"},
+    "root_cycle_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "parents":{
+      "type":"array",
+      "minItems":2,
+      "items":{
+        "type":"object",
+        "required":["kind","head_digest","heading","root_cycle_digest"],
+        "properties":{
+          "kind":{"enum":["branch_continuation","open_branch"]},
+          "head_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+          "heading":{"type":"string","minLength":1},
+          "root_cycle_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"}
+        },
+        "additionalProperties":false
+      }
+    }
+  },
+  "additionalProperties":false
+}
