@@ -1,0 +1,29 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/nav-weave-admission-v0.json",
+  "title":"NAV typed-weave admission v0",
+  "type":"object",
+  "required":[
+    "schema","status","heading","weave_capsule_sha256","parent_set_sha256",
+    "weave_ledger_sha256","root_cycle_digest","relation_kinds","admitted_by",
+    "claim_limit"
+  ],
+  "properties":{
+    "schema":{"const":"static.nav-weave-admission/v0"},
+    "status":{"const":"admitted"},
+    "heading":{"type":"string","minLength":1},
+    "weave_capsule_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "parent_set_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "weave_ledger_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "root_cycle_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "relation_kinds":{
+      "type":"array",
+      "minItems":2,
+      "uniqueItems":true,
+      "items":{"enum":["branch_continuation","open_branch"]}
+    },
+    "admitted_by":{"type":"string","minLength":1},
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}
