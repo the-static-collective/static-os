@@ -90,5 +90,17 @@
     "emits": "static.nav-reorientation/v0",
     "law": "REORIENTATION ≠ REPLACEMENT.",
     "authority": "proposal_only"
+  },
+  "composed_origin": {
+    "accepts": "static.navigation-weave-generation/v0",
+    "emits": [
+      "static.nav-composed-origin/v0",
+      "static.nav-composed-cycle/v0",
+      "static.nav-composed-cycle-ledger/v0"
+    ],
+    "adapter": "scripts/weave_cycle.py",
+    "law": "COMPOSED HISTORY ≠ EMBEDDED HISTORY.",
+    "provenance": "addressable",
+    "authority": "bounded NAV cycle only"
   }
 }
