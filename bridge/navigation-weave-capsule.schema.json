@@ -1,0 +1,26 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/navigation-weave-capsule-v0.json",
+  "title":"Navigation weave capsule v0",
+  "type":"object",
+  "required":[
+    "schema","weave_id","parent_set_sha256","root_cycle_digest",
+    "proposed_heading","relation_kinds","status","claim_limit"
+  ],
+  "properties":{
+    "schema":{"const":"static.navigation-weave-capsule/v0"},
+    "weave_id":{"type":"string","minLength":1},
+    "parent_set_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "root_cycle_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "proposed_heading":{"type":"string","minLength":1},
+    "relation_kinds":{
+      "type":"array",
+      "minItems":2,
+      "uniqueItems":true,
+      "items":{"enum":["branch_continuation","open_branch"]}
+    },
+    "status":{"const":"proposed"},
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}
