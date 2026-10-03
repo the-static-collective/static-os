@@ -48,5 +48,13 @@
     ],
     "proposal_only": true,
     "automatic_external_effects": false
+  },
+  "composed_origin_intake": {
+    "accepts": "static.nav-composed-cycle-ledger/v0",
+    "emits": "static.witness-composed-intake/v0",
+    "adapter": "scripts/witness_composed.py",
+    "law": "SOURCE ORIGIN ≠ SOURCE CONTENT.",
+    "claim_classes": "ordinary NAV intake classes remain unchanged",
+    "provenance": "addressable sidecar"
   }
 }
