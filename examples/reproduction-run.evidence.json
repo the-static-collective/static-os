@@ -1,6 +1,6 @@
 {
   "schema": "static.evidence-artifact/v0",
-  "artifact_id": "reproduction-run-001",
+  "artifact_id": "raw-run-001.json",
   "artifact_kind": "contract-test-example",
   "capture_channel": "fresh-isolated-runner-001",
   "content": {
