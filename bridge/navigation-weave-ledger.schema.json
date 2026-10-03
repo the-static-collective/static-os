@@ -1,0 +1,26 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/navigation-weave-ledger-v0.json",
+  "title":"Navigation weave ledger v0",
+  "type":"object",
+  "required":[
+    "schema","base_history_sha256","braid_ledger_sha256","branch_set_sha256",
+    "parent_set_sha256","weave_capsule_sha256","continuations","traces",
+    "transitions","reorientations","admissions","claim_limit"
+  ],
+  "properties":{
+    "schema":{"const":"static.navigation-weave-ledger/v0"},
+    "base_history_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "braid_ledger_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "branch_set_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "parent_set_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "weave_capsule_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "continuations":{"type":"object","additionalProperties":{"type":"object"}},
+    "traces":{"type":"object","additionalProperties":{"type":"object"}},
+    "transitions":{"type":"object","additionalProperties":{"type":"object"}},
+    "reorientations":{"type":"object","additionalProperties":{"type":"object"}},
+    "admissions":{"type":"object","additionalProperties":{"type":"object"}},
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}
