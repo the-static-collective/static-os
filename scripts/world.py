@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """WORLD Bridge Packet 005 runtime.
 
-WORLD compares a provenance-bearing WITNESS intake with one additional source.
-It keeps lineage relation separate from claim relation and refuses unsupported
-independence claims.
+WORLD compares provenance-bearing sources without inflating their evidence class.
+It also accepts WITNESS re-entry and can recognize evidence as genuinely new
+while preserving that it was generated downstream of an older disagreement.
 """
 from __future__ import annotations
 
@@ -18,9 +18,13 @@ EXPECTED_INVARIANT = "MODEL ≠ WORLD."
 WITNESS_INTAKE_SCHEMA = "static.witness-intake/v0"
 CANDIDATE_SCHEMA = "static.world-candidate/v0"
 RECEIPT_SCHEMA = "static.world-receipt/v0"
+WITNESS_REENTRY_SCHEMA = "static.witness-reentry/v0"
+RECURSIVE_CANDIDATE_SCHEMA = "static.world-recursive-candidate/v0"
+RECURSION_RECEIPT_SCHEMA = "static.world-recursion-receipt/v0"
 
 DIRECT_CHANNELS = {"direct_observation", "independent_measurement"}
 CLAIM_RELATIONS = {"corroborates", "contradicts", "corrects", "unrelated"}
+UPSTREAM_RELATIONS = {"aligns_primary", "aligns_candidate", "mixed", "inconclusive"}
 
 
 def _read_json(path: str | Path):
@@ -49,9 +53,14 @@ def validate_packet(packet):
     if crossings.get("accepts") != [
         WITNESS_INTAKE_SCHEMA,
         CANDIDATE_SCHEMA,
+        WITNESS_REENTRY_SCHEMA,
     ]:
         raise ValueError("unexpected WORLD input contract")
-    if crossings.get("emits") != [RECEIPT_SCHEMA]:
+    if crossings.get("emits") != [
+        RECEIPT_SCHEMA,
+        RECURSIVE_CANDIDATE_SCHEMA,
+        RECURSION_RECEIPT_SCHEMA,
+    ]:
         raise ValueError("unexpected WORLD output contract")
     runtime = packet.get("runtime")
     if not isinstance(runtime, dict):
@@ -60,7 +69,13 @@ def validate_packet(packet):
         raise ValueError("runtime must remain proposal-only")
     if runtime.get("automatic_external_effects") is not False:
         raise ValueError("runtime must not claim automatic external effects")
-    if runtime.get("commands") != ["validate", "compare", "inspect"]:
+    if runtime.get("commands") != [
+        "validate",
+        "compare",
+        "candidate-from-reentry",
+        "classify-recursive",
+        "inspect",
+    ]:
         raise ValueError("unexpected runtime command set")
     return packet
 
@@ -235,18 +250,235 @@ def validate_receipt(receipt):
     return receipt
 
 
-def inspect_receipt(receipt):
-    validate_receipt(receipt)
-    return {
-        "schema": "static.world-inspection/v0",
-        "packet_id": PACKET_ID,
-        "lineage_axis": receipt["lineage_class"],
-        "claim_axis": receipt["claim_relation"],
-        "independence_status": receipt["independence_status"],
-        "counts_as_second_witness": receipt["independence_claim_accepted"],
-        "truth_claimed": False,
-        "next_door": receipt["next_door"],
+def validate_reentry(reentry):
+    if not isinstance(reentry, dict) or reentry.get("schema") != WITNESS_REENTRY_SCHEMA:
+        raise ValueError("unsupported WITNESS re-entry")
+    if reentry.get("packet_id") != "witness-001":
+        raise ValueError("unexpected WITNESS re-entry packet")
+
+    bundle = reentry.get("source_bundle")
+    if not isinstance(bundle, dict):
+        raise ValueError("WITNESS re-entry source bundle missing")
+
+    ground = bundle.get("ground_receipt")
+    artifact = bundle.get("evidence_artifact")
+    ancestry = bundle.get("ancestry")
+    if not isinstance(ground, dict) or ground.get("schema") != "static.ground-receipt/v0":
+        raise ValueError("re-entry ground receipt missing")
+    if not isinstance(artifact, dict) or artifact.get("schema") != "static.evidence-artifact/v0":
+        raise ValueError("re-entry evidence artifact missing")
+    if not isinstance(ancestry, dict):
+        raise ValueError("re-entry ancestry missing")
+
+    for value in (
+        ground.get("sha256"),
+        artifact.get("sha256"),
+        ancestry.get("ground_plan_sha256"),
+        ancestry.get("world_primary_source_sha256"),
+        ancestry.get("world_candidate_source_sha256"),
+    ):
+        if not isinstance(value, str) or len(value) != 64:
+            raise ValueError("re-entry ancestry digest missing")
+
+    records = reentry.get("records")
+    if not isinstance(records, list):
+        raise ValueError("re-entry records missing")
+    by_kind = {record.get("kind"): record for record in records if isinstance(record, dict)}
+    required = {
+        "ground_observation",
+        "evidence_artifact",
+        "observation_relation",
+        "fertility_delta",
+        "intervention_lineage",
+        "claim_limit",
     }
+    if set(by_kind) != required:
+        raise ValueError("unexpected WITNESS re-entry record set")
+    if by_kind["evidence_artifact"].get("claim_class") != "source_artifact":
+        raise ValueError("re-entry artifact lost source class")
+    if by_kind["observation_relation"].get("claim_class") != "derivative_interpretation":
+        raise ValueError("re-entry relation lost interpretation class")
+    if by_kind["observation_relation"].get("value") not in UPSTREAM_RELATIONS:
+        raise ValueError("re-entry upstream relation invalid")
+    if by_kind["intervention_lineage"].get("claim_class") != "intervention_record":
+        raise ValueError("re-entry intervention lineage missing")
+    if not reentry.get("does_not_establish"):
+        raise ValueError("re-entry claim limit boundary missing")
+    return reentry
+
+
+def candidate_from_reentry(reentry):
+    validate_reentry(reentry)
+    bundle = reentry["source_bundle"]
+    ancestry = bundle["ancestry"]
+    records = {record["kind"]: record for record in reentry["records"]}
+
+    candidate = {
+        "schema": RECURSIVE_CANDIDATE_SCHEMA,
+        "candidate_id": f"recursive-{bundle['evidence_artifact']['artifact_id']}",
+        "source_sha256": bundle["evidence_artifact"]["sha256"],
+        "source_schema": bundle["evidence_artifact"]["schema"],
+        "novelty_status": "new_artifact",
+        "observation_status": "fresh_capture",
+        "generation_ancestry": {
+            "ground_receipt_sha256": bundle["ground_receipt"]["sha256"],
+            "ground_plan_sha256": ancestry["ground_plan_sha256"],
+            "world_primary_source_sha256": ancestry["world_primary_source_sha256"],
+            "world_candidate_source_sha256": ancestry["world_candidate_source_sha256"],
+        },
+        "relation_to_upstream": records["observation_relation"]["value"],
+        "independence_status": "not_independent_by_generation",
+        "independence_claim": False,
+        "claim_limit": (
+            "This is a new captured artifact generated through a MAKE GROUND intervention "
+            "that was itself caused by the upstream WORLD disagreement. Newness does not "
+            "make the artifact independent of that generation ancestry."
+        ),
+    }
+    return validate_recursive_candidate(candidate)
+
+
+def validate_recursive_candidate(candidate):
+    if not isinstance(candidate, dict) or candidate.get("schema") != RECURSIVE_CANDIDATE_SCHEMA:
+        raise ValueError("unsupported recursive candidate schema")
+    if not candidate.get("candidate_id"):
+        raise ValueError("recursive candidate id missing")
+    digest = candidate.get("source_sha256")
+    if not isinstance(digest, str) or len(digest) != 64:
+        raise ValueError("recursive candidate source digest missing")
+    if candidate.get("source_schema") != "static.evidence-artifact/v0":
+        raise ValueError("recursive candidate source schema mismatch")
+    if candidate.get("novelty_status") != "new_artifact":
+        raise ValueError("recursive candidate lost novelty")
+    if candidate.get("observation_status") != "fresh_capture":
+        raise ValueError("recursive candidate lost fresh-capture status")
+    ancestry = candidate.get("generation_ancestry")
+    if not isinstance(ancestry, dict):
+        raise ValueError("recursive candidate generation ancestry missing")
+    required = (
+        "ground_receipt_sha256",
+        "ground_plan_sha256",
+        "world_primary_source_sha256",
+        "world_candidate_source_sha256",
+    )
+    for key in required:
+        value = ancestry.get(key)
+        if not isinstance(value, str) or len(value) != 64:
+            raise ValueError(f"recursive candidate ancestry missing: {key}")
+    if candidate.get("relation_to_upstream") not in UPSTREAM_RELATIONS:
+        raise ValueError("recursive candidate relation invalid")
+    if candidate.get("independence_status") != "not_independent_by_generation":
+        raise ValueError("recursive candidate independence status invalid")
+    if candidate.get("independence_claim") is not False:
+        raise ValueError("recursive candidate must not claim independence")
+    if not candidate.get("claim_limit"):
+        raise ValueError("recursive candidate claim limit missing")
+    return candidate
+
+
+def classify_recursive(candidate):
+    validate_recursive_candidate(candidate)
+    ancestry = candidate["generation_ancestry"]
+
+    receipt = {
+        "schema": RECURSION_RECEIPT_SCHEMA,
+        "packet_id": PACKET_ID,
+        "candidate_source_sha256": candidate["source_sha256"],
+        "lineage_class": "generated_downstream",
+        "novelty_status": candidate["novelty_status"],
+        "observation_status": candidate["observation_status"],
+        "relation_to_upstream": candidate["relation_to_upstream"],
+        "independence_status": "not_independent_by_generation",
+        "counts_as_second_witness": False,
+        "upstream_ancestry_preserved": True,
+        "establishes": [
+            "A new evidence artifact exists and has its own source fingerprint.",
+            "The artifact was produced by a fresh capture step.",
+            "The artifact was generated downstream of the prior WORLD disagreement.",
+            "Both prior WORLD source fingerprints remain in the generation ancestry.",
+            f"Relation to the upstream disagreement is preserved as: {candidate['relation_to_upstream']}.",
+        ],
+        "does_not_establish": [
+            "The new artifact is an unrelated independent witness.",
+            "Fresh capture means causal or epistemic independence from the intervention that produced it.",
+            "The new artifact is correct.",
+            "The prior primary source is correct.",
+            "The prior candidate source is correct.",
+            "A new artifact may be counted as a second witness merely because it has a new hash.",
+        ],
+        "next_door": (
+            "Use the new artifact as new source material while retaining its generated-downstream "
+            "classification. If independent confirmation is needed, acquire a source whose generation "
+            "path does not descend from this disagreement."
+        ),
+    }
+
+    if ancestry["world_primary_source_sha256"] == ancestry["world_candidate_source_sha256"]:
+        raise ValueError("recursive ancestry collapsed upstream WORLD sources")
+
+    return validate_recursion_receipt(receipt)
+
+
+def validate_recursion_receipt(receipt):
+    if not isinstance(receipt, dict) or receipt.get("schema") != RECURSION_RECEIPT_SCHEMA:
+        raise ValueError("unsupported WORLD recursion receipt")
+    if receipt.get("packet_id") != PACKET_ID:
+        raise ValueError("WORLD recursion receipt packet mismatch")
+    if receipt.get("lineage_class") != "generated_downstream":
+        raise ValueError("recursive lineage class drifted")
+    if receipt.get("novelty_status") != "new_artifact":
+        raise ValueError("recursive novelty status drifted")
+    if receipt.get("observation_status") != "fresh_capture":
+        raise ValueError("recursive observation status drifted")
+    if receipt.get("relation_to_upstream") not in UPSTREAM_RELATIONS:
+        raise ValueError("recursive relation invalid")
+    if receipt.get("independence_status") != "not_independent_by_generation":
+        raise ValueError("recursive independence status drifted")
+    if receipt.get("counts_as_second_witness") is not False:
+        raise ValueError("generated-downstream evidence cannot count as a second witness")
+    if receipt.get("upstream_ancestry_preserved") is not True:
+        raise ValueError("recursive WORLD receipt lost upstream ancestry")
+    if not isinstance(receipt.get("establishes"), list) or not receipt["establishes"]:
+        raise ValueError("recursive WORLD establishes boundary missing")
+    if not isinstance(receipt.get("does_not_establish"), list) or not receipt["does_not_establish"]:
+        raise ValueError("recursive WORLD does-not-establish boundary missing")
+    if not receipt.get("next_door"):
+        raise ValueError("recursive WORLD next door missing")
+    return receipt
+
+
+def inspect_any(value):
+    if not isinstance(value, dict):
+        raise ValueError("unsupported WORLD inspection input")
+    schema = value.get("schema")
+    if schema == RECEIPT_SCHEMA:
+        validate_receipt(value)
+        return {
+            "schema": "static.world-inspection/v0",
+            "packet_id": PACKET_ID,
+            "lineage_axis": value["lineage_class"],
+            "claim_axis": value["claim_relation"],
+            "independence_status": value["independence_status"],
+            "counts_as_second_witness": value["independence_claim_accepted"],
+            "truth_claimed": False,
+            "next_door": value["next_door"],
+        }
+    if schema == RECURSION_RECEIPT_SCHEMA:
+        validate_recursion_receipt(value)
+        return {
+            "schema": "static.world-recursion-inspection/v0",
+            "packet_id": PACKET_ID,
+            "lineage_axis": value["lineage_class"],
+            "novelty_axis": value["novelty_status"],
+            "observation_axis": value["observation_status"],
+            "relation_axis": value["relation_to_upstream"],
+            "independence_status": value["independence_status"],
+            "counts_as_second_witness": value["counts_as_second_witness"],
+            "upstream_ancestry_preserved": value["upstream_ancestry_preserved"],
+            "truth_claimed": False,
+            "next_door": value["next_door"],
+        }
+    raise ValueError("unsupported WORLD inspection schema")
 
 
 def build_parser():
@@ -260,6 +492,14 @@ def build_parser():
     compare_cmd.add_argument("witness_intake")
     compare_cmd.add_argument("candidate")
     compare_cmd.add_argument("-o", "--out")
+
+    recandidate = sub.add_parser("candidate-from-reentry")
+    recandidate.add_argument("witness_reentry")
+    recandidate.add_argument("-o", "--out")
+
+    recursive = sub.add_parser("classify-recursive")
+    recursive.add_argument("candidate")
+    recursive.add_argument("-o", "--out")
 
     inspect = sub.add_parser("inspect")
     inspect.add_argument("receipt")
@@ -275,14 +515,28 @@ def main(argv=None):
             print(f"VALID {packet['id']}: {packet['core_distinction']}")
             return 0
         if args.command == "compare":
-            result = compare(
-                _read_json(args.witness_intake),
-                _read_json(args.candidate),
+            _write_json(
+                compare(
+                    _read_json(args.witness_intake),
+                    _read_json(args.candidate),
+                ),
+                args.out,
             )
-            _write_json(result, args.out)
+            return 0
+        if args.command == "candidate-from-reentry":
+            _write_json(
+                candidate_from_reentry(_read_json(args.witness_reentry)),
+                args.out,
+            )
+            return 0
+        if args.command == "classify-recursive":
+            _write_json(
+                classify_recursive(_read_json(args.candidate)),
+                args.out,
+            )
             return 0
         if args.command == "inspect":
-            _write_json(inspect_receipt(_read_json(args.receipt)), None)
+            _write_json(inspect_any(_read_json(args.receipt)), None)
             return 0
     except (OSError, ValueError, json.JSONDecodeError) as error:
         print(f"REFUSE: {error}", file=sys.stderr)
