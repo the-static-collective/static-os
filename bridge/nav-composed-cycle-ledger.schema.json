@@ -1,0 +1,22 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/nav-composed-cycle-ledger-v0.json",
+  "title":"NAV composed cycle ledger v0",
+  "type":"object",
+  "required":[
+    "schema","source_generation_sha256","origin_sha256","cycle_sha256",
+    "origins","orientations","contacts","cycles","claim_limit"
+  ],
+  "properties":{
+    "schema":{"const":"static.nav-composed-cycle-ledger/v0"},
+    "source_generation_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "origin_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "cycle_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "origins":{"type":"object","additionalProperties":{"type":"object"}},
+    "orientations":{"type":"object","additionalProperties":{"type":"object"}},
+    "contacts":{"type":"object","additionalProperties":{"type":"object"}},
+    "cycles":{"type":"object","additionalProperties":{"type":"object"}},
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}
