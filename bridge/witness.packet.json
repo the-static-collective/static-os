@@ -1,0 +1,48 @@
+{
+  "schema": "static.bridge-packet/v0",
+  "id": "witness-001",
+  "name": "WITNESS",
+  "title": "Provenance Before Story",
+  "core_distinction": "SOURCE ≠ STORY.",
+  "current_claim": "A trustworthy witness system preserves what a source contains, what is inferred from it, what remains unverified, and what later corrections change without promoting any source beyond the work it can actually do.",
+  "source_ancestry": [
+    "BRIDGE PACKET 003 — WITNESS",
+    "THE STATIC TEXTBOOK — Witness and Provenance",
+    "WITNESS / BLACK STAR provenance work"
+  ],
+  "doors": {
+    "signal": "DO NOT LET THE NARRATIVE EAT THE SOURCE.",
+    "story": "A readable story can become less trustworthy when event, record, discovery, and interpretation are flattened together.",
+    "distinction": [
+      "EVENT ≠ RECORD.",
+      "RECORD ≠ DISCOVERY.",
+      "TESTIMONY ≠ INDEPENDENT VERIFICATION.",
+      "DERIVATIVE PROSE ≠ PRIMARY SOURCE."
+    ],
+    "theory": "Provenance keeps evidence class, interpretation, correction, and claim limits separable.",
+    "instrument": "source-class pass",
+    "witness": "WITNESS intake",
+    "runtime": "scripts/witness.py",
+    "field": "Compare a real source artifact with the story being told from it.",
+    "return": "A source-preserving intake that can be corrected without rewriting ancestry."
+  },
+  "crossings": {
+    "accepts": [
+      "static.nav-receipt/v0"
+    ],
+    "emits": [
+      "static.witness-intake/v0"
+    ],
+    "law": "A source may cross intact without its claims being upgraded."
+  },
+  "runtime": {
+    "script": "scripts/witness.py",
+    "commands": [
+      "validate",
+      "intake",
+      "inspect"
+    ],
+    "proposal_only": true,
+    "automatic_external_effects": false
+  }
+}
