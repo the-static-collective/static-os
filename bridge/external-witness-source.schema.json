@@ -1,0 +1,15 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/external-witness-source-v0.json",
+  "title":"External witness source v0",
+  "type":"object",
+  "required":["schema","source_id","channel","claim_text","claim_limit"],
+  "properties":{
+    "schema":{"const":"static.external-witness-source/v0"},
+    "source_id":{"type":"string","minLength":1},
+    "channel":{"enum":["direct_observation","independent_measurement","document"]},
+    "claim_text":{"type":"string","minLength":1},
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}
