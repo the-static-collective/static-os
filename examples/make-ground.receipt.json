@@ -1,0 +1,26 @@
+{
+  "schema": "static.ground-receipt/v0",
+  "packet_id": "make-ground-001",
+  "status": "observed",
+  "plan_sha256": "e252e44d27fdf37fb2b4915eb3651e41d0b1909a83a18e6702ae218b861c8d8b",
+  "field_id": "nav-reproduction-field-001",
+  "observation_relation": "mixed",
+  "observed": "The fresh fixture reproduced part of each report under different captured conditions.",
+  "evidence_artifacts": [
+    "raw-run-001.json",
+    "environment-001.json"
+  ],
+  "fertility_delta": {
+    "new_capabilities": [
+      "repeat the disputed behavior with an environment manifest",
+      "compare raw outputs across declared environments"
+    ],
+    "repeatability_changed": true,
+    "comparison_changed": true,
+    "maintenance_note": "The fixture adds a small test-only maintenance burden."
+  },
+  "rollback_used": false,
+  "claim_limit": "This receipt records one field intervention and its observed fertility delta. It does not establish which upstream source is true.",
+  "truth_claimed": false,
+  "next_door": "Return the new evidence artifact and this receipt to WITNESS as new source material, preserving the WORLD receipt and ground-plan ancestry."
+}
