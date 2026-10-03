@@ -1,0 +1,15 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/external-witness-comparison-v0.json",
+  "title":"External witness comparison v0",
+  "type":"object",
+  "required":["schema","composed_source_sha256","external_source_sha256","claim_relation","relation_basis"],
+  "properties":{
+    "schema":{"const":"static.external-witness-comparison/v0"},
+    "composed_source_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "external_source_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "claim_relation":{"enum":["corroborates","contradicts","corrects","unrelated"]},
+    "relation_basis":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}
