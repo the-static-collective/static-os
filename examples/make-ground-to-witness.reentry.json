@@ -1,0 +1,75 @@
+{
+  "schema": "static.witness-reentry/v0",
+  "packet_id": "witness-001",
+  "source_bundle": {
+    "ground_receipt": {
+      "schema": "static.ground-receipt/v0",
+      "packet_id": "make-ground-001",
+      "status": "observed",
+      "sha256": "15fe1a79e895160c73b7e1aced62906f616f9d926f3b9915ad17125a66729f04"
+    },
+    "evidence_artifact": {
+      "schema": "static.evidence-artifact/v0",
+      "artifact_id": "raw-run-001.json",
+      "sha256": "a1bed88447c2efb4054b0f03462a872d851fc7f874d287697c62c49c785f2aea"
+    },
+    "ancestry": {
+      "ground_plan_sha256": "e252e44d27fdf37fb2b4915eb3651e41d0b1909a83a18e6702ae218b861c8d8b",
+      "world_primary_source_sha256": "f89fb653b8122a99f92f7d61931dfb6617fec41ee1426927b2d75e281122c244",
+      "world_candidate_source_sha256": "41ee7d52a5c14ca41c8a58ee096cb14e35e76c3b78c87637944fa2ac7931da63"
+    }
+  },
+  "records": [
+    {
+      "kind": "ground_observation",
+      "value": "The fresh fixture reproduced part of each report under different captured conditions.",
+      "source_field": "ground_receipt.observed",
+      "claim_class": "source_record"
+    },
+    {
+      "kind": "evidence_artifact",
+      "value": "{\"environment_manifest\": {\"purpose\": \"example-only contract fixture\", \"runner\": \"fresh-isolated-example\"}, \"exact_input\": \"disputed NAV reproduction case\", \"exit_status\": 0, \"raw_result_summary\": \"The fixture reproduced part of each upstream report under different captured conditions.\"}",
+      "source_field": "evidence_artifact:raw-run-001.json",
+      "claim_class": "source_artifact"
+    },
+    {
+      "kind": "observation_relation",
+      "value": "mixed",
+      "source_field": "ground_receipt.observation_relation",
+      "claim_class": "derivative_interpretation"
+    },
+    {
+      "kind": "fertility_delta",
+      "value": "{\"comparison_changed\": true, \"maintenance_note\": \"The fixture adds a small test-only maintenance burden.\", \"new_capabilities\": [\"repeat the disputed behavior with an environment manifest\", \"compare raw outputs across declared environments\"], \"repeatability_changed\": true}",
+      "source_field": "ground_receipt.fertility_delta",
+      "claim_class": "derivative_interpretation"
+    },
+    {
+      "kind": "intervention_lineage",
+      "value": "field=nav-reproduction-field-001; ground_plan_sha256=e252e44d27fdf37fb2b4915eb3651e41d0b1909a83a18e6702ae218b861c8d8b",
+      "source_field": "ground_receipt.ancestry",
+      "claim_class": "intervention_record"
+    },
+    {
+      "kind": "claim_limit",
+      "value": "This receipt records one field intervention and its observed fertility delta. It does not establish which upstream source is true. This artifact is an example contract fixture. It demonstrates provenance shape and does not independently establish a real-world reproduction result.",
+      "source_field": "ground_receipt.claim_limit + evidence_artifact.claim_limit",
+      "claim_class": "source_limit"
+    }
+  ],
+  "establishes": [
+    "A MAKE GROUND receipt and its declared evidence artifact were ingested together.",
+    "The new observation text is preserved separately from its observation-relation classification.",
+    "The evidence artifact is fingerprinted separately from the ground receipt.",
+    "The ground-plan fingerprint and both WORLD source fingerprints survive re-entry.",
+    "The field intervention and its fertility delta remain distinct from upstream truth claims."
+  ],
+  "does_not_establish": [
+    "The new evidence artifact independently verifies either upstream source.",
+    "A mixed observation relation resolves the upstream contradiction.",
+    "The fertility delta proves that the intervention was the best possible intervention.",
+    "The preserved ancestry is a complete causal history of the event."
+  ],
+  "corrections": [],
+  "next_door": "Treat this re-entry as new source material. Compare the new evidence artifact against prior sources through WITNESS/WORLD without rewriting the preserved ancestry."
+}
