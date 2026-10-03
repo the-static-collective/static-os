@@ -1,0 +1,14 @@
+{
+  "schema": "static.world-candidate/v0",
+  "candidate_id": "dvote-independent-contradiction-001",
+  "source_sha256": "923e35da15ae2ffc9861c3dfce65ec1062f05eaf73c91b74fa69b08f657a6dcb",
+  "channel": "direct_observation",
+  "ancestry_roots": [
+    "independent-better-hole-run-001"
+  ],
+  "derives_from": [],
+  "claim_relation": "contradicts",
+  "claim_text": "A second bounded representation-change trial produced no newly reachable question.",
+  "relation_basis": "Declared as a separate direct field observation that does not derive from the DVOTE receipt.",
+  "independence_claim": true
+}
