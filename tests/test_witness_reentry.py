@@ -20,6 +20,11 @@ GROUND = json.loads(
 ARTIFACT = json.loads(
     (ROOT / "examples" / "reproduction-run.evidence.json").read_text(encoding="utf-8")
 )
+EXPECTED_REENTRY = json.loads(
+    (ROOT / "examples" / "make-ground-to-witness.reentry.json").read_text(
+        encoding="utf-8"
+    )
+)
 
 
 class WitnessReentryTests(unittest.TestCase):
@@ -28,6 +33,15 @@ class WitnessReentryTests(unittest.TestCase):
         self.assertIn("static.ground-receipt/v0", packet["crossings"]["accepts"])
         self.assertIn("static.evidence-artifact/v0", packet["crossings"]["accepts"])
         self.assertIn("static.witness-reentry/v0", packet["crossings"]["emits"])
+
+    def test_generated_reentry_matches_durable_fixture(self):
+        self.assertEqual(
+            witness.reenter_ground(
+                copy.deepcopy(GROUND),
+                copy.deepcopy(ARTIFACT),
+            ),
+            EXPECTED_REENTRY,
+        )
 
     def test_reentry_preserves_full_ancestry_bundle(self):
         reentry = witness.reenter_ground(
