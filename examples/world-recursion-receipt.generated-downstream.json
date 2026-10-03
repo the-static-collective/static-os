@@ -1,0 +1,28 @@
+{
+  "schema": "static.world-recursion-receipt/v0",
+  "packet_id": "world-001",
+  "candidate_source_sha256": "a1bed88447c2efb4054b0f03462a872d851fc7f874d287697c62c49c785f2aea",
+  "lineage_class": "generated_downstream",
+  "novelty_status": "new_artifact",
+  "observation_status": "fresh_capture",
+  "relation_to_upstream": "mixed",
+  "independence_status": "not_independent_by_generation",
+  "counts_as_second_witness": false,
+  "upstream_ancestry_preserved": true,
+  "establishes": [
+    "A new evidence artifact exists and has its own source fingerprint.",
+    "The artifact was produced by a fresh capture step.",
+    "The artifact was generated downstream of the prior WORLD disagreement.",
+    "Both prior WORLD source fingerprints remain in the generation ancestry.",
+    "Relation to the upstream disagreement is preserved as: mixed."
+  ],
+  "does_not_establish": [
+    "The new artifact is an unrelated independent witness.",
+    "Fresh capture means causal or epistemic independence from the intervention that produced it.",
+    "The new artifact is correct.",
+    "The prior primary source is correct.",
+    "The prior candidate source is correct.",
+    "A new artifact may be counted as a second witness merely because it has a new hash."
+  ],
+  "next_door": "Use the new artifact as new source material while retaining its generated-downstream classification. If independent confirmation is needed, acquire a source whose generation path does not descend from this disagreement."
+}
