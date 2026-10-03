@@ -13,6 +13,8 @@ from pathlib import Path
 
 PACKET_SCHEMA = "static.bridge-packet/v0"
 RECEIPT_SCHEMA = "static.nav-receipt/v0"
+DOGRAM_TRANSITION_SCHEMA = "static.dogram-transition/v0"
+REORIENTATION_SCHEMA = "static.nav-reorientation/v0"
 EXPECTED_INVARIANT = "ORIENTATION PRECEDES FORCE."
 
 
@@ -44,7 +46,7 @@ def validate_packet(packet):
     if runtime.get("automatic_external_effects") is not False:
         raise ValueError("runtime must not claim automatic external effects")
     commands = runtime.get("commands")
-    if commands != ["validate", "card", "orient", "encounter", "game"]:
+    if commands != ["validate", "card", "orient", "encounter", "game", "reorient"]:
         raise ValueError("unexpected runtime command set")
     experiment = packet.get("field_experiment")
     if not isinstance(experiment, dict) or experiment.get("requires_world_contact") is not True:
@@ -130,6 +132,52 @@ def game_event(receipt):
     }
 
 
+def validate_dogram_transition(transition):
+    if not isinstance(transition, dict) or transition.get("schema") != DOGRAM_TRANSITION_SCHEMA:
+        raise ValueError("unsupported Dogram transition schema")
+    if transition.get("status") != "proposed":
+        raise ValueError("Dogram transition must remain proposed")
+    for key in ("from_heading", "to_heading", "delta_summary", "claim_limit"):
+        if not isinstance(transition.get(key), str) or not transition[key]:
+            raise ValueError(f"Dogram transition missing: {key}")
+    for key in ("trace_ledger_sha256", "world_recursion_sha256"):
+        value = transition.get(key)
+        if not isinstance(value, str) or len(value) != 64:
+            raise ValueError(f"Dogram transition digest missing: {key}")
+    if not isinstance(transition.get("preserved"), list) or not transition["preserved"]:
+        raise ValueError("Dogram transition preserve set missing")
+    return transition
+
+
+def make_reorientation(transition):
+    validate_dogram_transition(transition)
+    return {
+        "schema": REORIENTATION_SCHEMA,
+        "packet_id": "nav-001",
+        "status": "proposed",
+        "from_heading": transition["from_heading"],
+        "proposed_heading": transition["to_heading"],
+        "transition_sha256": __import__("hashlib").sha256(
+            json.dumps(
+                transition,
+                sort_keys=True,
+                separators=(",", ":"),
+                ensure_ascii=False,
+                allow_nan=False,
+            ).encode("utf-8")
+        ).hexdigest(),
+        "trace_ledger_sha256": transition["trace_ledger_sha256"],
+        "world_recursion_sha256": transition["world_recursion_sha256"],
+        "preserved": list(transition["preserved"]),
+        "reason": transition["delta_summary"],
+        "claim_limit": (
+            "This is a NAV reorientation proposal grounded in a Dogram path receipt. "
+            "Proposal does not activate the heading, prove the trace is causal history, "
+            "or erase the previous heading."
+        ),
+    }
+
+
 def render_card(packet):
     validate_packet(packet)
     card = packet["pocket_card"]
@@ -168,6 +216,10 @@ def build_parser():
     game = sub.add_parser("game")
     game.add_argument("receipt")
 
+    reorient = sub.add_parser("reorient")
+    reorient.add_argument("transition")
+    reorient.add_argument("-o", "--out")
+
     return parser
 
 
@@ -193,6 +245,9 @@ def main(argv=None):
             return 0
         if args.command == "game":
             _write_json(game_event(_read_json(args.receipt)), None)
+            return 0
+        if args.command == "reorient":
+            _write_json(make_reorientation(_read_json(args.transition)), args.out)
             return 0
     except (OSError, ValueError, json.JSONDecodeError) as error:
         print(f"REFUSE: {error}", file=sys.stderr)
