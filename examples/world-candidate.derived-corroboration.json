@@ -1,0 +1,16 @@
+{
+  "schema": "static.world-candidate/v0",
+  "candidate_id": "candidate-derived-retelling-001",
+  "source_sha256": "993b8cf5429a8ffccfde55b7d47f99ba609b5f4993938403baac42fe9a9e7323",
+  "channel": "retelling",
+  "ancestry_roots": [
+    "f89fb653b8122a99f92f7d61931dfb6617fec41ee1426927b2d75e281122c244"
+  ],
+  "derives_from": [
+    "f89fb653b8122a99f92f7d61931dfb6617fec41ee1426927b2d75e281122c244"
+  ],
+  "claim_relation": "corroborates",
+  "claim_text": "A retelling agrees that the NAV software test passed.",
+  "relation_basis": "This candidate was produced from the primary NAV receipt rather than a separate observation.",
+  "independence_claim": false
+}
