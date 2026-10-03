@@ -1,0 +1,30 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/nav-composed-cycle-v0.json",
+  "title":"NAV composed cycle v0",
+  "type":"object",
+  "required":[
+    "schema","cycle_id","origin_sha256","orientation_sha256","contact_sha256",
+    "from_heading","next_heading","status","relation_kinds","provenance_mode",
+    "claim_limit"
+  ],
+  "properties":{
+    "schema":{"const":"static.nav-composed-cycle/v0"},
+    "cycle_id":{"type":"string","minLength":1},
+    "origin_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "orientation_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "contact_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "from_heading":{"type":"string","minLength":1},
+    "next_heading":{"type":"string","minLength":1},
+    "status":{"const":"contacted"},
+    "relation_kinds":{
+      "type":"array",
+      "minItems":2,
+      "uniqueItems":true,
+      "items":{"enum":["branch_continuation","open_branch"]}
+    },
+    "provenance_mode":{"const":"addressable"},
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}
