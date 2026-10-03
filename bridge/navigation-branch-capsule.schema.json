@@ -1,0 +1,24 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/navigation-branch-capsule-v0.json",
+  "title":"Navigation branch capsule v0",
+  "type":"object",
+  "required":[
+    "schema","branch_id","parent_cycle_digest","root_cycle_digest",
+    "from_heading","admitted_heading","trace_ledger_sha256",
+    "transition_sha256","reorientation_sha256","admission_sha256"
+  ],
+  "properties":{
+    "schema":{"const":"static.navigation-branch-capsule/v0"},
+    "branch_id":{"type":"string","minLength":1},
+    "parent_cycle_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "root_cycle_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "from_heading":{"type":"string","minLength":1},
+    "admitted_heading":{"type":"string","minLength":1},
+    "trace_ledger_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "transition_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "reorientation_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "admission_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"}
+  },
+  "additionalProperties":false
+}

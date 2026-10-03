@@ -1,0 +1,25 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/navigation-braid-ledger-v0.json",
+  "title":"Navigation braid ledger v0",
+  "type":"object",
+  "required":[
+    "schema","base_history_sha256","parent_cycle_digest","root_cycle_digest",
+    "branch_set_sha256","branches","traces","transitions","reorientations",
+    "admissions","claim_limit"
+  ],
+  "properties":{
+    "schema":{"const":"static.navigation-braid-ledger/v0"},
+    "base_history_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "parent_cycle_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "root_cycle_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "branch_set_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "branches":{"type":"object","additionalProperties":{"type":"object"}},
+    "traces":{"type":"object","additionalProperties":{"type":"object"}},
+    "transitions":{"type":"object","additionalProperties":{"type":"object"}},
+    "reorientations":{"type":"object","additionalProperties":{"type":"object"}},
+    "admissions":{"type":"object","additionalProperties":{"type":"object"}},
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}

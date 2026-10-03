@@ -1,0 +1,27 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/navigation-branch-set-v0.json",
+  "title":"Navigation branch set v0",
+  "type":"object",
+  "required":["schema","parent_cycle_digest","root_cycle_digest","branches"],
+  "properties":{
+    "schema":{"const":"static.navigation-branch-set/v0"},
+    "parent_cycle_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "root_cycle_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "branches":{
+      "type":"array",
+      "minItems":2,
+      "items":{
+        "type":"object",
+        "required":["branch_id","branch_digest","admitted_heading"],
+        "properties":{
+          "branch_id":{"type":"string","minLength":1},
+          "branch_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+          "admitted_heading":{"type":"string","minLength":1}
+        },
+        "additionalProperties":false
+      }
+    }
+  },
+  "additionalProperties":false
+}
