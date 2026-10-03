@@ -1,0 +1,14 @@
+{
+  "schema": "static.world-candidate/v0",
+  "candidate_id": "candidate-independent-contradiction-001",
+  "source_sha256": "41ee7d52a5c14ca41c8a58ee096cb14e35e76c3b78c87637944fa2ac7931da63",
+  "channel": "direct_observation",
+  "ancestry_roots": [
+    "field-observation-B-001"
+  ],
+  "derives_from": [],
+  "claim_relation": "contradicts",
+  "claim_text": "A separate observer reports that one tested behavior did not survive their reproduction attempt.",
+  "relation_basis": "Declared as a direct observation with an evidence path that does not derive from the primary NAV receipt.",
+  "independence_claim": true
+}

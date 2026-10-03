@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-static-collective.github.io/static-os/schema/world-candidate-v0.json",
+  "title": "WORLD candidate source v0",
+  "type": "object",
+  "required": [
+    "schema",
+    "candidate_id",
+    "source_sha256",
+    "channel",
+    "ancestry_roots",
+    "derives_from",
+    "claim_relation",
+    "claim_text",
+    "relation_basis",
+    "independence_claim"
+  ],
+  "properties": {
+    "schema": {"const": "static.world-candidate/v0"},
+    "candidate_id": {"type": "string", "minLength": 1},
+    "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "channel": {
+      "enum": [
+        "direct_observation",
+        "independent_measurement",
+        "document",
+        "retelling",
+        "derived_analysis"
+      ]
+    },
+    "ancestry_roots": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "derives_from": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "claim_relation": {
+      "enum": [
+        "corroborates",
+        "contradicts",
+        "corrects",
+        "unrelated"
+      ]
+    },
+    "claim_text": {"type": "string", "minLength": 1},
+    "relation_basis": {"type": "string", "minLength": 1},
+    "independence_claim": {"type": "boolean"}
+  },
+  "additionalProperties": false
+}

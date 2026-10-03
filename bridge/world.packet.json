@@ -1,0 +1,50 @@
+{
+  "schema": "static.bridge-packet/v0",
+  "id": "world-001",
+  "name": "WORLD",
+  "title": "Independent Contact Without Evidentiary Inflation",
+  "core_distinction": "MODEL ≠ WORLD.",
+  "current_claim": "Multiple sources only become multiple witnesses when their evidence paths are sufficiently distinct. Agreement, contradiction, and correction are separate from lineage independence.",
+  "source_ancestry": [
+    "BRIDGE PACKET 005 — CONSTANT / WORLD",
+    "THE STATIC TEXTBOOK — The Constant",
+    "THE STATIC TEXTBOOK — The System Cannot Certify Itself",
+    "NAV → WITNESS Crossing 001"
+  ],
+  "doors": {
+    "signal": "KEEP THE WORLD ABLE TO SAY NO.",
+    "story": "Two agreeing outputs may still descend from one hidden ancestor.",
+    "distinction": [
+      "SELF-CHECK ≠ INDEPENDENT CHECK.",
+      "MULTIPLE SOURCES ≠ MULTIPLE WITNESSES.",
+      "INDEPENDENCE ≠ CORRECTNESS.",
+      "CONTRADICTION ≠ INDEPENDENCE."
+    ],
+    "theory": "Lineage relation and claim relation must be represented on separate axes.",
+    "instrument": "WORLD pair comparison",
+    "witness": "WORLD receipt",
+    "runtime": "scripts/world.py",
+    "field": "Acquire one additional source whose ancestry can be inspected rather than assumed.",
+    "return": "An explicit independence classification plus a separate claim-relation classification."
+  },
+  "crossings": {
+    "accepts": [
+      "static.witness-intake/v0",
+      "static.world-candidate/v0"
+    ],
+    "emits": [
+      "static.world-receipt/v0"
+    ],
+    "law": "DISTINCT SOURCE ≠ INDEPENDENT WITNESS."
+  },
+  "runtime": {
+    "script": "scripts/world.py",
+    "commands": [
+      "validate",
+      "compare",
+      "inspect"
+    ],
+    "proposal_only": true,
+    "automatic_external_effects": false
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-static-collective.github.io/static-os/schema/world-receipt-v0.json",
+  "title": "WORLD receipt v0",
+  "type": "object",
+  "required": [
+    "schema",
+    "packet_id",
+    "primary_source_sha256",
+    "candidate_source_sha256",
+    "lineage_class",
+    "claim_relation",
+    "independence_status",
+    "independence_claim_accepted",
+    "establishes",
+    "does_not_establish",
+    "next_door"
+  ],
+  "properties": {
+    "schema": {"const": "static.world-receipt/v0"},
+    "packet_id": {"const": "world-001"},
+    "primary_source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "candidate_source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "lineage_class": {
+      "enum": [
+        "same_artifact",
+        "derived_retelling",
+        "shared_ancestor",
+        "independent_candidate",
+        "lineage_unknown"
+      ]
+    },
+    "claim_relation": {
+      "enum": [
+        "corroborates",
+        "contradicts",
+        "corrects",
+        "unrelated"
+      ]
+    },
+    "independence_status": {
+      "enum": [
+        "not_independent",
+        "independent_candidate",
+        "unknown"
+      ]
+    },
+    "independence_claim_accepted": {"type": "boolean"},
+    "establishes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "does_not_establish": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "next_door": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}
