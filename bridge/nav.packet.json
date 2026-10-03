@@ -79,9 +79,16 @@
       "card",
       "orient",
       "encounter",
-      "game"
+      "game",
+      "reorient"
     ],
     "proposal_only": true,
     "automatic_external_effects": false
+  },
+  "reorientation": {
+    "accepts": "static.dogram-transition/v0",
+    "emits": "static.nav-reorientation/v0",
+    "law": "REORIENTATION ≠ REPLACEMENT.",
+    "authority": "proposal_only"
   }
 }

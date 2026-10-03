@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-static-collective.github.io/static-os/schema/dogram-trace-ledger-v0.json",
+  "title": "Dogram trace ledger v0",
+  "type": "object",
+  "required": ["schema","trace_id","root_digest","head_digest","entries","artifacts","claim_limit"],
+  "properties": {
+    "schema": {"const": "static.dogram-trace-ledger/v0"},
+    "trace_id": {"type":"string","minLength":1},
+    "root_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "head_digest": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "entries": {
+      "type":"array",
+      "minItems":2,
+      "items":{
+        "type":"object",
+        "required":["position","kind","artifact_digest","parent_digest","relation"],
+        "properties":{
+          "position":{"type":"integer","minimum":0},
+          "kind":{"type":"string","minLength":1},
+          "artifact_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+          "parent_digest":{"type":["string","null"],"pattern":"^[0-9a-f]{64}$"},
+          "relation":{"type":"string","minLength":1}
+        },
+        "additionalProperties":false
+      }
+    },
+    "artifacts":{
+      "type":"object",
+      "additionalProperties":{"type":"object"}
+    },
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}

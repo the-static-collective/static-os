@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-static-collective.github.io/static-os/schema/dogram-transition-v0.json",
+  "title": "Dogram navigation transition v0",
+  "type": "object",
+  "required": [
+    "schema","transition_id","from_heading","to_heading","root_digest",
+    "path_head_digest","trace_ledger_sha256","world_recursion_sha256",
+    "delta_summary","preserved","status","claim_limit"
+  ],
+  "properties": {
+    "schema":{"const":"static.dogram-transition/v0"},
+    "transition_id":{"type":"string","minLength":1},
+    "from_heading":{"type":"string","minLength":1},
+    "to_heading":{"type":"string","minLength":1},
+    "root_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "path_head_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "trace_ledger_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "world_recursion_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "delta_summary":{"type":"string","minLength":1},
+    "preserved":{
+      "type":"array","minItems":1,
+      "items":{"type":"string","minLength":1}
+    },
+    "status":{"const":"proposed"},
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}

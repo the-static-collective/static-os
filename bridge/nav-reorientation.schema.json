@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-static-collective.github.io/static-os/schema/nav-reorientation-v0.json",
+  "title": "NAV reorientation proposal v0",
+  "type":"object",
+  "required":[
+    "schema","packet_id","status","from_heading","proposed_heading",
+    "transition_sha256","trace_ledger_sha256","world_recursion_sha256",
+    "preserved","reason","claim_limit"
+  ],
+  "properties":{
+    "schema":{"const":"static.nav-reorientation/v0"},
+    "packet_id":{"const":"nav-001"},
+    "status":{"const":"proposed"},
+    "from_heading":{"type":"string","minLength":1},
+    "proposed_heading":{"type":"string","minLength":1},
+    "transition_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "trace_ledger_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "world_recursion_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "preserved":{
+      "type":"array","minItems":1,
+      "items":{"type":"string","minLength":1}
+    },
+    "reason":{"type":"string","minLength":1},
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}
