@@ -1,0 +1,87 @@
+{
+  "schema": "static.bridge-packet/v0",
+  "id": "nav-001",
+  "name": "NAV",
+  "title": "Orientation Before Action",
+  "core_distinction": "ORIENTATION PRECEDES FORCE.",
+  "current_claim": "When consequence matters, establish a provisional heading, make a bounded move, let reality answer, record the delta, and reorient from where you actually arrived.",
+  "source_ancestry": [
+    "BRIDGE PACKET 001 — NAV",
+    "THE STATIC TEXTBOOK — Chapter 14 — The Loop Must Be Surprised",
+    "MAKE GROUND — BRIDGE LAYER 001"
+  ],
+  "doors": {
+    "signal": "THE LOOP MUST BE SURPRISED.",
+    "story": "A competent loop can improve yesterday's problem forever.",
+    "distinction": [
+      "RECURSION ≠ NAVIGATION.",
+      "GENERATION ≠ DIRECTION.",
+      "COHERENCE ≠ CONTACT."
+    ],
+    "theory": "Orientation is a provisional vector, not a permanent destination.",
+    "instrument": "NAV card",
+    "witness": "NAV receipt",
+    "runtime": "scripts/nav.py",
+    "field": "One bounded change with a real aperture for surprise.",
+    "return": "A revised heading grounded in observed delta."
+  },
+  "pocket_card": {
+    "title": "NAV — POCKET CARD",
+    "carry_line": "THE LOOP MUST BE SURPRISED.",
+    "steps": [
+      "Name the heading.",
+      "Protect what matters.",
+      "Open one aperture.",
+      "Make one bounded move.",
+      "Let consequence answer.",
+      "Record the delta.",
+      "Reorient."
+    ]
+  },
+  "game_action": {
+    "verb": "NAV",
+    "states": [
+      "oriented",
+      "contacted"
+    ],
+    "progress_classes": [
+      "awaiting-world-contact",
+      "world-contacted"
+    ],
+    "scalar_score": false,
+    "rule": "Generation alone does not count as world-contact."
+  },
+  "field_experiment": {
+    "name": "One Change / One Aperture",
+    "requires_world_contact": true,
+    "steps": [
+      "Choose one real change.",
+      "State the heading and preserve set.",
+      "Name a channel that can surprise you.",
+      "Make the smallest meaningful move.",
+      "Observe what happened.",
+      "Record the delta.",
+      "Reorient."
+    ]
+  },
+  "receipt": {
+    "schema": "static.nav-receipt/v0",
+    "required_states": [
+      "oriented",
+      "contacted"
+    ],
+    "claim": "A receipt records a traversal; it is not a score."
+  },
+  "runtime": {
+    "script": "scripts/nav.py",
+    "commands": [
+      "validate",
+      "card",
+      "orient",
+      "encounter",
+      "game"
+    ],
+    "proposal_only": true,
+    "automatic_external_effects": false
+  }
+}
