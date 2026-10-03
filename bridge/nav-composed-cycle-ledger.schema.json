@@ -5,13 +5,14 @@
   "type":"object",
   "required":[
     "schema","source_generation_sha256","origin_sha256","cycle_sha256",
-    "origins","orientations","contacts","cycles","claim_limit"
+    "generations","origins","orientations","contacts","cycles","claim_limit"
   ],
   "properties":{
     "schema":{"const":"static.nav-composed-cycle-ledger/v0"},
     "source_generation_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
     "origin_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
     "cycle_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "generations":{"type":"object","additionalProperties":{"type":"object"}},
     "origins":{"type":"object","additionalProperties":{"type":"object"}},
     "orientations":{"type":"object","additionalProperties":{"type":"object"}},
     "contacts":{"type":"object","additionalProperties":{"type":"object"}},
