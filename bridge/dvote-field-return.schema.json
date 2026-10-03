@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-static-collective.github.io/static-os/schema/dvote-field-return-v0.json",
+  "title": "DVOTE field return v0",
+  "type": "object",
+  "required": [
+    "schema",
+    "source_schema",
+    "source_sha256",
+    "campaign_id",
+    "encounter_id",
+    "door_id",
+    "disposition",
+    "status",
+    "witness_note",
+    "may_contact_nav",
+    "claim_limit"
+  ],
+  "properties": {
+    "schema": {
+      "const": "static.dvote-field-return/v0"
+    },
+    "source_schema": {
+      "const": "dvote.witness-receipt.v1"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "campaign_id": {
+      "const": "make-ground-001"
+    },
+    "encounter_id": {
+      "const": "better-hole-001"
+    },
+    "door_id": {
+      "enum": [
+        "take",
+        "hold",
+        "pass"
+      ]
+    },
+    "disposition": {
+      "enum": [
+        "take",
+        "hold",
+        "pass"
+      ]
+    },
+    "status": {
+      "enum": [
+        "contacted",
+        "awaiting_witness",
+        "held",
+        "passed"
+      ]
+    },
+    "witness_note": {
+      "type": "string"
+    },
+    "carried_object": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "may_contact_nav": {
+      "type": "boolean"
+    },
+    "claim_limit": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}
