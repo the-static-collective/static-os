@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-static-collective.github.io/static-os/schema/world-recursive-candidate-v0.json",
+  "title": "WORLD recursive candidate v0",
+  "type": "object",
+  "required": [
+    "schema",
+    "candidate_id",
+    "source_sha256",
+    "source_schema",
+    "novelty_status",
+    "observation_status",
+    "generation_ancestry",
+    "relation_to_upstream",
+    "independence_status",
+    "independence_claim",
+    "claim_limit"
+  ],
+  "properties": {
+    "schema": {"const": "static.world-recursive-candidate/v0"},
+    "candidate_id": {"type": "string", "minLength": 1},
+    "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_schema": {"const": "static.evidence-artifact/v0"},
+    "novelty_status": {"const": "new_artifact"},
+    "observation_status": {"const": "fresh_capture"},
+    "generation_ancestry": {
+      "type": "object",
+      "required": [
+        "ground_receipt_sha256",
+        "ground_plan_sha256",
+        "world_primary_source_sha256",
+        "world_candidate_source_sha256"
+      ],
+      "properties": {
+        "ground_receipt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "ground_plan_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "world_primary_source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "world_candidate_source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      },
+      "additionalProperties": false
+    },
+    "relation_to_upstream": {
+      "enum": [
+        "aligns_primary",
+        "aligns_candidate",
+        "mixed",
+        "inconclusive"
+      ]
+    },
+    "independence_status": {"const": "not_independent_by_generation"},
+    "independence_claim": {"const": false},
+    "claim_limit": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}
