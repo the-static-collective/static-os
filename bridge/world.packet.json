@@ -68,5 +68,21 @@
       "confirmation status"
     ],
     "authority": "classification_only"
+  },
+  "measurement_audit": {
+    "accepts": [
+      "static.world-composed-contact-candidate/v0",
+      "static.measurement-path-audit/v0"
+    ],
+    "emits": "static.world-measurement-audit-receipt/v0",
+    "adapter": "scripts/world_measurement_audit.py",
+    "law": "MEASUREMENT INDEPENDENCE ≠ SELECTION INDEPENDENCE.",
+    "criteria": [
+      "channel_origin",
+      "capture_control",
+      "result_selection",
+      "operator_relation"
+    ],
+    "authority": "measurement_axis_only"
   }
 }
