@@ -84,5 +84,23 @@
       "operator_relation"
     ],
     "authority": "measurement_axis_only"
+  },
+  "external_witness_gate": {
+    "accepts": [
+      "static.world-composed-contact-candidate/v0",
+      "static.external-witness-source/v0",
+      "static.selection-path-audit/v0",
+      "static.measurement-path-audit/v0",
+      "static.external-witness-comparison/v0"
+    ],
+    "emits": "static.world-external-witness-receipt/v0",
+    "adapter": "scripts/world_external_witness.py",
+    "law": "INDEPENDENCE ≠ AGREEMENT.",
+    "axes": [
+      "selection independence",
+      "measurement independence",
+      "claim relation"
+    ],
+    "authority": "external-witness classification only"
   }
 }
