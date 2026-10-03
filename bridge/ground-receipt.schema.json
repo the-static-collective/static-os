@@ -8,6 +8,7 @@
     "packet_id",
     "status",
     "plan_sha256",
+    "ancestry",
     "field_id",
     "observation_relation",
     "observed",
@@ -23,6 +24,20 @@
     "packet_id": {"const": "make-ground-001"},
     "status": {"const": "observed"},
     "plan_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "ancestry": {
+      "type": "object",
+      "required": [
+        "ground_plan_sha256",
+        "world_primary_source_sha256",
+        "world_candidate_source_sha256"
+      ],
+      "properties": {
+        "ground_plan_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "world_primary_source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "world_candidate_source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      },
+      "additionalProperties": false
+    },
     "field_id": {"type": "string", "minLength": 1},
     "observation_relation": {
       "enum": [
