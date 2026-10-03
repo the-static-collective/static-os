@@ -1,0 +1,29 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/nav-composed-origin-v0.json",
+  "title":"NAV composed origin v0",
+  "type":"object",
+  "required":[
+    "schema","source_generation_sha256","admitted_heading","admission_sha256",
+    "weave_capsule_sha256","parent_set_sha256","weave_ledger_sha256",
+    "root_cycle_digest","relation_kinds","claim_limit"
+  ],
+  "properties":{
+    "schema":{"const":"static.nav-composed-origin/v0"},
+    "source_generation_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "admitted_heading":{"type":"string","minLength":1},
+    "admission_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "weave_capsule_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "parent_set_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "weave_ledger_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "root_cycle_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "relation_kinds":{
+      "type":"array",
+      "minItems":2,
+      "uniqueItems":true,
+      "items":{"enum":["branch_continuation","open_branch"]}
+    },
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}
