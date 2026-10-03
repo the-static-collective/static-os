@@ -51,5 +51,22 @@
     ],
     "proposal_only": true,
     "automatic_external_effects": false
+  },
+  "composed_contact": {
+    "accepts": "static.witness-composed-intake/v0",
+    "emits": [
+      "static.world-composed-contact-candidate/v0",
+      "static.world-composed-contact-receipt/v0"
+    ],
+    "adapter": "scripts/world_composed.py",
+    "law": "FRESH CONTACT ≠ INDEPENDENT CONTACT.",
+    "axes": [
+      "novelty",
+      "observation freshness",
+      "selection independence",
+      "measurement independence",
+      "confirmation status"
+    ],
+    "authority": "classification_only"
   }
 }
