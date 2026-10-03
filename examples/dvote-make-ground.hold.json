@@ -1,0 +1,16 @@
+{
+  "schema": "dvote.witness-receipt.v1",
+  "id": "fixture-hold-001",
+  "date": "2026-10-03T21:00:00.000Z",
+  "campaignId": "make-ground-001",
+  "campaignVersion": "1.0.0",
+  "day": 1,
+  "encounterId": "better-hole-001",
+  "encounter": "Make a Better Hole",
+  "doorId": "hold",
+  "door": "HOLD",
+  "disposition": "hold",
+  "weather": "changing",
+  "note": "I am keeping the problem open until I can compare two normal days without changing the routine.",
+  "object": null
+}
