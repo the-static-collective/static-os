@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-static-collective.github.io/static-os/schema/field-profile-v0.json",
+  "title": "MAKE GROUND field profile v0",
+  "type": "object",
+  "required": [
+    "schema",
+    "field_id",
+    "problem_statement",
+    "current_capabilities",
+    "constraints",
+    "preserve",
+    "reversible_levers",
+    "selected_lever_id",
+    "observation_channels",
+    "selected_observation_channel_id"
+  ],
+  "properties": {
+    "schema": {"const": "static.field-profile/v0"},
+    "field_id": {"type": "string", "minLength": 1},
+    "problem_statement": {"type": "string", "minLength": 1},
+    "current_capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "constraints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "preserve": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "reversible_levers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "change", "rollback"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "change": {"type": "string", "minLength": 1},
+          "rollback": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "selected_lever_id": {"type": "string", "minLength": 1},
+    "observation_channels": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "description", "capture"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "description": {"type": "string", "minLength": 1},
+          "capture": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "selected_observation_channel_id": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}
