@@ -1,0 +1,49 @@
+{
+  "schema": "static.witness-intake/v0",
+  "packet_id": "witness-001",
+  "source": {
+    "schema": "static.nav-receipt/v0",
+    "packet_id": "nav-001",
+    "status": "contacted",
+    "sha256": "f89fb653b8122a99f92f7d61931dfb6617fec41ee1426927b2d75e281122c244"
+  },
+  "records": [
+    {
+      "kind": "reported_observation",
+      "value": "Seven NAV runtime tests passed in an isolated local Python test run.",
+      "source_field": "observed",
+      "claim_class": "source_record"
+    },
+    {
+      "kind": "reported_delta",
+      "value": "The packet and runtime contract survived the tested software translation; the remaining uncertainty moved outward to repository CI/review and a real human field traversal.",
+      "source_field": "delta",
+      "claim_class": "derivative_interpretation"
+    },
+    {
+      "kind": "next_heading",
+      "value": "Let repository CI and review answer next, then use the same packet for one real bounded change and preserve that receipt.",
+      "source_field": "next_heading",
+      "claim_class": "orientation_proposal"
+    },
+    {
+      "kind": "claim_limit",
+      "value": "Passing this local software test does not establish human field usefulness, operating-system integration, or physical-world success.",
+      "source_field": "claim_limit",
+      "claim_class": "source_limit"
+    }
+  ],
+  "establishes": [
+    "A contacted NAV receipt artifact was ingested.",
+    "The source artifact records the preserved observation text.",
+    "The source artifact records a delta interpretation and a next-heading proposal.",
+    "The source artifact carries an explicit claim limit."
+  ],
+  "does_not_establish": [
+    "The reported outside event is independently verified by WITNESS.",
+    "The source's delta interpretation is correct.",
+    "The source's next-heading proposal should be followed.",
+    "The source's world-contact claim has been independently reproduced."
+  ],
+  "corrections": []
+}
