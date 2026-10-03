@@ -1,0 +1,42 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/world-measurement-audit-receipt-v0.json",
+  "title":"WORLD measurement audit receipt v0",
+  "type":"object",
+  "required":[
+    "schema","packet_id","candidate_source_sha256","measurement_audit_sha256",
+    "lineage_class","selection_independence","measurement_independence",
+    "evidence_role","counts_as_independent_confirmation","typed_origin_preserved",
+    "criteria_summary","establishes","does_not_establish","next_door"
+  ],
+  "properties":{
+    "schema":{"const":"static.world-measurement-audit-receipt/v0"},
+    "packet_id":{"const":"world-001"},
+    "candidate_source_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "measurement_audit_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "lineage_class":{"const":"oriented_downstream"},
+    "selection_independence":{"const":"not_independent_of_orientation"},
+    "measurement_independence":{"enum":["independent_candidate","unknown","not_independent"]},
+    "evidence_role":{"enum":[
+      "selection_dependent_measurement_independent_candidate",
+      "selection_dependent_measurement_unknown",
+      "selection_and_measurement_dependent"
+    ]},
+    "counts_as_independent_confirmation":{"const":false},
+    "typed_origin_preserved":{"const":true},
+    "criteria_summary":{
+      "type":"object",
+      "required":["passed","unknown","failed"],
+      "properties":{
+        "passed":{"type":"array","items":{"type":"string","minLength":1},"uniqueItems":true},
+        "unknown":{"type":"array","items":{"type":"string","minLength":1},"uniqueItems":true},
+        "failed":{"type":"array","items":{"type":"string","minLength":1},"uniqueItems":true}
+      },
+      "additionalProperties":false
+    },
+    "establishes":{"type":"array","minItems":1,"items":{"type":"string","minLength":1}},
+    "does_not_establish":{"type":"array","minItems":1,"items":{"type":"string","minLength":1}},
+    "next_door":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}
