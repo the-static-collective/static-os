@@ -1,0 +1,16 @@
+{
+  "schema": "static.evidence-artifact/v0",
+  "artifact_id": "reproduction-run-001",
+  "artifact_kind": "contract-test-example",
+  "capture_channel": "fresh-isolated-runner-001",
+  "content": {
+    "environment_manifest": {
+      "purpose": "example-only contract fixture",
+      "runner": "fresh-isolated-example"
+    },
+    "exact_input": "disputed NAV reproduction case",
+    "raw_result_summary": "The fixture reproduced part of each upstream report under different captured conditions.",
+    "exit_status": 0
+  },
+  "claim_limit": "This artifact is an example contract fixture. It demonstrates provenance shape and does not independently establish a real-world reproduction result."
+}
