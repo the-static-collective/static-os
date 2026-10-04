@@ -114,5 +114,20 @@
     "law": "DISAGREEMENT ≠ SIDE SELECTION.",
     "selection_basis": "minimum declared structural cost",
     "authority": "proposal_only"
+  },
+  "witness_field_execution": {
+    "accepts": [
+      "static.nav-field-reorientation/v0",
+      "static.dogram-field-transition/v0",
+      "static.field-discriminator-candidate/v0"
+    ],
+    "admits": "static.nav-field-admission/v0",
+    "executes": [
+      "static.nav-receipt/v0",
+      "static.field-discrimination-contact/v0"
+    ],
+    "adapter": "scripts/field_discrimination_cycle.py",
+    "law": "CHALLENGED WITNESS ≠ DELETED WITNESS.",
+    "authority": "explicit_local_admission_required"
   }
 }
