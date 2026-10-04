@@ -102,5 +102,17 @@
     "law": "COMPOSED HISTORY ≠ EMBEDDED HISTORY.",
     "provenance": "addressable",
     "authority": "bounded NAV cycle only"
+  },
+  "witness_field_reorientation": {
+    "accepts": [
+      "static.world-external-witness-field-receipt/v0",
+      "static.field-discriminator-candidate/v0"
+    ],
+    "via": "static.dogram-field-transition/v0",
+    "emits": "static.nav-field-reorientation/v0",
+    "adapter": "scripts/field_dogram_nav.py",
+    "law": "DISAGREEMENT ≠ SIDE SELECTION.",
+    "selection_basis": "minimum declared structural cost",
+    "authority": "proposal_only"
   }
 }
