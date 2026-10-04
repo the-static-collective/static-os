@@ -1,0 +1,30 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/nav-field-reorientation-v0.json",
+  "title":"NAV witness-field reorientation v0",
+  "type":"object",
+  "required":[
+    "schema","packet_id","status","field_sha256","field_receipt_sha256",
+    "transition_sha256","candidate_sha256","live_relations","proposed_heading",
+    "bounded_move","preserved","reason","claim_limit"
+  ],
+  "properties":{
+    "schema":{"const":"static.nav-field-reorientation/v0"},
+    "packet_id":{"const":"nav-001"},
+    "status":{"const":"proposed"},
+    "field_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "field_receipt_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "transition_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "candidate_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "live_relations":{
+      "type":"array","minItems":2,"uniqueItems":true,
+      "items":{"enum":["corroborates","contradicts","corrects"]}
+    },
+    "proposed_heading":{"type":"string","minLength":1},
+    "bounded_move":{"type":"string","minLength":1},
+    "preserved":{"type":"array","minItems":1,"items":{"type":"string","minLength":1},"uniqueItems":true},
+    "reason":{"type":"string","minLength":1},
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}
