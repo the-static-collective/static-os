@@ -136,5 +136,22 @@
       "verdict withheld"
     ],
     "authority": "non_destructive_field_overlay"
+  },
+  "residual_witness_return": {
+    "accepts": [
+      "static.world-witness-field-update/v0",
+      "static.residual-witness-contact/v0"
+    ],
+    "emits": "static.world-residual-witness-update/v0",
+    "adapter": "scripts/residual_witness_cycle.py",
+    "law": "REPEATED CHALLENGE ≠ WITNESS ERASURE.",
+    "preserves": [
+      "contact #1 as history",
+      "contact #2 as history",
+      "all original witness source addresses",
+      "majority rule unused",
+      "verdict withheld"
+    ],
+    "authority": "history_overlay_only"
   }
 }

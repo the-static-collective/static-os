@@ -1,0 +1,39 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/dogram-residual-witness-transition-v0.json",
+  "title":"Dogram residual witness transition v0",
+  "type":"object",
+  "required":[
+    "schema","transition_id","original_field_sha256","first_update_sha256",
+    "first_contact_sha256","prior_supported_relation","target_challenged_relation",
+    "candidate_sha256","to_heading","bounded_move","cost_vector","preserved",
+    "selection_basis","status","claim_limit"
+  ],
+  "properties":{
+    "schema":{"const":"static.dogram-residual-witness-transition/v0"},
+    "transition_id":{"type":"string","minLength":1},
+    "original_field_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "first_update_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "first_contact_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "prior_supported_relation":{"enum":["corroborates","contradicts","corrects"]},
+    "target_challenged_relation":{"enum":["corroborates","contradicts","corrects"]},
+    "candidate_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "to_heading":{"type":"string","minLength":1},
+    "bounded_move":{"type":"string","minLength":1},
+    "cost_vector":{
+      "type":"object",
+      "required":["irreversible_steps","changed_variables","world_contacts","external_dependencies"],
+      "properties":{
+        "irreversible_steps":{"const":0},
+        "changed_variables":{"type":"integer","minimum":1},
+        "world_contacts":{"const":1},
+        "external_dependencies":{"type":"integer","minimum":0}
+      },"additionalProperties":false
+    },
+    "preserved":{"type":"array","minItems":1,"items":{"type":"string","minLength":1},"uniqueItems":true},
+    "selection_basis":{"const":"minimum_declared_structural_cost"},
+    "status":{"const":"proposed"},
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}
