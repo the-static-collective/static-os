@@ -1,0 +1,24 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/nav-field-admission-v0.json",
+  "title":"NAV field-derived heading admission v0",
+  "type":"object",
+  "required":[
+    "schema","status","heading","field_sha256","field_receipt_sha256",
+    "candidate_sha256","transition_sha256","reorientation_sha256",
+    "admitted_by","claim_limit"
+  ],
+  "properties":{
+    "schema":{"const":"static.nav-field-admission/v0"},
+    "status":{"const":"admitted"},
+    "heading":{"type":"string","minLength":1},
+    "field_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "field_receipt_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "candidate_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "transition_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "reorientation_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "admitted_by":{"type":"string","minLength":1},
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}

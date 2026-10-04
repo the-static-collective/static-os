@@ -1,0 +1,25 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/field-discrimination-contact-v0.json",
+  "title":"Field discrimination contact v0",
+  "type":"object",
+  "required":[
+    "schema","status","field_sha256","admission_sha256","candidate_sha256",
+    "orientation_sha256","contact_sha256","observed_relation","observed",
+    "next_heading","claim_limit"
+  ],
+  "properties":{
+    "schema":{"const":"static.field-discrimination-contact/v0"},
+    "status":{"const":"contacted"},
+    "field_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "admission_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "candidate_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "orientation_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "contact_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "observed_relation":{"enum":["corroborates","contradicts","corrects"]},
+    "observed":{"type":"string","minLength":1},
+    "next_heading":{"type":"string","minLength":1},
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}

@@ -120,5 +120,21 @@
       "relation counts remain descriptive"
     ],
     "authority": "field classification only"
+  },
+  "witness_field_discrimination_return": {
+    "accepts": [
+      "static.external-witness-field/v0",
+      "static.world-external-witness-field-receipt/v0",
+      "static.field-discrimination-contact/v0"
+    ],
+    "emits": "static.world-witness-field-update/v0",
+    "adapter": "scripts/field_discrimination_cycle.py",
+    "law": "AMBIGUITY REDUCTION ≠ WITNESS ERASURE.",
+    "preserves": [
+      "all witness source addresses",
+      "majority rule unused",
+      "verdict withheld"
+    ],
+    "authority": "non_destructive_field_overlay"
   }
 }
