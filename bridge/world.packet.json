@@ -102,5 +102,23 @@
       "claim relation"
     ],
     "authority": "external-witness classification only"
+  },
+  "external_witness_field": {
+    "accepts": [
+      "static.world-external-witness-receipt/v0",
+      "static.external-witness-pair-audit/v0"
+    ],
+    "emits": [
+      "static.external-witness-field/v0",
+      "static.world-external-witness-field-receipt/v0"
+    ],
+    "adapter": "scripts/world_witness_field.py",
+    "law": "PLURAL WITNESSES ≠ MAJORITY VERDICT.",
+    "requirements": [
+      "each witness independently qualifies relative to composed source",
+      "every external witness pair has an independence audit",
+      "relation counts remain descriptive"
+    ],
+    "authority": "field classification only"
   }
 }
