@@ -129,5 +129,18 @@
     "adapter": "scripts/field_discrimination_cycle.py",
     "law": "CHALLENGED WITNESS ≠ DELETED WITNESS.",
     "authority": "explicit_local_admission_required"
+  },
+  "residual_witness_reorientation": {
+    "accepts": [
+      "static.world-witness-field-update/v0",
+      "static.residual-witness-discriminator-candidate/v0"
+    ],
+    "via": "static.dogram-residual-witness-transition/v0",
+    "proposes": "static.nav-residual-witness-reorientation/v0",
+    "admits": "static.nav-residual-witness-admission/v0",
+    "executes": "static.residual-witness-contact/v0",
+    "adapter": "scripts/residual_witness_cycle.py",
+    "law": "SECOND CONTACT ≠ REVISION OF FIRST CONTACT.",
+    "authority": "explicit_local_admission_required"
   }
 }
