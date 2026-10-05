@@ -366,8 +366,14 @@ def make_association(postbag, branches, results):
 
 
 def validate_association(value):
+    required = {
+        "schema","postbag_sha256","status","condition_outcomes","distinct_outcomes",
+        "split_detected","causal_claimed","ranking_used","claim_limit",
+    }
     if not isinstance(value, dict) or value.get("schema") != ASSOCIATION_SCHEMA:
         raise ValueError("unsupported Dogram condition association schema")
+    if set(value) != required:
+        raise ValueError("condition association shape drifted")
     if value.get("status") not in {"complete","incomplete"}:
         raise ValueError("condition association status invalid")
     rows = value.get("condition_outcomes")
@@ -435,8 +441,16 @@ def make_frontier(postbag, association, results):
 
 
 def validate_frontier(value):
+    required = {
+        "schema","original_field_sha256","residual_update_sha256","postbag_sha256",
+        "association_sha256","parent_result_sha256s","frontier_root_sha256",
+        "parent_count","parent_bodies_embedded","canonical_parent_selected",
+        "status","claim_limit",
+    }
     if not isinstance(value, dict) or value.get("schema") != FRONTIER_SCHEMA:
         raise ValueError("unsupported condition recombinant frontier schema")
+    if set(value) != required:
+        raise ValueError("condition frontier shape drifted")
     parents = value.get("parent_result_sha256s")
     if not isinstance(parents, list) or len(parents) != 3 or len(set(parents)) != 3:
         raise ValueError("condition frontier requires three distinct result parents")
