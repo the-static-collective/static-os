@@ -1,0 +1,25 @@
+{
+  "schema":"static.condition-field-packet/v0",
+  "name":"CONDITION FIELD / WORLD FORK 001",
+  "accepts":["static.world-residual-witness-update/v0"],
+  "produces":[
+    "static.condition-world-branch/v0",
+    "static.condition-world-result/v0",
+    "static.condition-postbag/v0",
+    "static.dogram-condition-association/v0",
+    "static.condition-recombinant-frontier/v0"
+  ],
+  "laws":[
+    "EXPERIMENT != LINE",
+    "CONDITION SPLIT != CAUSE",
+    "FORK != CONFLICT",
+    "RECOMBINATION != CONSENSUS",
+    "RESULT != ENDPOINT"
+  ],
+  "cross_project_compatibility":{
+    "GHoT":"optional Mineral WANT address only; no execution authority",
+    "reLATTE":"rankless postbag grammar only; no external crossing claimed",
+    "GrO":"multi-parent frontier grammar only; no room admission claimed"
+  },
+  "claim_limit":"This packet defines a Static OS executable contract specimen. Cross-project compatibility is structural and does not claim live execution in GHoT, reLATTE, or GrO."
+}
