@@ -1,0 +1,31 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/condition-world-result-v0.json",
+  "title":"Condition world result v0",
+  "type":"object",
+  "required":[
+    "schema","branch_sha256","status","outcome_relation","observation",
+    "residue","mineral_artifact_sha256","claim_limit"
+  ],
+  "properties":{
+    "schema":{"const":"static.condition-world-result/v0"},
+    "branch_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "status":{"enum":["contacted","refused"]},
+    "outcome_relation":{
+      "anyOf":[
+        {"enum":["corroborates","contradicts","corrects"]},
+        {"type":"null"}
+      ]
+    },
+    "observation":{"type":"string"},
+    "residue":{"type":"string","minLength":1},
+    "mineral_artifact_sha256":{
+      "anyOf":[
+        {"type":"string","pattern":"^[0-9a-f]{64}$"},
+        {"type":"null"}
+      ]
+    },
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}

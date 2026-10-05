@@ -153,5 +153,29 @@
       "verdict withheld"
     ],
     "authority": "history_overlay_only"
+  },
+  "condition_field_world_fork": {
+    "accepts": [
+      "static.world-residual-witness-update/v0"
+    ],
+    "branches": "static.condition-world-branch/v0",
+    "returns": "static.condition-world-result/v0",
+    "holds": "static.condition-postbag/v0",
+    "inspects": "static.dogram-condition-association/v0",
+    "recombines": "static.condition-recombinant-frontier/v0",
+    "adapter": "scripts/condition_field.py",
+    "laws": [
+      "EXPERIMENT != LINE",
+      "CONDITION SPLIT != CAUSE",
+      "FORK != CONFLICT",
+      "RECOMBINATION != CONSENSUS",
+      "RESULT != ENDPOINT"
+    ],
+    "external_boundaries": {
+      "mineral_want": "non-executable address only",
+      "postbag": "rankless local contract, not a reLATTE crossing",
+      "frontier": "compact multi-parent grammar, not automatic GrO admission"
+    },
+    "authority": "hold_only"
   }
 }

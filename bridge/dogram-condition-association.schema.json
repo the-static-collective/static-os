@@ -1,0 +1,43 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/dogram-condition-association-v0.json",
+  "title":"Dogram condition association v0",
+  "type":"object",
+  "required":[
+    "schema","postbag_sha256","status","condition_outcomes","distinct_outcomes",
+    "split_detected","causal_claimed","ranking_used","claim_limit"
+  ],
+  "properties":{
+    "schema":{"const":"static.dogram-condition-association/v0"},
+    "postbag_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "status":{"enum":["complete","incomplete"]},
+    "condition_outcomes":{
+      "type":"array","minItems":3,"maxItems":3,
+      "items":{
+        "type":"object",
+        "required":["condition_name","condition_after","result_status","outcome_relation"],
+        "properties":{
+          "condition_name":{"type":"string","minLength":1},
+          "condition_after":{"type":"string"},
+          "result_status":{"enum":["contacted","refused"]},
+          "outcome_relation":{
+            "anyOf":[
+              {"enum":["corroborates","contradicts","corrects"]},
+              {"type":"null"}
+            ]
+          }
+        },
+        "additionalProperties":false
+      }
+    },
+    "distinct_outcomes":{
+      "type":"array","uniqueItems":true,
+      "items":{"enum":["corroborates","contradicts","corrects"]}
+    },
+    "split_detected":{"type":"boolean"},
+    "causal_claimed":{"const":false},
+    "ranking_used":{"const":false},
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}
