@@ -300,6 +300,20 @@ class ConditionFieldWorldForkTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "may not embed parent bodies"):
             condition.validate_frontier(bad)
 
+    def test_association_cannot_smuggle_hidden_ranking_field(self):
+        *_, association, _ = full_specimen()
+        bad = copy.deepcopy(association)
+        bad["preferred_world"] = "beta"
+        with self.assertRaisesRegex(ValueError, "shape drifted"):
+            condition.validate_association(bad)
+
+    def test_frontier_cannot_smuggle_preferred_parent(self):
+        *_, frontier = full_specimen()
+        bad = copy.deepcopy(frontier)
+        bad["preferred_parent_sha256"] = bad["parent_result_sha256s"][0]
+        with self.assertRaisesRegex(ValueError, "shape drifted"):
+            condition.validate_frontier(bad)
+
 
 if __name__ == "__main__":
     unittest.main()
