@@ -1,0 +1,100 @@
+{
+  "schema": "static-os.reference-machine/v0",
+  "status": "candidate-unverified",
+  "id": "STATIC-2012-001",
+  "label": "STATIC 2012",
+  "target": {
+    "architecture": "amd64",
+    "minimum_cpu_cores": 2,
+    "minimum_memory_mib": 3584,
+    "comfortable_memory_mib": 7168,
+    "minimum_free_disk_gib": 32,
+    "comfortable_free_disk_gib": 80,
+    "gpu_required_for_core": false,
+    "network_required_for_initial_sync": true,
+    "network_required_after_sync": false
+  },
+  "laws": [
+    "OLD HARDWARE != THIN CLIENT",
+    "LOCAL SOVEREIGNTY != LOCAL HEAVY COMPUTE",
+    "CAPABILITY != EXECUTION",
+    "DISPATCH != AUTHORITY",
+    "DEGRADED != BROKEN",
+    "OFFLINE != AMNESIA",
+    "MORE MACHINE REQUIRES A NAMED BOTTLENECK"
+  ],
+  "loadout": [
+    {"repository":"the-static-collective/static-os","role":"house-and-bootstrap","required":true,"sync":"full"},
+    {"repository":"the-static-collective/static-workbench","role":"local-door-and-desk","required":true,"sync":"full"},
+    {"repository":"the-static-collective/reLATTE","role":"crossings-and-receipts","required":true,"sync":"full"},
+    {"repository":"the-static-collective/GrO","role":"possibility-lineage","required":true,"sync":"full"},
+    {"repository":"the-static-collective/tranchnode","role":"bounded-sovereign-memory","required":true,"sync":"full"},
+    {"repository":"the-static-collective/Dogram","role":"bounded-verification","required":true,"sync":"full"},
+    {"repository":"the-static-collective/GHoT","role":"instrument-rack-and-work-steward","required":true,"sync":"full"},
+    {"repository":"the-static-collective/the-haunted-toaster","role":"deterministic-media-editor","required":false,"sync":"shallow"},
+    {"repository":"the-static-collective/the-haunted-blender","role":"possibility-composition","required":false,"sync":"shallow"},
+    {"repository":"the-static-collective/playdeck","role":"interactive-play-surface","required":false,"sync":"shallow"},
+    {"repository":"the-static-collective/full-measure-world-layer","role":"walkable-world-projection","required":false,"sync":"shallow"},
+    {"repository":"the-static-collective/planZ","role":"plan-census-and-senses","required":false,"sync":"shallow"}
+  ],
+  "core_sovereignty_capabilities": [
+    "house-entry",
+    "content-addressing",
+    "relatte-local-crossings",
+    "gro-lineage-and-checkpoints",
+    "tranchnode-bounded-memory",
+    "dogram-small-exact-verification",
+    "ghot-instrument-rack-control"
+  ],
+  "capabilities": [
+    {"id":"house-entry","class":"GREEN","local":true,"description":"Launch the local First House / Workbench doorway and preserve user-owned state."},
+    {"id":"content-addressing","class":"GREEN","local":true,"description":"Hash, address, inspect and verify bounded local artifacts."},
+    {"id":"relatte-local-crossings","class":"GREEN","local":true,"description":"Create, receive, hold and verify bounded crossing/receipt material locally."},
+    {"id":"gro-lineage-and-checkpoints","class":"GREEN","local":true,"description":"Inspect bounded possibility lineage, checkpoints, forks and graph-frontier commitments."},
+    {"id":"tranchnode-bounded-memory","class":"GREEN","local":true,"description":"Retain recent detail plus bounded resumable checkpoint/frontier memory."},
+    {"id":"dogram-small-exact-verification","class":"GREEN","local":true,"description":"Run hashes, deterministic witnesses, exact bounded checks and sparse probes."},
+    {"id":"ghot-instrument-rack-control","class":"GREEN","local":true,"description":"Inspect capability cards and make explicit bounded dispatch decisions without requiring heavy execution locally."},
+    {
+      "id":"toaster-full-song-editing","class":"YELLOW","local":true,
+      "description":"Run deterministic editing/listening-field workflows; preview and decode cost may require degraded settings.",
+      "bottleneck":{"resource":"cpu-time-and-memory","evidence":"Long media decode and preview buffers can exceed the reference machine comfort envelope."},
+      "fallback":"Lower preview resolution, proxy media, section-first editing, or dispatch final render as an instrument."
+    },
+    {
+      "id":"blender-possibility-composition","class":"YELLOW","local":true,
+      "description":"Compose recipes, descendants, ghosts and recombination graphs locally while deferring expensive rendering.",
+      "bottleneck":{"resource":"cpu-time-and-memory","evidence":"Resolved media generation/rendering can exceed the reference machine comfort envelope."},
+      "fallback":"Keep composition as recipes/proposals locally and dispatch render-only work."
+    },
+    {
+      "id":"full-measure-frontier","class":"YELLOW","local":true,
+      "description":"Inspect walkable consequence/frontier state with simplified visual settings.",
+      "bottleneck":{"resource":"graphics-and-memory","evidence":"Complex real-time visual projections may exceed integrated-graphics or memory capacity."},
+      "fallback":"Use reduced effects, lower resolution, static/2D projection, or remote rendering while local state remains authoritative."
+    },
+    {
+      "id":"1080p-media-render","class":"BLUE","local":false,
+      "description":"Final high-resolution render is a dispatchable instrument rather than a core local requirement.",
+      "bottleneck":{"resource":"cpu-gpu-time","evidence":"Sustained high-resolution encoding/rendering is disproportionately slow on the reference hardware."},
+      "fallback":"Dispatch to another opted-in machine/service and return addressed artifacts for local verification/admission."
+    },
+    {
+      "id":"modern-ai-video-generation","class":"BLUE","local":false,
+      "description":"Modern generative video is an external instrument, not a local sovereignty requirement.",
+      "bottleneck":{"resource":"accelerator-memory-and-service","evidence":"Contemporary video models generally require accelerator memory or hosted model infrastructure absent from the reference target."},
+      "fallback":"Use an opted-in external instrument; retain request, result address and admission decision locally."
+    },
+    {
+      "id":"large-local-foundation-model","class":"BLUE","local":false,
+      "description":"Large-model inference is optional and dispatchable.",
+      "bottleneck":{"resource":"memory-and-accelerator","evidence":"Large modern model weights and working memory exceed the reference target RAM/accelerator envelope."},
+      "fallback":"Use a smaller local model where sufficient, or dispatch to an opted-in model instrument."
+    },
+    {
+      "id":"autonomous-execution-of-discovered-capabilities","class":"RED","local":false,
+      "description":"Discovery never grants permission to execute capabilities automatically.",
+      "bottleneck":{"resource":"policy","evidence":"The limitation is constitutional rather than computational: discovery/capability does not imply authority."},
+      "fallback":"Require explicit local selection and bounded dispatch through the owning instrument boundary."
+    }
+  ]
+}
