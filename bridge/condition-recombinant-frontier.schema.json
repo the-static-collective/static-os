@@ -1,0 +1,30 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://the-static-collective.github.io/static-os/schema/condition-recombinant-frontier-v0.json",
+  "title":"Condition recombinant frontier v0",
+  "type":"object",
+  "required":[
+    "schema","original_field_sha256","residual_update_sha256","postbag_sha256",
+    "association_sha256","parent_result_sha256s","frontier_root_sha256",
+    "parent_count","parent_bodies_embedded","canonical_parent_selected",
+    "status","claim_limit"
+  ],
+  "properties":{
+    "schema":{"const":"static.condition-recombinant-frontier/v0"},
+    "original_field_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "residual_update_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "postbag_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "association_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "parent_result_sha256s":{
+      "type":"array","minItems":3,"maxItems":3,"uniqueItems":true,
+      "items":{"type":"string","pattern":"^[0-9a-f]{64}$"}
+    },
+    "frontier_root_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "parent_count":{"const":3},
+    "parent_bodies_embedded":{"const":false},
+    "canonical_parent_selected":{"const":false},
+    "status":{"const":"held"},
+    "claim_limit":{"type":"string","minLength":1}
+  },
+  "additionalProperties":false
+}
