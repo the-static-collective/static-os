@@ -1,0 +1,24 @@
+name: STATIC 2012 reference machine
+on:
+  push:
+    paths: ['profiles/static-2012.json','scripts/validate-static-2012.py','scripts/static-2012.py','tests/test_static_2012.py','tests/fixtures/static-2012-reference.json','docs/STATIC-2012-001.md','.github/workflows/static-2012.yml']
+  pull_request:
+    paths: ['profiles/static-2012.json','scripts/validate-static-2012.py','scripts/static-2012.py','tests/test_static_2012.py','tests/fixtures/static-2012-reference.json','docs/STATIC-2012-001.md','.github/workflows/static-2012.yml']
+permissions:
+  contents: read
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/validate-static-2012.py profiles/static-2012.json
+      - run: python3 -m unittest discover -s tests -p 'test_static_2012.py' -v
+      - name: Reference fixture
+        run: |
+          python3 scripts/static-2012.py profiles/static-2012.json --facts tests/fixtures/static-2012-reference.json > static-2012-assessment.json
+          python3 -c 'import json; d=json.load(open("static-2012-assessment.json")); assert d["state"]=="reference-ready"; assert d["core_local_possible"]; assert not d["gpu_required_for_core"]; assert not d["network_required_after_sync"]'
+      - name: Non-executing clone planner
+        run: |
+          python3 scripts/static-2012.py profiles/static-2012.json --clone-plan /tmp/Static > clone-plan.txt
+          grep -F 'the-static-collective/reLATTE.git' clone-plan.txt
+          grep -F -- '--depth=1 https://github.com/the-static-collective/the-haunted-toaster.git' clone-plan.txt

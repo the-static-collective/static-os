@@ -17,3 +17,17 @@ Python runtime for Zorin 17+/Ubuntu 22.04+ amd64. The **Desktop installer previe
 workflow produces a native `.deb`: install it through Software Install, then
 open **Static Workbench** from the application menu. See the linked document for
 build status boundaries, compatibility, logs and removal behavior.
+
+
+## STATIC 2012 reference-machine experiment
+
+[STATIC-2012-001](docs/STATIC-2012-001.md) defines a deliberately low-end
+reference target: 2-core amd64, ~4 GiB RAM floor, no required GPU, and
+network-optional continuity after initial sync. It classifies capabilities as
+GREEN local core, YELLOW degraded local, BLUE dispatchable, or RED deliberately
+unavailable. Any non-GREEN capability must name its resource bottleneck and a
+lawful fallback.
+
+The self-audit and clone planner are contract tools only. They do not claim a
+physical 2012 machine has been tested and do not automatically clone or execute
+external projects.
