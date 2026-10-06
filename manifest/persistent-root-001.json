@@ -1,0 +1,57 @@
+{
+  "schema": "static-os.persistent-root/v0",
+  "id": "PERSISTENT-ROOT-001",
+  "status": "mount-and-lineage-candidate",
+  "device": {
+    "filesystem_label": "STATIC_STATE",
+    "filesystem": "ext4",
+    "mountpoint": "/var/lib/static-os",
+    "auto_format": false,
+    "internal_disk_install": false
+  },
+  "layout": {
+    "version": 0,
+    "paths": {
+      "house_users": "users",
+      "ghot": "organs/ghot",
+      "relatte": "organs/relatte",
+      "jubilee": "organs/jubilee",
+      "corpus": "organs/corpus",
+      "tranchnode": "organs/tranchnode",
+      "crossing_exports": "crossing-exports",
+      "boot_receipts": "lineage/boots",
+      "shutdown_receipts": "lineage/shutdowns"
+    }
+  },
+  "supabardo": {
+    "persistent_interior": false,
+    "durable_outputs_path": "crossing-exports",
+    "law": "THE BARDO MAY FORGET; ONLY EXPLICIT DURABLE OUTPUTS ESCAPE"
+  },
+  "boot": {
+    "fresh_occurrence_each_boot": true,
+    "same_root_does_not_mean_same_process": true,
+    "missing_previous_shutdown_is_visible": true
+  },
+  "attachment": {
+    "workbench_state": "users/<uid>/static-workbench",
+    "replace_existing_user_state": false
+  },
+  "claims": {
+    "partition_creation": "human-external",
+    "mount_contract": "candidate",
+    "root_reopen": "host-testable",
+    "vm_cross_boot": "unverified",
+    "physical_cross_boot": "unverified",
+    "organ_runtime_reconstruction": "not_implemented"
+  },
+  "laws": [
+    "PERSISTENT BYTES != CONTINUOUS PROCESS",
+    "ROOT IDENTITY != BOOT IDENTITY",
+    "MISSING SHUTDOWN != CLEAN DEATH",
+    "STORAGE != CONSTITUTED PRESENT",
+    "SUPABARDO INTERIOR != DURABLE ROOT",
+    "DURABLE EXPORT != DESTINATION ADMISSION",
+    "NO FORMAT WITHOUT HUMAN ACTION"
+  ]
+}
