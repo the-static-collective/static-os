@@ -3,7 +3,9 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 MANIFEST="$ROOT/manifest/genesis-001.json"
+WHOLE_BODY_MANIFEST="$ROOT/manifest/whole-body-001.json"
 python3 "$ROOT/scripts/validate-manifest.py" "$MANIFEST"
+python3 "$ROOT/scripts/validate-whole-body.py" "$WHOLE_BODY_MANIFEST"
 if [[ "${EUID}" -ne 0 ]]; then
   echo "REFUSE: live-build needs root; run in a dedicated build VM, not the Zorin host." >&2
   exit 2
@@ -32,7 +34,44 @@ mkdir -p config/includes.chroot/opt/static-os/workbench-src \
 git -C house-fetch archive "$HOUSE_SHA" | tar -xf - -C config/includes.chroot/opt/static-os/workbench-src
 install -m 0644 "$MANIFEST" config/includes.chroot/usr/share/static-os/genesis-001.json
 printf '%s\n' "$HOUSE_SHA" > config/includes.chroot/usr/share/static-os/house-source-commit
-# Removes the fetch checkout from the distribution build tree before the ISO stage.
+
+# WHOLE-BODY-001 carries exact inspected source cuts without auto-starting them.
+mkdir -p config/includes.chroot/opt/static-os/organs \
+  config/includes.chroot/usr/share/static-os/organs
+install -m 0644 "$WHOLE_BODY_MANIFEST" \
+  config/includes.chroot/usr/share/static-os/whole-body-001.json
+python3 - "$WHOLE_BODY_MANIFEST" <<'PY' > whole-body-sources.tsv
+import json, sys
+data=json.load(open(sys.argv[1], encoding="utf-8"))
+for organ in data["organs"]:
+    if organ.get("image_source") is True:
+        print("\t".join((organ["id"], organ["repository"], organ["commit"])))
+PY
+while IFS=
+mapfile -t images < <(find . -maxdepth 1 -type f -name '*.iso' -print)
+[[ "${#images[@]}" -eq 1 ]] || { echo "REFUSE: expected one ISO, got ${#images[@]}" >&2; exit 2; }
+sha256sum "${images[0]}" > image.sha256
+printf 'BUILD CANDIDATE: %s\nSHA-256: %s\n' "$BUILD_DIR/${images[0]#./}" "$(cat image.sha256)"
+printf 'Next gates: VM boot, offline HOUSE launch, shutdown/reboot, hardware boot. None is implied by build success.\n'
+\t' read -r ORGAN_ID ORGAN_REPO ORGAN_SHA; do
+  FETCH_DIR="organ-fetch-$ORGAN_ID"
+  ORGAN_URL="https://github.com/$ORGAN_REPO.git"
+  git init -q "$FETCH_DIR"
+  git -C "$FETCH_DIR" remote add origin "$ORGAN_URL"
+  git -C "$FETCH_DIR" -c protocol.version=2 fetch --depth=1 origin "$ORGAN_SHA"
+  test "$(git -C "$FETCH_DIR" rev-parse FETCH_HEAD)" = "$ORGAN_SHA" || {
+    echo "REFUSE: $ORGAN_ID source SHA mismatch" >&2; exit 2;
+  }
+  mkdir -p "config/includes.chroot/opt/static-os/organs/$ORGAN_ID"
+  git -C "$FETCH_DIR" archive "$ORGAN_SHA" | \
+    tar -xf - -C "config/includes.chroot/opt/static-os/organs/$ORGAN_ID"
+  printf '%s\n' "$ORGAN_SHA" > \
+    "config/includes.chroot/usr/share/static-os/organs/$ORGAN_ID.commit"
+  rm -rf "$FETCH_DIR"
+done < whole-body-sources.tsv
+rm -f whole-body-sources.tsv
+
+# Removes the HOUSE fetch checkout from the distribution build tree before the ISO stage.
 rm -rf house-fetch
 lb build
 mapfile -t images < <(find . -maxdepth 1 -type f -name '*.iso' -print)
