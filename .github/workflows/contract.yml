@@ -16,6 +16,7 @@ jobs:
           bash -n scripts/build-iso.sh
           bash -n scripts/roadkit-setup.sh
           bash -n scripts/roadkit.sh
+          python3 -m py_compile scripts/physical-boot-receipt.py
           sh -n config/hooks/live/010-install-house.hook.chroot
           sh -n config/includes.chroot/usr/local/bin/static-house-launch
           sh -n config/includes.chroot/usr/local/bin/static-elf-proof
