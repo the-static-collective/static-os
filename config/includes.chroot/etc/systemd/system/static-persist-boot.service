@@ -1,0 +1,14 @@
+[Unit]
+Description=STATIC OS persistent root boot occurrence
+After=var-lib-static\x2dos.mount
+Wants=var-lib-static\x2dos.mount
+ConditionPathIsMountPoint=/var/lib/static-os
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/bin/static-persist boot
+ExecStop=/usr/local/bin/static-persist shutdown
+
+[Install]
+WantedBy=multi-user.target
