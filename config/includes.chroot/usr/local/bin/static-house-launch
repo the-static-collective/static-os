@@ -2,6 +2,11 @@
 # Runs in the interactive user's XFCE session, not as root.
 set -eu
 URL=http://127.0.0.1:13700/
+if mountpoint -q /var/lib/static-os 2>/dev/null; then
+  /usr/local/bin/static-persist attach-user || {
+    echo "PERSISTENCE HOLD: existing HOUSE state was not replaced; continuing without automatic attachment." >&2
+  }
+fi
 systemctl --user start static-workbench.service || {
   echo "HOUSE user service unavailable; try: systemctl --user status static-workbench.service" >&2
   exit 1

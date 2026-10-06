@@ -5,9 +5,11 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 MANIFEST="$ROOT/manifest/genesis-001.json"
 WHOLE_BODY_MANIFEST="$ROOT/manifest/whole-body-001.json"
+PERSISTENT_ROOT_MANIFEST="$ROOT/manifest/persistent-root-001.json"
 
 python3 "$ROOT/scripts/validate-manifest.py" "$MANIFEST"
 python3 "$ROOT/scripts/validate-whole-body.py" "$WHOLE_BODY_MANIFEST"
+python3 "$ROOT/scripts/validate-persistent-root.py" "$PERSISTENT_ROOT_MANIFEST"
 
 if [[ "${EUID}" -ne 0 ]]; then
   echo "REFUSE: live-build needs root; run in a dedicated build VM, not the Zorin host." >&2
@@ -57,6 +59,8 @@ mkdir -p config/includes.chroot/opt/static-os/organs \
   config/includes.chroot/usr/share/static-os/organs
 install -m 0644 "$WHOLE_BODY_MANIFEST" \
   config/includes.chroot/usr/share/static-os/whole-body-001.json
+install -m 0644 "$PERSISTENT_ROOT_MANIFEST" \
+  config/includes.chroot/usr/share/static-os/persistent-root-001.json
 
 python3 - "$WHOLE_BODY_MANIFEST" <<'PY' > whole-body-sources.tsv
 import json, sys

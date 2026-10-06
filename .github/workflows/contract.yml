@@ -13,6 +13,7 @@ jobs:
         run: |
           python3 scripts/validate-manifest.py manifest/genesis-001.json
           python3 scripts/validate-whole-body.py manifest/whole-body-001.json
+          python3 scripts/validate-persistent-root.py manifest/persistent-root-001.json
       - name: Validate script syntax
         run: |
           bash -n scripts/build-iso.sh
@@ -22,6 +23,8 @@ jobs:
           python3 -m py_compile config/includes.chroot/usr/local/bin/static-git
           python3 -m py_compile scripts/validate-whole-body.py
           python3 -m py_compile config/includes.chroot/usr/local/bin/static-whole-body
+          python3 -m py_compile scripts/validate-persistent-root.py
+          python3 -m py_compile config/includes.chroot/usr/local/bin/static-persist
           sh -n config/hooks/live/010-install-house.hook.chroot
           sh -n config/includes.chroot/usr/local/bin/static-house-launch
           sh -n config/includes.chroot/usr/local/bin/static-elf-proof
@@ -58,6 +61,11 @@ jobs:
           test -r config/package-lists/git-bridge.list.chroot
           test -r manifest/whole-body-001.json
           test -r config/includes.chroot/usr/local/bin/static-whole-body
+          test -r manifest/persistent-root-001.json
+          test -r config/includes.chroot/usr/local/bin/static-persist
+          test -r config/includes.chroot/etc/systemd/system/static-persist-boot.service
+          test -r 'config/includes.chroot/etc/systemd/system/var-lib-static\x2dos.mount'
+          test -r config/package-lists/persistent-root.list.chroot
 
   living-codex-endpoint:
     runs-on: ubuntu-latest
