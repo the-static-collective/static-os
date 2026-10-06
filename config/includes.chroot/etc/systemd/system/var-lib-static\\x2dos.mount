@@ -1,0 +1,12 @@
+[Unit]
+Description=STATIC OS removable persistent state root
+ConditionPathExists=/dev/disk/by-label/STATIC_STATE
+
+[Mount]
+What=/dev/disk/by-label/STATIC_STATE
+Where=/var/lib/static-os
+Type=ext4
+Options=rw,nodev,nosuid
+
+[Install]
+WantedBy=multi-user.target
