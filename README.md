@@ -105,3 +105,26 @@ REMOTE PERSISTENCE != LOCAL PERSISTENCE
 ```
 
 The live image includes `git`, `openssh-client`, and the `static-git` command. RECEIVE is clean-tree, fast-forward-only; COMMIT stages only named paths; SEND requires a fresh fetch and refuses when the remote is ahead. STATIC OS does not create or embed Git credentials and does not auto-update itself.
+
+
+## Whole body
+
+[WHOLE-BODY-001](docs/WHOLE-BODY-001.md) makes the live-image recipe carry exact source cuts for GHoT, reLATTE, Jubilee Engine VM, Corpus OS, TranchNode, and the Human-Witness SupaBardo design specimen.
+
+```text
+GHoT      -> body / capability / liveness
+Jubilee   -> bounded occurrence / ancestry
+reLATTE   -> crossing grammar / receipts
+SupaBardo -> unresolved interval
+Corpus    -> receiver-local constituted present
+TranchNode-> addressed durable particulars
+```
+
+The image vendors these sources without auto-starting or auto-authorizing the foreign organs. `static-whole-body status` verifies their presence and exact commit witnesses inside a built image.
+
+```text
+SOURCE PRESENT != RUNTIME READY
+UNRESOLVED != ABSENT
+SUPABARDO STATE != CANON
+BOOT != CONTINUITY
+```
