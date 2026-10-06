@@ -76,3 +76,17 @@ XP == WITNESS COUNT, NOT CAPABILITY
 ```
 
 The Polsia STATICJACK quest is present but HELD: this candidate grants it no credentials, budget, repository access or execution authority.
+
+
+## First physical boot
+
+[FIRST-PHYSICAL-BOOT-001](docs/FIRST-PHYSICAL-BOOT-001.md) adds the first explicit cold-USB human witness gate above the GENESIS live-image candidate.
+
+The helper hashes the exact built ISO and source lineage, then leaves physical observation fields unset until a human actually observes BIOS/UEFI prerequisites and a real removable-media boot with offline HOUSE on loopback. CI may test the receipt contract but cannot produce the physical witness.
+
+```text
+ISO BUILD != BOOT
+HARDWARE BOOT != INSTALLED OS
+HOUSE OPENED != PERSISTENCE
+HUMAN OBSERVATION != CI ASSERTION
+```
