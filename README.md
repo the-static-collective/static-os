@@ -128,3 +128,21 @@ UNRESOLVED != ABSENT
 SUPABARDO STATE != CANON
 BOOT != CONTINUITY
 ```
+
+
+## Persistent root
+
+[PERSISTENT-ROOT-001](docs/PERSISTENT-ROOT-001.md) adds a cold-boot continuity floor using one deliberately prepared ext4 filesystem labeled `STATIC_STATE`.
+
+STATIC OS never formats or chooses a disk automatically. When that exact labeled filesystem is present, the image mounts it at `/var/lib/static-os`, initializes or verifies one durable `root_id`, and emits a **fresh boot occurrence** on every wake.
+
+```text
+ROOT IDENTITY != BOOT IDENTITY
+PERSISTENT BYTES != CONTINUOUS PROCESS
+MISSING SHUTDOWN != CLEAN DEATH
+SUPABARDO INTERIOR != DURABLE ROOT
+```
+
+HOUSE may attach its user state into the durable root before launching. Durable custody paths are reserved for GHoT, reLATTE, Jubilee, Corpus, and TranchNode, while SupaBardo receives no permanent interior directory; only explicit crossing exports may escape into durable custody.
+
+The host-level proof preserves one particular across two simulated boot occurrences while keeping the boot identities distinct. VM and physical cold-boot proof remain unearned.
