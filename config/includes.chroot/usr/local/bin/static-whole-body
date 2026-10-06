@@ -1,0 +1,72 @@
+#!/usr/bin/env python3
+"""Read-only WHOLE-BODY-001 image/source diagnostic."""
+from __future__ import annotations
+
+import json
+import os
+import sys
+from pathlib import Path
+
+DEFAULT_ROOT = Path("/")
+MANIFEST_REL = Path("usr/share/static-os/whole-body-001.json")
+ORGANS_REL = Path("opt/static-os/organs")
+WITNESSES_REL = Path("usr/share/static-os/organs")
+
+
+def image_root() -> Path:
+    return Path(os.environ.get("STATIC_OS_IMAGE_ROOT", str(DEFAULT_ROOT))).resolve()
+
+
+def inspect(root: Path) -> dict:
+    manifest_path = root / MANIFEST_REL
+    if not manifest_path.is_file():
+        raise ValueError(f"WHOLE-BODY manifest missing: {manifest_path}")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    rows = []
+    for organ in manifest.get("organs", []):
+        oid = organ["id"]
+        source = root / ORGANS_REL / oid
+        witness = root / WITNESSES_REL / f"{oid}.commit"
+        witnessed = witness.read_text(encoding="utf-8").strip() if witness.is_file() else None
+        rows.append({
+            "id": oid,
+            "role": organ["role"],
+            "runtime": organ["runtime"],
+            "expected_commit": organ["commit"],
+            "source_present": source.is_dir(),
+            "commit_witness_present": witness.is_file(),
+            "commit_witness_matches": witnessed == organ["commit"],
+        })
+    return {
+        "schema": "static-os.whole-body-status/v0",
+        "composition": manifest.get("id"),
+        "status": manifest.get("status"),
+        "organs": rows,
+        "all_exact_sources_present": all(
+            row["source_present"] and row["commit_witness_matches"] for row in rows
+        ),
+        "claims": manifest.get("claims", {}),
+        "supabardo": {
+            "lifecycle": manifest.get("supabardo", {}).get("lifecycle", []),
+            "canonical": manifest.get("supabardo", {}).get("canonical"),
+            "automatic_admission": manifest.get("supabardo", {}).get("automatic_admission"),
+        },
+    }
+
+
+def main(argv=None) -> int:
+    args = sys.argv[1:] if argv is None else argv
+    if args not in ([], ["status"]):
+        print("usage: static-whole-body [status]", file=sys.stderr)
+        return 2
+    try:
+        result = inspect(image_root())
+    except (OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
+        print(f"REFUSE: {exc}", file=sys.stderr)
+        return 2
+    print(json.dumps(result, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
