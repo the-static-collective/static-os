@@ -13,9 +13,9 @@ from pathlib import Path
 SCHEMA = "static-os.physical-boot-receipt/v0"
 EXPERIMENT = "FIRST-PHYSICAL-BOOT-001"
 REPOSITORY = "the-static-collective/static-os"
-SHA40 = re.compile(r"[0-9a-f]{40}\\Z")
-SHA256 = re.compile(r"[0-9a-f]{64}\\Z")
-RFC3339 = re.compile(r"\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})\\Z")
+SHA40 = re.compile(r"[0-9a-f]{40}\Z")
+SHA256 = re.compile(r"[0-9a-f]{64}\Z")
+RFC3339 = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})\Z")
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "manifest" / "genesis-001.json"
