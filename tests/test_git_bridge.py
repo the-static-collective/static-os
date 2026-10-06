@@ -93,7 +93,9 @@ class GitBridgeIntegrationTests(unittest.TestCase):
             self.git(seed, "commit", "-m", "remote update")
             self.git(seed, "push")
 
-            with patch.dict(os.environ, {"HOME": str(home)}), patch.object(\n                MODULE, "origin", return_value="https://example.invalid/fixture.git"\n            ):
+            with patch.dict(os.environ, {"HOME": str(home)}), patch.object(
+                MODULE, "origin", return_value="https://example.invalid/fixture.git"
+            ):
                 args = type("Args", (), {"repo": "local"})()
                 MODULE.cmd_receive(args)
                 self.assertEqual((local / "hello.txt").read_text(encoding="utf-8"), "two\n")
