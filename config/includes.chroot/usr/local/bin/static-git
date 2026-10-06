@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 from urllib.parse import urlparse
 
-NAME = re.compile(r"[A-Za-z0-9._-]+\\Z")
+NAME = re.compile(r"[A-Za-z0-9._-]+\Z")
 
 
 def static_root() -> Path:
@@ -61,7 +61,7 @@ def validate_remote(url: str) -> str:
         if parsed.scheme not in {"http", "https"} or not parsed.netloc:
             raise ValueError("invalid HTTP(S) Git remote")
         return url
-    if re.fullmatch(r"(?:[A-Za-z0-9._-]+@)?[A-Za-z0-9._-]+:[^\\s]+", url):
+    if re.fullmatch(r"(?:[A-Za-z0-9._-]+@)?[A-Za-z0-9._-]+:[^\s]+", url):
         return url
     if url.startswith("ssh://"):
         parsed = urlparse(url)
