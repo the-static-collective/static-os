@@ -17,6 +17,7 @@ jobs:
           bash -n scripts/roadkit-setup.sh
           bash -n scripts/roadkit.sh
           python3 -m py_compile scripts/physical-boot-receipt.py
+          python3 -m py_compile config/includes.chroot/usr/local/bin/static-git
           sh -n config/hooks/live/010-install-house.hook.chroot
           sh -n config/includes.chroot/usr/local/bin/static-house-launch
           sh -n config/includes.chroot/usr/local/bin/static-elf-proof
@@ -49,6 +50,8 @@ jobs:
           test -r config/includes.chroot/etc/skel/.config/static-workbench/config.toml
           test -r config/includes.chroot/etc/xdg/autostart/static-house.desktop
           test -r config/includes.chroot/usr/local/bin/static-elf-proof
+          test -r config/includes.chroot/usr/local/bin/static-git
+          test -r config/package-lists/git-bridge.list.chroot
 
   living-codex-endpoint:
     runs-on: ubuntu-latest

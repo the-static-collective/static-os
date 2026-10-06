@@ -1,0 +1,277 @@
+#!/usr/bin/env python3
+"""STATIC OS GIT-BRIDGE-001: explicit, user-scoped Git crossings."""
+from __future__ import annotations
+
+import argparse
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+from urllib.parse import urlparse
+
+NAME = re.compile(r"[A-Za-z0-9._-]+\Z")
+
+
+def static_root() -> Path:
+    return (Path.home() / "static").resolve()
+
+
+def run(repo: Path | None, *args: str, capture: bool = False) -> str:
+    command = ["git"]
+    if repo is not None:
+        command += ["-C", str(repo)]
+    command += list(args)
+    result = subprocess.run(
+        command,
+        check=True,
+        text=True,
+        stdout=subprocess.PIPE if capture else None,
+        stderr=subprocess.PIPE if capture else None,
+    )
+    return result.stdout.strip() if capture else ""
+
+
+def repo_path(raw: str, *, must_exist: bool = True) -> Path:
+    root = static_root()
+    candidate = Path(raw).expanduser()
+    if not candidate.is_absolute():
+        candidate = root / candidate
+    candidate = candidate.resolve(strict=False)
+    if candidate != root and root not in candidate.parents:
+        raise ValueError(f"repository must stay under {root}")
+    if candidate.is_symlink():
+        raise ValueError("repository path must not itself be a symlink")
+    if must_exist:
+        if not candidate.is_dir():
+            raise ValueError(f"repository does not exist: {candidate}")
+        if not (candidate / ".git").exists():
+            raise ValueError(f"not a Git working tree: {candidate}")
+    return candidate
+
+
+def validate_remote(url: str) -> str:
+    if not isinstance(url, str) or not url.strip():
+        raise ValueError("remote URL is required")
+    url = url.strip()
+    if url.startswith(("http://", "https://")):
+        parsed = urlparse(url)
+        if parsed.username is not None or parsed.password is not None:
+            raise ValueError("remote URL must not embed credentials")
+        if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+            raise ValueError("invalid HTTP(S) Git remote")
+        return url
+    if re.fullmatch(r"(?:[A-Za-z0-9._-]+@)?[A-Za-z0-9._-]+:[^\s]+", url):
+        return url
+    if url.startswith("ssh://"):
+        parsed = urlparse(url)
+        if not parsed.hostname:
+            raise ValueError("invalid SSH Git remote")
+        return url
+    raise ValueError("remote must be explicit HTTP(S), SSH URL, or SCP-style Git remote")
+
+
+def origin(repo: Path) -> str:
+    value = run(repo, "remote", "get-url", "origin", capture=True)
+    return validate_remote(value)
+
+
+def branch_name(repo: Path) -> str:
+    value = run(repo, "symbolic-ref", "--quiet", "--short", "HEAD", capture=True)
+    if not value:
+        raise ValueError("detached HEAD; choose a branch explicitly before crossing")
+    return value
+
+
+def upstream(repo: Path) -> str:
+    value = run(repo, "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}", capture=True)
+    if not value:
+        raise ValueError("current branch has no upstream")
+    return value
+
+
+def dirty(repo: Path) -> bool:
+    return bool(run(repo, "status", "--porcelain=v1", capture=True))
+
+
+def ahead_behind(repo: Path) -> tuple[int, int]:
+    peer = upstream(repo)
+    value = run(repo, "rev-list", "--left-right", "--count", f"HEAD...{peer}", capture=True)
+    left, right = value.split()
+    return int(left), int(right)
+
+
+def cmd_status(args) -> None:
+    repo = repo_path(args.repo)
+    head = run(repo, "rev-parse", "HEAD", capture=True)
+    try:
+        branch = branch_name(repo)
+    except (ValueError, subprocess.CalledProcessError):
+        branch = "(detached)"
+    try:
+        remote = origin(repo)
+    except (ValueError, subprocess.CalledProcessError):
+        remote = "(no valid origin)"
+    try:
+        peer = upstream(repo)
+        ahead, behind = ahead_behind(repo)
+        relation = f"{peer}; ahead={ahead}; behind={behind}"
+    except (ValueError, subprocess.CalledProcessError):
+        relation = "(no upstream relation)"
+    print(f"repo: {repo}")
+    print(f"HEAD: {head}")
+    print(f"branch: {branch}")
+    print(f"origin: {remote}")
+    print(f"working-tree: {'DIRTY' if dirty(repo) else 'clean'}")
+    print(f"upstream: {relation}")
+    print("NETWORK: not contacted")
+
+
+def cmd_fetch(args) -> None:
+    repo = repo_path(args.repo)
+    remote = origin(repo)
+    print(f"FETCH from {remote}")
+    run(repo, "fetch", "--prune", "origin")
+    print("FETCHED. Working tree and branch tip unchanged.")
+
+
+def cmd_receive(args) -> None:
+    repo = repo_path(args.repo)
+    if dirty(repo):
+        raise ValueError("working tree is dirty; commit/stash intentionally before RECEIVE")
+    branch = branch_name(repo)
+    remote = origin(repo)
+    peer = upstream(repo)
+    if not peer.startswith("origin/"):
+        raise ValueError("RECEIVE requires the current branch upstream to be origin/*")
+    print(f"FETCH from {remote}")
+    run(repo, "fetch", "--prune", "origin")
+    ahead, behind = ahead_behind(repo)
+    if ahead and behind:
+        raise ValueError(f"branch diverged: ahead={ahead}, behind={behind}; manual reconciliation required")
+    if ahead:
+        raise ValueError(f"local branch is ahead by {ahead}; RECEIVE will not discard local commits")
+    if behind == 0:
+        print(f"RECEIVE no-op: {branch} already matches {peer}")
+        return
+    before = run(repo, "rev-parse", "HEAD", capture=True)
+    run(repo, "merge", "--ff-only", peer)
+    after = run(repo, "rev-parse", "HEAD", capture=True)
+    print(f"RECEIVED fast-forward: {before} -> {after}")
+    print("SOURCE UPDATED. Running STATIC OS image is unchanged.")
+
+
+def normalize_paths(repo: Path, paths: list[str]) -> list[str]:
+    if not paths:
+        raise ValueError("COMMIT requires at least one explicit --path")
+    selected: list[str] = []
+    for raw in paths:
+        path = Path(raw)
+        if path.is_absolute():
+            raise ValueError("--path values must be repository-relative")
+        resolved = (repo / path).resolve(strict=False)
+        if resolved != repo and repo not in resolved.parents:
+            raise ValueError(f"path escapes repository: {raw}")
+        selected.append(path.as_posix())
+    return selected
+
+
+def cmd_commit(args) -> None:
+    repo = repo_path(args.repo)
+    branch_name(repo)
+    paths = normalize_paths(repo, args.path)
+    run(repo, "add", "--", *paths)
+    staged = run(repo, "diff", "--cached", "--name-only", capture=True)
+    if not staged:
+        raise ValueError("no staged change in the explicitly selected paths")
+    print("STAGED:")
+    print(staged)
+    run(repo, "commit", "-m", args.message)
+    head = run(repo, "rev-parse", "HEAD", capture=True)
+    print(f"COMMITTED locally: {head}")
+    print("NOT PUSHED.")
+
+
+def cmd_send(args) -> None:
+    repo = repo_path(args.repo)
+    if dirty(repo):
+        raise ValueError("working tree is dirty; SEND requires a completely captured local state")
+    branch = branch_name(repo)
+    remote = origin(repo)
+    peer = upstream(repo)
+    if peer != f"origin/{branch}":
+        raise ValueError(f"SEND requires upstream origin/{branch}; observed {peer}")
+    print(f"FETCH before SEND from {remote}")
+    run(repo, "fetch", "--prune", "origin")
+    ahead, behind = ahead_behind(repo)
+    if behind:
+        raise ValueError(f"remote is ahead by {behind}; RECEIVE/reconcile before SEND")
+    if ahead == 0:
+        print("SEND no-op: no local commits to push")
+        return
+    print(f"SEND {ahead} commit(s) to {peer}")
+    run(repo, "push", "origin", f"HEAD:{branch}")
+    print("SENT. Remote acceptance is Git transport state, not STATIC OS admission.")
+
+
+def cmd_clone(args) -> None:
+    if not NAME.fullmatch(args.name):
+        raise ValueError("clone name may contain only letters, digits, dot, underscore, hyphen")
+    remote = validate_remote(args.remote)
+    root = static_root()
+    root.mkdir(parents=True, exist_ok=True)
+    destination = repo_path(args.name, must_exist=False)
+    if destination.exists():
+        raise ValueError(f"destination already exists: {destination}")
+    print(f"CLONE {remote} -> {destination}")
+    run(None, "clone", "--origin", "origin", remote, str(destination))
+    print("CLONED. No project code was automatically executed.")
+
+
+def make_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        description="Explicit Git ingress/egress for STATIC OS project trees under ~/static."
+    )
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    status = sub.add_parser("status", help="inspect local Git state without network access")
+    status.add_argument("repo")
+    status.set_defaults(func=cmd_status)
+
+    fetch = sub.add_parser("fetch", help="fetch origin without modifying branch or working tree")
+    fetch.add_argument("repo")
+    fetch.set_defaults(func=cmd_fetch)
+
+    receive = sub.add_parser("receive", help="fast-forward a clean branch from origin upstream only")
+    receive.add_argument("repo")
+    receive.set_defaults(func=cmd_receive)
+
+    commit = sub.add_parser("commit", help="commit only explicitly selected repository-relative paths")
+    commit.add_argument("repo")
+    commit.add_argument("-m", "--message", required=True)
+    commit.add_argument("--path", action="append", required=True)
+    commit.set_defaults(func=cmd_commit)
+
+    send = sub.add_parser("send", help="push captured local commits to matching origin upstream")
+    send.add_argument("repo")
+    send.set_defaults(func=cmd_send)
+
+    clone = sub.add_parser("clone", help="clone an explicit remote into ~/static/NAME")
+    clone.add_argument("remote")
+    clone.add_argument("name")
+    clone.set_defaults(func=cmd_clone)
+    return parser
+
+
+def main(argv=None) -> int:
+    try:
+        args = make_parser().parse_args(argv)
+        args.func(args)
+    except (OSError, ValueError, subprocess.CalledProcessError) as error:
+        print(f"REFUSE: {error}", file=sys.stderr)
+        return 2
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

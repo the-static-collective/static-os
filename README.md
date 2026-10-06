@@ -90,3 +90,18 @@ HARDWARE BOOT != INSTALLED OS
 HOUSE OPENED != PERSISTENCE
 HUMAN OBSERVATION != CI ASSERTION
 ```
+
+
+## Git bridge
+
+[GIT-BRIDGE-001](docs/GIT-BRIDGE-001.md) adds explicit Git ingress and egress for project working trees under `~/static`.
+
+```text
+FETCH != APPLY
+COMMIT != PUSH
+PUSH != ADMISSION
+SOURCE UPDATE != RUNNING OS UPDATE
+REMOTE PERSISTENCE != LOCAL PERSISTENCE
+```
+
+The live image includes `git`, `openssh-client`, and the `static-git` command. RECEIVE is clean-tree, fast-forward-only; COMMIT stages only named paths; SEND requires a fresh fetch and refuses when the remote is ahead. STATIC OS does not create or embed Git credentials and does not auto-update itself.
