@@ -1,0 +1,103 @@
+{
+  "schema": "static-os.whole-body/v0",
+  "id": "WHOLE-BODY-001",
+  "status": "source-bundle-candidate",
+  "purpose": "boot one world around durable memory, bounded execution, crossings, unresolved transit, and local constitution without collapsing their authority",
+  "organs": [
+    {
+      "id": "ghot",
+      "repository": "the-static-collective/GHoT",
+      "commit": "e35dd470384d864b7b0b629a68dad570875a7df0",
+      "role": "body-capability-liveness",
+      "image_source": true,
+      "runtime": "manual-gated"
+    },
+    {
+      "id": "relatte",
+      "repository": "the-static-collective/reLATTE",
+      "commit": "87006f3265103a8abe387d81597c58aeb39b0beb",
+      "role": "crossing-grammar-receipts",
+      "image_source": true,
+      "runtime": "adapter-gated"
+    },
+    {
+      "id": "jubilee",
+      "repository": "the-static-collective/Jubilee-Engine-VM",
+      "commit": "ec74819addeb41ebccf1667167f806bc77fb6e14",
+      "role": "bounded-occurrence-provenance",
+      "image_source": true,
+      "runtime": "verifier-gated"
+    },
+    {
+      "id": "corpus",
+      "repository": "the-static-collective/corpus-os",
+      "commit": "289c6fa04d04a2bde6dffbe7265903db5bec56c0",
+      "role": "local-constitution-causal-present",
+      "image_source": true,
+      "runtime": "runtime-gated"
+    },
+    {
+      "id": "tranchnode",
+      "repository": "the-static-collective/tranchnode",
+      "commit": "1d731fbb228f68bbefc008d18c48d6be001935be",
+      "role": "durable-addressed-particulars",
+      "image_source": true,
+      "runtime": "adapter-gated"
+    },
+    {
+      "id": "supabardo",
+      "repository": "the-static-collective/Human-Witness",
+      "commit": "6c30bae1896db52bdb387d25b9ee577e0542e055",
+      "role": "unresolved-crossing-field",
+      "image_source": true,
+      "runtime": "sb-001-external-specimen-only",
+      "spec_path": "docs/superpowers/specs/2026-08-25-supabardo-crossing-field-design.md"
+    }
+  ],
+  "wake_order": [
+    "static-os",
+    "house",
+    "verify-source-bundle",
+    "inspect-durable-particulars",
+    "ghot-body",
+    "relatte-receiver",
+    "jubilee-verification",
+    "corpus-world-cut",
+    "supabardo-boundary",
+    "operator-surface"
+  ],
+  "supabardo": {
+    "lifecycle": ["ENTER", "FORM", "WITNESS", "WAIT", "EXIT", "DECAY"],
+    "canonical": false,
+    "durable_memory_owner": false,
+    "automatic_admission": false,
+    "meaning": "receiver-local",
+    "law": "STORE THE CROSSING, NOT THE CANON"
+  },
+  "deployment": {
+    "vendor_exact_sources_into_iso": true,
+    "auto_start_foreign_organs": false,
+    "auto_admit_crossings": false,
+    "auto_apply_git_updates": false,
+    "requires_persistence_for_cross_boot_identity": true
+  },
+  "claims": {
+    "source_bundle": "buildable-candidate",
+    "runtime_composition": "unverified",
+    "supabardo_sb001": "external-in-progress",
+    "persistent_volume": "not_implemented",
+    "cross_boot_continuity": "not_proven",
+    "physical_boot": "not_proven"
+  },
+  "laws": [
+    "SOURCE PRESENT != RUNTIME READY",
+    "RUNTIME READY != AUTHORIZED",
+    "RECEIVED != ADMITTED",
+    "UNRESOLVED != ABSENT",
+    "SUPABARDO STATE != CANON",
+    "CROSSING MAY BE SHARED; MEANING REMAINS RECEIVER-LOCAL",
+    "STORAGE != HISTORY",
+    "HISTORY != PRESENT",
+    "BOOT != CONTINUITY"
+  ]
+}

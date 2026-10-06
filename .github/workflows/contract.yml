@@ -10,7 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Validate candidate manifest
-        run: python3 scripts/validate-manifest.py manifest/genesis-001.json
+        run: |
+          python3 scripts/validate-manifest.py manifest/genesis-001.json
+          python3 scripts/validate-whole-body.py manifest/whole-body-001.json
       - name: Validate script syntax
         run: |
           bash -n scripts/build-iso.sh
@@ -18,6 +20,8 @@ jobs:
           bash -n scripts/roadkit.sh
           python3 -m py_compile scripts/physical-boot-receipt.py
           python3 -m py_compile config/includes.chroot/usr/local/bin/static-git
+          python3 -m py_compile scripts/validate-whole-body.py
+          python3 -m py_compile config/includes.chroot/usr/local/bin/static-whole-body
           sh -n config/hooks/live/010-install-house.hook.chroot
           sh -n config/includes.chroot/usr/local/bin/static-house-launch
           sh -n config/includes.chroot/usr/local/bin/static-elf-proof
@@ -52,6 +56,8 @@ jobs:
           test -r config/includes.chroot/usr/local/bin/static-elf-proof
           test -r config/includes.chroot/usr/local/bin/static-git
           test -r config/package-lists/git-bridge.list.chroot
+          test -r manifest/whole-body-001.json
+          test -r config/includes.chroot/usr/local/bin/static-whole-body
 
   living-codex-endpoint:
     runs-on: ubuntu-latest
