@@ -1,4 +1,5 @@
 import importlib.util
+import importlib.machinery
 import os
 import subprocess
 import tempfile
@@ -15,9 +16,10 @@ SCRIPT = (
     / "bin"
     / "static-git"
 )
-SPEC = importlib.util.spec_from_file_location("static_git", SCRIPT)
+LOADER = importlib.machinery.SourceFileLoader("static_git", str(SCRIPT))
+SPEC = importlib.util.spec_from_loader("static_git", LOADER)
 MODULE = importlib.util.module_from_spec(SPEC)
-SPEC.loader.exec_module(MODULE)
+LOADER.exec_module(MODULE)
 
 
 class GitBridgeUnitTests(unittest.TestCase):
