@@ -1,0 +1,38 @@
+{
+  "schema": "relatte.receipt/v0",
+  "crossing_id": "relatte-crossing-v0:d73bc639fd5ed5a687f083e2ca9a5e9507bafa415e207bbb5434674d935e2b8a",
+  "world_id": "static-os:bardo-boot-witness-001:boot-a",
+  "receiver_particular": "static-os:particular:invitation",
+  "kind": "BBW001_RELEASE",
+  "semantic_effect": "crossing-released",
+  "contract_ref": "supabardo:bardo-boot-witness-001/v0",
+  "pre_state_ref": "sha256:af82b9a3b2d5eeb1ce3d58038b3415ca62f0815bd6f0a04662ec8cf5b773d171",
+  "post_state_ref": "relatte-crossing-v0:d73bc639fd5ed5a687f083e2ca9a5e9507bafa415e207bbb5434674d935e2b8a",
+  "descendant_refs": [],
+  "residual_refs": [
+    "sha256:af82b9a3b2d5eeb1ce3d58038b3415ca62f0815bd6f0a04662ec8cf5b773d171"
+  ],
+  "note": "source released the exact image bytes; source retention does not negate release",
+  "created_at": "2026-10-07T00:35:04.863Z",
+  "extensions": {
+    "supabardo": {
+      "source_bytes_may_remain": true,
+      "laws": [
+        "RELEASE != ERASURE",
+        "FILENAME != BYTES"
+      ]
+    }
+  },
+  "receipt_id": "relatte-receipt-v0:e66c63d4d1ad4545feb3b6d409b49e159fab0a56b9c6e881ee192e97705788b1",
+  "signing": {
+    "algorithm": "ECDSA-P256-SHA256",
+    "public_key": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "jKUSqYc_cvvkjdanvNMIf7l66fSVTH4T5oU6fVep0pE",
+      "y": "66hjjXvU-uwLrmlyQGLtNF-mhUzyiQczXuVsnpbLH0U"
+    },
+    "domain": "relatte.receipt-signature/v0",
+    "signature": "mF9QLaFogdYgkNGBuiOYNHuJC8WnW3iI-lGZnCaVM9tHjKGPVg4eS0sq-0Cnx7nRAH9L9cS-VWTMXnkVvTj6-A"
+  }
+}
