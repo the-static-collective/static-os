@@ -14,6 +14,7 @@ jobs:
           python3 scripts/validate-manifest.py manifest/genesis-001.json
           python3 scripts/validate-whole-body.py manifest/whole-body-001.json
           python3 scripts/validate-persistent-root.py manifest/persistent-root-001.json
+          python3 scripts/validate-bardo-boot-witness.py manifest/bardo-boot-witness-001.json fixtures/bardo-boot-witness-001
       - name: Validate script syntax
         run: |
           bash -n scripts/build-iso.sh
@@ -26,6 +27,7 @@ jobs:
           python3 -m py_compile scripts/validate-persistent-root.py
           python3 -m py_compile config/includes.chroot/usr/local/bin/static-persist
           python3 -m py_compile config/includes.chroot/usr/local/bin/static-bardo
+          python3 -m py_compile scripts/validate-bardo-boot-witness.py
           sh -n config/hooks/live/010-install-house.hook.chroot
           sh -n config/includes.chroot/usr/local/bin/static-house-launch
           sh -n config/includes.chroot/usr/local/bin/static-elf-proof
@@ -69,6 +71,9 @@ jobs:
           test -r config/package-lists/persistent-root.list.chroot
           test -r config/includes.chroot/usr/local/bin/static-bardo
           test -r docs/BARDO-BRIDGE-001.md
+          test -r manifest/bardo-boot-witness-001.json
+          test -r docs/BARDO-BOOT-WITNESS-001.md
+          test -r fixtures/bardo-boot-witness-001/evidence.json
 
   living-codex-endpoint:
     runs-on: ubuntu-latest
@@ -255,3 +260,82 @@ jobs:
         run: npm install --ignore-scripts --no-audit --no-fund --prefix .ci-sb001-relatte
       - name: Replay SB-001 full verification
         run: npm run verify --prefix .ci-sb001-relatte
+
+
+  bardo-boot-witness-001-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Read exact BARDO-BOOT-WITNESS-001 reLATTE pin
+        id: pin
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          value=json.load(open('manifest/bardo-boot-witness-001.json'))
+          print('commit='+value['stacked_on']['relatte_commit'])
+          print('source_hash='+value['source']['particular'].split(':',1)[1])
+          PY
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: the-static-collective/reLATTE
+          ref: ${{ steps.pin.outputs.commit }}
+          path: .ci-bbw001-relatte
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+      - name: Install pinned reLATTE verifier dependencies
+        run: npm install --ignore-scripts --no-audit --no-fund --prefix .ci-bbw001-relatte
+      - name: Verify INVITATION signed crossing and authority split
+        env:
+          EXPECTED_SOURCE_HASH: ${{ steps.pin.outputs.source_hash }}
+        run: |
+          node --experimental-strip-types --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { readFile } from 'node:fs/promises';
+          import { verifyCrossingEnvelope, verifyReceipt } from './.ci-bbw001-relatte/src/index.ts';
+
+          const dir='fixtures/bardo-boot-witness-001';
+          const load=async name => JSON.parse(await readFile(dir+'/'+name,'utf8'));
+          const crossing=await load('crossing.json');
+          const release=await load('release.json');
+          const hold=await load('hold.json');
+          const admit=await load('admit.json');
+          const exit=await load('exit.json');
+          const evidence=await load('evidence.json');
+
+          assert.equal(await verifyCrossingEnvelope(crossing), true);
+          for (const receipt of [release, hold, admit, exit]) {
+            assert.equal(await verifyReceipt(receipt), true);
+            assert.equal(receipt.crossing_id, crossing.crossing_id);
+          }
+
+          assert.equal(crossing.payload_refs[0].address, 'sha256:'+process.env.EXPECTED_SOURCE_HASH);
+          assert.equal(hold.kind, 'BBW001_HOLD');
+          assert.equal(hold.semantic_effect, 'none');
+          assert.equal(hold.extensions.supabardo.destination_disposition, null);
+          assert.equal(hold.extensions.supabardo.mandatory_hold, true);
+          assert.equal(admit.kind, 'R3_ADMIT');
+          assert.equal(admit.extensions.local_receiver.disposition, 'ADMIT');
+          assert.equal(admit.extensions.local_receiver.supabardo_unresolved_receipt_id, hold.receipt_id);
+          assert.equal(exit.pre_state_ref, hold.receipt_id);
+          assert.equal(exit.post_state_ref, admit.receipt_id);
+
+          assert.deepEqual(crossing.signing.public_key, release.signing.public_key);
+          assert.deepEqual(hold.signing.public_key, exit.signing.public_key);
+          assert.notDeepEqual(crossing.signing.public_key, hold.signing.public_key);
+          assert.notDeepEqual(crossing.signing.public_key, admit.signing.public_key);
+          assert.notDeepEqual(hold.signing.public_key, admit.signing.public_key);
+
+          assert.equal(evidence.claims.actual_process_restart_proven, false);
+          assert.equal(evidence.claims.vm_cold_boot_proven, false);
+          assert.equal(evidence.claims.physical_cold_boot_proven, false);
+          assert.equal(evidence.claims.live_supabardo_membrane_used, false);
+          assert.equal(evidence.claims.second_live_membrane_crossing_proven, false);
+          NODE
