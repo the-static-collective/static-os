@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "static-os.crank-turn-request/v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "turn_id",
+    "source",
+    "selected_capability",
+    "budget_units",
+    "authority_request",
+    "admission_request",
+    "payload"
+  ],
+  "properties": {
+    "schema": {
+      "const": "static-os.crank-turn-request/v0"
+    },
+    "turn_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "id"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "human",
+            "physical-input",
+            "timer",
+            "peer-node"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "selected_capability": {
+      "type": "string",
+      "minLength": 1
+    },
+    "budget_units": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "authority_request": {
+      "const": "none"
+    },
+    "admission_request": {
+      "const": "none"
+    },
+    "payload": {
+      "type": "object"
+    }
+  }
+}
