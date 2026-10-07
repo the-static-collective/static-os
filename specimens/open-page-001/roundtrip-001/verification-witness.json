@@ -1,0 +1,30 @@
+{
+  "schema": "static-os.life-authoring.verification-witness/v0",
+  "verification_id": "open-page-001:verification:roundtrip-001",
+  "source_specimen": "OPEN-PAGE-SPECIMEN-001",
+  "source_comparison": "open-page-001:comparison:roundtrip-001",
+  "witness": "github-actions-api-observation",
+  "workflow_name": "LIFE-AUTHORING-ROUNDTRIP-001",
+  "workflow_run_id": 37558549092,
+  "workflow_run_url": "https://github.com/the-static-collective/static-os/actions/runs/37558549092",
+  "verified_head_sha": "c8622e17a59296ae5165a7567b19098454a1ebdb",
+  "workflow_event": "pull_request",
+  "workflow_conclusion": "success",
+  "workflow_updated_at": "2026-10-07T01:44:08Z",
+  "observed_successful_steps": [
+    "Check original Open Page 001",
+    "Check append-only authoring roundtrip",
+    "Run non-collapse tests",
+    "Run roundtrip refusal tests"
+  ],
+  "claim_scope": "The GitHub Actions run for the referenced commit completed successfully. This supports the executable repository-local validator claim, not any unobserved life event or identity assertion.",
+  "historical_comparison_unmodified": true,
+  "source_page_manifest_unmodified": true,
+  "external_life_consequence": "NOT_OBSERVED",
+  "laws": [
+    "VALIDATION != HISTORICAL TRUTH",
+    "LATER OBSERVATION != RETROACTIVE EDIT",
+    "EXPECTED CONSEQUENCE != OBSERVED CONSEQUENCE",
+    "SOURCE HISTORY REMAINS IMMUTABLE"
+  ]
+}
