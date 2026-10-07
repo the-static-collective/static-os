@@ -1,0 +1,137 @@
+#!/usr/bin/env python3
+"""BARDO-BRIDGE-001: read-only status for the proven destructible crossing seam."""
+from __future__ import annotations
+
+import json
+import os
+import sys
+from pathlib import Path
+
+DEFAULT_IMAGE_ROOT = Path("/")
+DEFAULT_PERSIST_ROOT = Path("/var/lib/static-os")
+WHOLE_BODY_REL = Path("usr/share/static-os/whole-body-001.json")
+RELATTE_REL = Path("opt/static-os/organs/relatte")
+SB001_EVIDENCE_REL = Path("fixtures/sb001-evidence-manifest.json")
+SB001_VERIFIER_REL = Path("scripts/sb001-verify.ts")
+SB001_DOC_REL = Path("docs/SUPABARDO-SB-001.md")
+
+
+def image_root() -> Path:
+    return Path(os.environ.get("STATIC_OS_IMAGE_ROOT", str(DEFAULT_IMAGE_ROOT))).resolve()
+
+
+def persist_root() -> Path:
+    return Path(os.environ.get("STATIC_OS_PERSIST_ROOT", str(DEFAULT_PERSIST_ROOT))).resolve()
+
+
+def _load_json(path: Path) -> dict:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise ValueError(f"expected JSON object: {path}")
+    return value
+
+
+def inspect(image: Path, persistent: Path) -> dict:
+    manifest_path = image / WHOLE_BODY_REL
+    if not manifest_path.is_file():
+        raise ValueError(f"WHOLE-BODY manifest missing: {manifest_path}")
+    manifest = _load_json(manifest_path)
+
+    organs = {row["id"]: row for row in manifest.get("organs", []) if isinstance(row, dict) and "id" in row}
+    sb = organs.get("supabardo")
+    relatte = organs.get("relatte")
+    if not isinstance(sb, dict) or not isinstance(relatte, dict):
+        raise ValueError("WHOLE-BODY manifest lacks SupaBardo/reLATTE bindings")
+
+    proof = sb.get("proof")
+    if not isinstance(proof, dict):
+        raise ValueError("WHOLE-BODY manifest lacks SB-001 proof binding")
+
+    relatte_root = image / RELATTE_REL
+    evidence_path = relatte_root / SB001_EVIDENCE_REL
+    verifier_path = relatte_root / SB001_VERIFIER_REL
+    doc_path = relatte_root / SB001_DOC_REL
+
+    evidence_present = evidence_path.is_file()
+    evidence_id = None
+    if evidence_present:
+        evidence = _load_json(evidence_path)
+        evidence_id = evidence.get("evidence_set_id")
+
+    expected_evidence = proof.get("evidence_set_id")
+    evidence_matches = evidence_present and evidence_id == expected_evidence
+
+    root_initialized = (persistent / "root.json").is_file()
+    exports = persistent / "crossing-exports"
+    export_count = 0
+    if exports.is_dir():
+        export_count = sum(1 for path in exports.rglob("*") if path.is_file())
+
+    forbidden_interior = persistent / "organs" / "supabardo"
+    result = {
+        "schema": "static-os.bardo-status/v0",
+        "mode": "read-only-offline-status",
+        "architecture": {
+            "owner_repository": sb.get("repository"),
+            "owner_commit": sb.get("commit"),
+            "spec_path": sb.get("spec_path"),
+            "law": manifest.get("supabardo", {}).get("law"),
+            "lifecycle": manifest.get("supabardo", {}).get("lifecycle", []),
+        },
+        "sb001": {
+            "status": manifest.get("claims", {}).get("supabardo_sb001"),
+            "proof_repository": proof.get("repository"),
+            "proof_commit": proof.get("commit"),
+            "relatte_source_commit": relatte.get("commit"),
+            "evidence_set_id": expected_evidence,
+            "evidence_manifest_present": evidence_present,
+            "evidence_set_matches": evidence_matches,
+            "verifier_present": verifier_path.is_file(),
+            "proof_doc_present": doc_path.is_file(),
+            "runtime_destroyed_after_export": proof.get("runtime_destroyed_after_export"),
+            "reconstruction_requires_live_membrane": proof.get(
+                "reconstruction_requires_live_membrane"
+            ),
+        },
+        "live_membrane": {
+            "queried": False,
+            "state": "not-observed",
+            "unresolved_crossings": "not-observed",
+            "reason": "status command does not contact Supabase or infer live crossing state",
+        },
+        "durability": {
+            "persistent_root_initialized": root_initialized,
+            "crossing_exports_path": str(exports),
+            "durable_export_files": export_count,
+            "supabardo_persistent_interior_present": forbidden_interior.exists(),
+            "boundary_ok": not forbidden_interior.exists(),
+        },
+        "authority": {
+            "canonical_memory_owner": False,
+            "automatic_admission": False,
+            "destination_meaning": "receiver-local",
+        },
+    }
+    if evidence_present and not evidence_matches:
+        raise ValueError("bundled SB-001 evidence set does not match WHOLE-BODY pin")
+    if forbidden_interior.exists():
+        raise ValueError("persistent SupaBardo interior violates BARDO-BRIDGE-001")
+    return result
+
+
+def main(argv=None) -> int:
+    args = sys.argv[1:] if argv is None else argv
+    if args not in ([], ["status"]):
+        print("usage: static-bardo [status]", file=sys.stderr)
+        return 2
+    try:
+        value = inspect(image_root(), persist_root())
+    except (OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
+        print(f"REFUSE: {exc}", file=sys.stderr)
+        return 2
+    print(json.dumps(value, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
