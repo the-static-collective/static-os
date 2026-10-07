@@ -15,7 +15,7 @@
     {
       "id": "relatte",
       "repository": "the-static-collective/reLATTE",
-      "commit": "87006f3265103a8abe387d81597c58aeb39b0beb",
+      "commit": "5d96af53a730b0ce3111e8551e62030596815069",
       "role": "crossing-grammar-receipts",
       "image_source": true,
       "runtime": "adapter-gated"
@@ -50,8 +50,20 @@
       "commit": "6c30bae1896db52bdb387d25b9ee577e0542e055",
       "role": "unresolved-crossing-field",
       "image_source": true,
-      "runtime": "sb-001-external-specimen-only",
-      "spec_path": "docs/superpowers/specs/2026-08-25-supabardo-crossing-field-design.md"
+      "runtime": "sb-001-proven-external-specimen",
+      "spec_path": "docs/superpowers/specs/2026-08-25-supabardo-crossing-field-design.md",
+      "proof": {
+        "repository": "the-static-collective/reLATTE",
+        "commit": "5d96af53a730b0ce3111e8551e62030596815069",
+        "pr": 57,
+        "docs_path": "docs/SUPABARDO-SB-001.md",
+        "verifier_path": "scripts/sb001-verify.ts",
+        "evidence_manifest_path": "fixtures/sb001-evidence-manifest.json",
+        "evidence_set_id": "sb001-evidence-v0:cbb5e16c8209e1978d1cc1910c4b5128fa58bdab1bb9bbd7d4112ebd0f6c5174",
+        "runtime_destroyed_after_export": true,
+        "reconstruction_requires_live_membrane": false,
+        "verified_tests": 134
+      }
     }
   ],
   "wake_order": [
@@ -67,12 +79,27 @@
     "operator-surface"
   ],
   "supabardo": {
-    "lifecycle": ["ENTER", "FORM", "WITNESS", "WAIT", "EXIT", "DECAY"],
+    "lifecycle": [
+      "ENTER",
+      "FORM",
+      "WITNESS",
+      "WAIT",
+      "EXIT",
+      "DECAY"
+    ],
     "canonical": false,
     "durable_memory_owner": false,
     "automatic_admission": false,
     "meaning": "receiver-local",
-    "law": "STORE THE CROSSING, NOT THE CANON"
+    "law": "STORE THE CROSSING, NOT THE CANON",
+    "proof": {
+      "status": "proven-external-destructible-specimen",
+      "repository": "the-static-collective/reLATTE",
+      "commit": "5d96af53a730b0ce3111e8551e62030596815069",
+      "evidence_set_id": "sb001-evidence-v0:cbb5e16c8209e1978d1cc1910c4b5128fa58bdab1bb9bbd7d4112ebd0f6c5174",
+      "runtime_destroyed_after_export": true,
+      "live_membrane_required_for_reconstruction": false
+    }
   },
   "deployment": {
     "vendor_exact_sources_into_iso": true,
@@ -84,8 +111,8 @@
   "claims": {
     "source_bundle": "buildable-candidate",
     "runtime_composition": "unverified",
-    "supabardo_sb001": "external-in-progress",
-    "persistent_volume": "not_implemented",
+    "supabardo_sb001": "proven-external-destructible-specimen",
+    "persistent_volume": "mount-and-lineage-candidate",
     "cross_boot_continuity": "not_proven",
     "physical_boot": "not_proven"
   },
@@ -98,6 +125,9 @@
     "CROSSING MAY BE SHARED; MEANING REMAINS RECEIVER-LOCAL",
     "STORAGE != HISTORY",
     "HISTORY != PRESENT",
-    "BOOT != CONTINUITY"
+    "BOOT != CONTINUITY",
+    "LIVE SERVICE != HISTORICAL AUTHORITY",
+    "SERVICE DEATH != HISTORY DEATH",
+    "DURABLE RECEIPT != IMMORTAL BARDO"
   ]
 }
