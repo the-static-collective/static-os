@@ -1,0 +1,114 @@
+{
+  "specimen_id": "OPEN-PAGE-SPECIMEN-001",
+  "title": "Same Human, Many Presents",
+  "status": "bounded-first-specimen",
+  "particulars": [
+    {
+      "id": "composed-continuity",
+      "observed_filename": "1000018628.png",
+      "byte_length": 893630,
+      "sha256": "fba4b22be760c96a783fe05e469a1c3add7363719d9bd2acae43a3d0e92ffcf0",
+      "detected_media_type": "image/jpeg",
+      "detected_container": "JPEG/JFIF",
+      "dimensions_px": [1435, 1536],
+      "role": "COMPOSED_CONTINUITY",
+      "pixels_vendored": false
+    },
+    {
+      "id": "present-field",
+      "observed_filename": "1000018625.png",
+      "byte_length": 741673,
+      "sha256": "91be56f8cca310713ca74ca5474ec4bbb632655c213221bc2c5e51b6bdc6469a",
+      "detected_media_type": "image/jpeg",
+      "detected_container": "JPEG/JFIF",
+      "dimensions_px": [1152, 1536],
+      "role": "PRESENT_FIELD",
+      "pixels_vendored": false
+    }
+  ],
+  "observations": [
+    {
+      "id": "obs-001",
+      "particular": "composed-continuity",
+      "kind": "visible-text",
+      "value": "STILL HERE / STILL BUILDING / STILL GRATEFUL"
+    },
+    {
+      "id": "obs-002",
+      "particular": "composed-continuity",
+      "kind": "visible-text",
+      "value": "WE PLAY WHERE WE ARRIVE"
+    },
+    {
+      "id": "obs-003",
+      "particular": "composed-continuity",
+      "kind": "composition",
+      "value": "Multiple illustrated moments are arranged on one page."
+    },
+    {
+      "id": "obs-004",
+      "particular": "present-field",
+      "kind": "composition",
+      "value": "A recurring adult figure appears across multiple illustrated panels with different expressions, settings, and gestures."
+    },
+    {
+      "id": "obs-005",
+      "particular": "present-field",
+      "kind": "symbol",
+      "value": "The page contains recurring star, crown, heart, crescent-moon, and energy-line motifs."
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "int-001",
+      "authority": "human-selected-context",
+      "based_on": ["obs-001", "obs-002", "obs-003"],
+      "value": "The first particular functions as COMPOSED CONTINUITY: several lived-looking moments are composed into one retrospective page."
+    },
+    {
+      "id": "int-002",
+      "authority": "human-selected-context",
+      "based_on": ["obs-004", "obs-005"],
+      "value": "The second particular functions as PRESENT FIELD: one recurring figure is rendered across several possible present-tense states."
+    },
+    {
+      "id": "int-003",
+      "authority": "human-selected-context",
+      "based_on": ["int-001", "int-002"],
+      "value": "The pair can be used as a first test of live-to-myth composition without claiming that the artistic rendering is historical evidence."
+    }
+  ],
+  "selection": {
+    "authority": "human",
+    "decision": "Use both exact image particulars as OPEN-PAGE-SPECIMEN-001.",
+    "selected_interpretations": ["int-001", "int-002", "int-003"]
+  },
+  "presentation": {
+    "open_page_path": "specimens/open-page-001/open-page.md",
+    "mythic_echo": {
+      "mode": "artistic",
+      "statement": "Same human, many presents.",
+      "historical_claim": false
+    }
+  },
+  "consequence": {
+    "state": "OPEN",
+    "claim": "No downstream life consequence is asserted by this bounded specimen."
+  },
+  "next": {
+    "state": "OPEN",
+    "prompt": "Choose one subsequent real occurrence and append it without rewriting the source particulars or prior interpretation history."
+  },
+  "laws": [
+    "FILENAME != BYTES",
+    "REALITY != STORY",
+    "WITNESS != INTERPRETATION",
+    "INTERPRETATION != EVIDENCE",
+    "AUTHORSHIP != INVENTION",
+    "FICTION != FALSEHOOD",
+    "MYTHIC TRUTH != HISTORICAL CLAIM",
+    "SYMBOL != EVIDENCE",
+    "PAGE != LINEAGE",
+    "RENDERING MAY CHANGE; ANCESTRY MUST SURVIVE"
+  ]
+}

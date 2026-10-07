@@ -1,0 +1,17 @@
+{
+  "schema": "static-os.life-authoring.choice-receipt/v0",
+  "choice_id": "open-page-001:choice:roundtrip-001",
+  "door_id": "open-page-001:door:roundtrip-001",
+  "authority": "human",
+  "witness_kind": "external-live-conversation",
+  "selection_text": "lets take OPEN-PAGE-SPECIMEN-001 all the way through?",
+  "interpreted_selection": "Select the bounded repository-local roundtrip door for OPEN-PAGE-SPECIMEN-001.",
+  "scope": "Repository-local implementation, observation, verification, and composition of the next page. No unobserved external-world action or life consequence is authorized or asserted.",
+  "status": "SELECTED",
+  "semantic_effect": "authorizes-bounded-repository-action",
+  "laws": [
+    "DOOR != CHOICE",
+    "CHOICE != EXECUTION",
+    "HUMAN SELECTION != AGENT INFERENCE"
+  ]
+}

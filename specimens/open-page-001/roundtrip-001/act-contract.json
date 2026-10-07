@@ -1,0 +1,34 @@
+{
+  "schema": "static-os.life-authoring.act-contract/v0",
+  "action_id": "open-page-001:act:roundtrip-001",
+  "authorized_by_choice": "open-page-001:choice:roundtrip-001",
+  "action": "Append the roundtrip lineage for OPEN-PAGE-SPECIMEN-001, observe the resulting repository state, compare expected and observed consequence, and compose Open Page 002.",
+  "before": {
+    "branch": "experiment/life-authoring-open-page-001",
+    "head_commit": "1c3741293afd153b3e2d8f5d6ba848e48d2f4110",
+    "source_manifest_git_blob": "a913665b0e7319e782f2237afabc41b5b4d6a7ca",
+    "source_open_page_git_blob": "8bd8a206b121ac682b92d6f7eda107839475aa08",
+    "pull_request": 44,
+    "pull_request_draft": true
+  },
+  "expected": [
+    "branch head advances",
+    "source manifest git blob remains unchanged",
+    "source Open Page 001 git blob remains unchanged",
+    "roundtrip artifacts are added append-only",
+    "full roundtrip validator can pass"
+  ],
+  "forbidden": [
+    "rewrite source image particulars",
+    "rewrite Open Page 001 or its manifest",
+    "invent external-world consequences",
+    "infer an identity or human intention beyond the bounded selection",
+    "auto-execute a Rack instrument or admit any artifact"
+  ],
+  "status": "AUTHORIZED_NOT_YET_OBSERVED",
+  "laws": [
+    "CHOICE != EXECUTION",
+    "EXECUTION != CONSEQUENCE",
+    "EXPECTED CONSEQUENCE != OBSERVED CONSEQUENCE"
+  ]
+}
