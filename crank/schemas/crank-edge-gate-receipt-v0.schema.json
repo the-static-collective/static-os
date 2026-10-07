@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "static-os.crank-edge-gate-receipt/v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "edge_id", "edge", "consumed", "authorizes",
+    "semantic_authority", "admission_authority", "automatic_retry",
+    "automatic_next_turn", "laws", "gate_receipt_sha256"
+  ],
+  "properties": {
+    "schema": {"const": "static-os.crank-edge-gate-receipt/v0"},
+    "edge_id": {"type": "string", "minLength": 1},
+    "edge": {"type": "object"},
+    "consumed": {"const": true},
+    "authorizes": {"const": "one-turn-attempt-only"},
+    "semantic_authority": {"const": "none"},
+    "admission_authority": {"const": "none"},
+    "automatic_retry": {"const": false},
+    "automatic_next_turn": {"const": false},
+    "laws": {"type": "array", "items": {"type": "string"}},
+    "gate_receipt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}
