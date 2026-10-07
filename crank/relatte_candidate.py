@@ -97,7 +97,8 @@ def make_relatte_candidate(
     _require(isinstance(node_id, str) and node_id, "registry node_id required")
 
     result_hash = digest(result)
-    receipt_hash = digest(receipt)
+    receipt_bytes_hash = digest(receipt)
+    receipt_id = receipt["receipt_sha256"]
     output = result["output"]
     provider = output.get("provider")
     provider_claims = {
@@ -117,7 +118,7 @@ def make_relatte_candidate(
         "artifact_kind": "CRANK_TURN_PROPOSAL",
         "source_world": node_id,
         "source_particular": f"static-os-crank-result-v0:{result_hash}",
-        "source_history_head": f"static-os-crank-receipt-v0:{receipt_hash}",
+        "source_history_head": f"static-os-crank-receipt-v0:{receipt_id}",
         "payload_refs": [
             {
                 "address": f"sha256:{result_hash}",
@@ -125,7 +126,7 @@ def make_relatte_candidate(
                 "media_type": "application/json",
             },
             {
-                "address": f"sha256:{receipt_hash}",
+                "address": f"sha256:{receipt_bytes_hash}",
                 "role": "turn-receipt",
                 "media_type": "application/json",
             },
@@ -133,6 +134,7 @@ def make_relatte_candidate(
         "donor_claims": {
             "turn_id": result["turn_id"],
             "capability_id": result["capability_id"],
+            "crank_receipt_id": receipt_id,
             "proposal_only": True,
             "automatic_next_turn": False,
             "authority_effect": "none",
