@@ -1,0 +1,15 @@
+{
+  "schema": "static-os.crank-turn-request/v0",
+  "turn_id": "TURN-FOUNDING-001",
+  "source": {
+    "kind": "human",
+    "id": "fixture:explicit-human-turn"
+  },
+  "selected_capability": "AI.PROPOSE",
+  "budget_units": 3,
+  "authority_request": "none",
+  "admission_request": "none",
+  "payload": {
+    "prompt": "Propose one next useful move. Do not execute it."
+  }
+}

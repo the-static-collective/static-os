@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "static-os.crank-capability-registry/v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "node_id",
+    "capabilities"
+  ],
+  "properties": {
+    "schema": {
+      "const": "static-os.crank-capability-registry/v0"
+    },
+    "node_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "description",
+          "handler",
+          "cost_units",
+          "proposal_only",
+          "authority"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string"
+          },
+          "handler": {
+            "enum": [
+              "hash-text",
+              "uppercase-text",
+              "proposal-echo"
+            ]
+          },
+          "cost_units": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "proposal_only": {
+            "type": "boolean"
+          },
+          "authority": {
+            "const": "none"
+          }
+        }
+      }
+    }
+  }
+}
