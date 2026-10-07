@@ -1,0 +1,31 @@
+{
+  "schema": "static-os.life-authoring.door-proposal/v0",
+  "door_id": "open-page-001:door:roundtrip-001",
+  "source_page": "specimens/open-page-001/open-page.md",
+  "source_manifest": "specimens/open-page-001/manifest.json",
+  "question": "Can OPEN-PAGE-SPECIMEN-001 survive a complete bounded authoring roundtrip without rewriting its source page?",
+  "candidate_action": "Carry OPEN-PAGE-SPECIMEN-001 through explicit human choice, repository-local execution, observed consequence, expectation/observation comparison, and composition of Open Page 002.",
+  "supporting_evidence": [
+    "OPEN-PAGE-SPECIMEN-001 already preserves exact source particulars, observation, interpretation, human selection, presentation, and an explicitly OPEN next edge.",
+    "The live authoring conversation proposed closing the loop by distinguishing door, choice, act, consequence, and next page."
+  ],
+  "expected_consequences": [
+    "The specimen branch advances through append-only roundtrip artifacts.",
+    "The original manifest and Open Page 001 remain byte-identical.",
+    "The selected repository action becomes independently observable as a Git commit.",
+    "A second page can describe the observed repository consequence without converting it into an external life claim."
+  ],
+  "unknowns": [
+    "Whether the implementation will satisfy its validator.",
+    "Whether any consequence exists outside the repository action.",
+    "What later real-world occurrence, if any, should become the next lived specimen."
+  ],
+  "required_authority": "human",
+  "status": "PROPOSAL_ONLY",
+  "semantic_effect": "none",
+  "laws": [
+    "DOOR != CHOICE",
+    "COUNTERFACTUAL != OUTCOME",
+    "PROPOSAL != EXECUTION"
+  ]
+}
