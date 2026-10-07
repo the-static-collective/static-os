@@ -1,0 +1,23 @@
+{
+  "schema": "static-os.crank-capability-registry/v1",
+  "node_id": "static-os:cranknode:provider-beta",
+  "capabilities": [
+    {
+      "id": "AI.PROPOSE",
+      "description": "Same CRANK capability, different operator-configured provider process.",
+      "handler": "external-provider",
+      "cost_units": 2,
+      "proposal_only": true,
+      "authority": "none",
+      "provider": {
+        "schema": "static-os.ai-provider-binding/v0",
+        "provider_id": "fixture-beta",
+        "model_id": "fixture-beta-v1",
+        "transport": "stdio-json",
+        "command": ["python3", "fixtures/cranknode-002/provider_beta.py"],
+        "timeout_seconds": 5,
+        "operator_configured": true
+      }
+    }
+  ]
+}

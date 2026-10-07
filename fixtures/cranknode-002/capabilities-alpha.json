@@ -1,0 +1,23 @@
+{
+  "schema": "static-os.crank-capability-registry/v1",
+  "node_id": "static-os:cranknode:provider-alpha",
+  "capabilities": [
+    {
+      "id": "AI.PROPOSE",
+      "description": "Invoke one operator-configured replaceable provider process for one proposal.",
+      "handler": "external-provider",
+      "cost_units": 2,
+      "proposal_only": true,
+      "authority": "none",
+      "provider": {
+        "schema": "static-os.ai-provider-binding/v0",
+        "provider_id": "fixture-alpha",
+        "model_id": "fixture-alpha-v1",
+        "transport": "stdio-json",
+        "command": ["python3", "fixtures/cranknode-002/provider_alpha.py"],
+        "timeout_seconds": 5,
+        "operator_configured": true
+      }
+    }
+  ]
+}

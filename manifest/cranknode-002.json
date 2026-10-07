@@ -1,0 +1,30 @@
+{
+  "schema": "static-os.cranknode-manifest/v0",
+  "id": "CRANKNODE-002",
+  "status": "replaceable-provider-and-crossing-candidate-specimen",
+  "stacked_on": {
+    "static_os_pr": 47,
+    "static_os_commit": "bffd4ebca9e9006864095b4c0357b5fc123929a0"
+  },
+  "relatte_owner": {
+    "repository": "the-static-collective/reLATTE",
+    "commit": "dcc8cdca84c440aa4294134f020fb7095bf87f24",
+    "organ_path": "src/organ.ts",
+    "organ_blob_sha": "f53e3b8bb2cb2770ad6803ed0ff4287b103ae0ca",
+    "roundtrip_path": "src/roundtrip.ts",
+    "roundtrip_blob_sha": "c459106d60f0760dd065bf1d158834b8cab20238"
+  },
+  "claims": {
+    "external_provider_process_interface_executable": true,
+    "provider_is_replaceable_by_registry_configuration": true,
+    "provider_command_comes_from_operator_registry_not_turn_payload": true,
+    "provider_response_is_protocol_checked": true,
+    "relatte_opaque_organ_spec_candidate_generated": true,
+    "live_ai_model_executed_in_fixture": false,
+    "provider_model_identity_independently_attested": false,
+    "signed_relatte_crossing_created": false,
+    "transport_executed": false,
+    "destination_disposition_observed": false,
+    "automatic_next_turn": false
+  }
+}

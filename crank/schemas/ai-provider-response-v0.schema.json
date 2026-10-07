@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "static-os.ai-provider-response/v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "provider_id", "model_id", "proposal",
+    "model_execution_claim"
+  ],
+  "properties": {
+    "schema": {"const": "static-os.ai-provider-response/v0"},
+    "provider_id": {"type": "string", "minLength": 1},
+    "model_id": {"type": "string", "minLength": 1},
+    "proposal": {"type": "string", "minLength": 1},
+    "model_execution_claim": {"type": "string", "minLength": 1}
+  }
+}

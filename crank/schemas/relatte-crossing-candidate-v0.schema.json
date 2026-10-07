@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "static-os.relatte-crossing-candidate/v0",
+  "type": "object",
+  "required": ["schema", "owner", "spec", "claims", "laws", "candidate_sha256"],
+  "properties": {
+    "schema": {"const": "static-os.relatte-crossing-candidate/v0"},
+    "owner": {"type": "object"},
+    "spec": {
+      "type": "object",
+      "required": [
+        "schema", "family_ref", "donor_contract_ref", "artifact_kind",
+        "source_world", "source_particular", "source_history_head",
+        "payload_refs", "donor_claims", "requested_effect",
+        "return_address", "created_at"
+      ],
+      "properties": {
+        "schema": {"const": "relatte.opaque-organ-spec/v0"}
+      }
+    },
+    "claims": {
+      "type": "object",
+      "properties": {
+        "signed_crossing_created": {"const": false},
+        "transport_executed": {"const": false},
+        "destination_received": {"const": false},
+        "candidate_is_authority": {"const": false}
+      }
+    },
+    "laws": {"type": "array", "items": {"type": "string"}},
+    "candidate_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}
