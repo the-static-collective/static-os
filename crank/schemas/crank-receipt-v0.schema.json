@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "static-os.crank-receipt/v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "turn_id",
+    "source",
+    "capability_id",
+    "request_sha256",
+    "input_sha256",
+    "result_sha256",
+    "budget",
+    "proposal_only",
+    "authority_effect",
+    "admission_effect",
+    "transport_effect",
+    "automatic_next_turn",
+    "carrier_profile",
+    "signature_status",
+    "laws",
+    "receipt_sha256"
+  ],
+  "properties": {
+    "schema": {
+      "const": "static-os.crank-receipt/v0"
+    },
+    "turn_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "object"
+    },
+    "capability_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "request_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "input_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "result_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "budget": {
+      "type": "object"
+    },
+    "proposal_only": {
+      "type": "boolean"
+    },
+    "authority_effect": {
+      "const": "none"
+    },
+    "admission_effect": {
+      "const": "none"
+    },
+    "transport_effect": {
+      "const": "none"
+    },
+    "automatic_next_turn": {
+      "const": false
+    },
+    "carrier_profile": {
+      "const": "canonical-json-utf8"
+    },
+    "signature_status": {
+      "const": "unsigned-local-receipt"
+    },
+    "laws": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "receipt_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}
