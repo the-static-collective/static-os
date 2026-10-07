@@ -1,0 +1,56 @@
+{
+  "schema": "static-os.bardo-generality/v0",
+  "id": "BARDO-GENERALITY-002",
+  "status": "second-family-proven-external",
+  "architecture_owner": {
+    "repository": "the-static-collective/Human-Witness",
+    "commit": "6c30bae1896db52bdb387d25b9ee577e0542e055",
+    "spec_path": "docs/superpowers/specs/2026-08-25-supabardo-crossing-field-design.md"
+  },
+  "specimens": {
+    "sb001": {
+      "family": "STATIC_OS_WORLD_RECEIPT",
+      "proof_repository": "the-static-collective/reLATTE",
+      "proof_commit": "5d96af53a730b0ce3111e8551e62030596815069",
+      "evidence_set_id": "sb001-evidence-v0:cbb5e16c8209e1978d1cc1910c4b5128fa58bdab1bb9bbd7d4112ebd0f6c5174",
+      "destination_disposition": "ADMIT",
+      "membrane_destroyed": true
+    },
+    "sb002": {
+      "family": "HAUNTED_TOASTER_CREATIVE_PROPOSAL",
+      "proof_repository": "the-static-collective/reLATTE",
+      "proof_commit": "5044bea9d30c9ee1c6c318c4a2c9113d2d2eb780",
+      "evidence_set_id": "sb002-evidence-v0:a44ce387493dec11fbd0902a8ca03f090b3d08ee79db89e53084f84195bbd581",
+      "source_repository": "the-static-collective/the-haunted-toaster",
+      "source_commit": "2c86d684138f3008344b18202b81193db0c947c7",
+      "source_path": "experiments/supabardo-sb002-001/proposal.json",
+      "source_blob_sha": "c70db798cbbe19e78d8cbe965d6cbfbac4393de1",
+      "source_sha256": "b9feba52bf6ca98f26d395d0e637d316600a856d379955c4fa47c36da4dfb545",
+      "destination_disposition": "HOLD",
+      "render_authority": false,
+      "membrane_destroyed": true,
+      "security_lints_after_destruction": 0
+    }
+  },
+  "shared_invariants": [
+    "RELEASE != ERASURE",
+    "WITNESS != AUTHORITY",
+    "OPEN != DESTINATION DISPOSITION",
+    "EXIT != DESTINATION AUTHORITY",
+    "DESTINATION MEANING REMAINS LOCAL",
+    "DURABLE RECEIPT != IMMORTAL BARDO"
+  ],
+  "generality": {
+    "materially_different_source_families": true,
+    "divergent_destination_dispositions": true,
+    "live_membrane_required_for_reconstruction": false,
+    "extraction_gate": "eligible-for-reconsideration-not-promoted"
+  },
+  "nonclaims": {
+    "standalone_supabardo_repo": false,
+    "universal_protocol": false,
+    "central_event_bus": false,
+    "persistent_bardo_storage": false,
+    "automatic_destination_authority": false
+  }
+}
