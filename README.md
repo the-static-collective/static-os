@@ -163,3 +163,25 @@ EXIT != ADMISSION
 ```
 
 STATIC OS does not start Supabase or infer current live crossings. Live unresolved state is reported as **not observed**, not zero.
+
+
+## Bardo generality
+
+[BARDO-GENERALITY-002](docs/BARDO-GENERALITY-002.md) records the second materially different successful SupaBardo specimen.
+
+```text
+SB-001  STATIC-OS world receipt        -> ADMIT
+SB-002  Haunted Toaster proposal       -> HOLD
+```
+
+Both specimens passed through an OPEN unresolved interval, received an independent receiver-local disposition, exited, lost the temporary membrane, and remained reconstructible from durable evidence.
+
+The live image carries the exact SB-002 reLATTE proof separately under `/opt/static-os/bardo-proofs/sb002-relatte`; `static-bardo status` verifies both evidence commitments offline.
+
+```text
+EXPERIMENT AUTHORIZATION != CREATIVE KEEP
+SECOND FAMILY PROVEN != STANDALONE REPO REQUIRED
+GENERALITY EVIDENCE != UNIVERSAL PROTOCOL
+```
+
+The historical second-family gate is now satisfied only as **eligible for reconsideration**. STATIC OS does not promote a SupaBardo repository, permanent service, central event bus, or destination authority.

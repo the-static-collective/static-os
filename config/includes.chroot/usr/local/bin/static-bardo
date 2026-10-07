@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""BARDO-BRIDGE-001: read-only status for the proven destructible crossing seam."""
+"""Read-only offline status for proven SupaBardo specimens."""
 from __future__ import annotations
 
 import json
@@ -10,10 +10,10 @@ from pathlib import Path
 DEFAULT_IMAGE_ROOT = Path("/")
 DEFAULT_PERSIST_ROOT = Path("/var/lib/static-os")
 WHOLE_BODY_REL = Path("usr/share/static-os/whole-body-001.json")
+GENERALITY_REL = Path("usr/share/static-os/bardo-generality-002.json")
 RELATTE_REL = Path("opt/static-os/organs/relatte")
-SB001_EVIDENCE_REL = Path("fixtures/sb001-evidence-manifest.json")
-SB001_VERIFIER_REL = Path("scripts/sb001-verify.ts")
-SB001_DOC_REL = Path("docs/SUPABARDO-SB-001.md")
+SB002_REL = Path("opt/static-os/bardo-proofs/sb002-relatte")
+SB002_WITNESS_REL = Path("usr/share/static-os/bardo-proofs/sb002-relatte.commit")
 
 
 def image_root() -> Path:
@@ -31,68 +31,97 @@ def _load_json(path: Path) -> dict:
     return value
 
 
-def inspect(image: Path, persistent: Path) -> dict:
-    manifest_path = image / WHOLE_BODY_REL
-    if not manifest_path.is_file():
-        raise ValueError(f"WHOLE-BODY manifest missing: {manifest_path}")
-    manifest = _load_json(manifest_path)
+def _proof_status(root: Path, proof: dict, specimen: str) -> dict:
+    evidence_path = root / "fixtures" / f"{specimen}-evidence-manifest.json"
+    verifier_path = root / "scripts" / f"{specimen}-verify.ts"
+    doc_path = root / "docs" / f"SUPABARDO-{specimen.upper().replace('SB00', 'SB-00')}.md"
 
-    organs = {row["id"]: row for row in manifest.get("organs", []) if isinstance(row, dict) and "id" in row}
+    evidence_present = evidence_path.is_file()
+    evidence_id = None
+    if evidence_present:
+        evidence_id = _load_json(evidence_path).get("evidence_set_id")
+    expected = proof.get("evidence_set_id")
+    return {
+        "family": proof.get("family"),
+        "proof_repository": proof.get("proof_repository"),
+        "proof_commit": proof.get("proof_commit"),
+        "evidence_set_id": expected,
+        "evidence_manifest_present": evidence_present,
+        "evidence_set_matches": evidence_present and evidence_id == expected,
+        "verifier_present": verifier_path.is_file(),
+        "proof_doc_present": doc_path.is_file(),
+        "destination_disposition": proof.get("destination_disposition"),
+        "membrane_destroyed": proof.get("membrane_destroyed"),
+    }
+
+
+def inspect(image: Path, persistent: Path) -> dict:
+    whole_path = image / WHOLE_BODY_REL
+    generality_path = image / GENERALITY_REL
+    if not whole_path.is_file():
+        raise ValueError(f"WHOLE-BODY manifest missing: {whole_path}")
+    if not generality_path.is_file():
+        raise ValueError(f"Bardo generality manifest missing: {generality_path}")
+
+    whole = _load_json(whole_path)
+    generality = _load_json(generality_path)
+    organs = {
+        row["id"]: row
+        for row in whole.get("organs", [])
+        if isinstance(row, dict) and "id" in row
+    }
     sb = organs.get("supabardo")
     relatte = organs.get("relatte")
     if not isinstance(sb, dict) or not isinstance(relatte, dict):
         raise ValueError("WHOLE-BODY manifest lacks SupaBardo/reLATTE bindings")
 
-    proof = sb.get("proof")
-    if not isinstance(proof, dict):
-        raise ValueError("WHOLE-BODY manifest lacks SB-001 proof binding")
+    sb1_manifest = generality.get("specimens", {}).get("sb001", {})
+    sb2_manifest = generality.get("specimens", {}).get("sb002", {})
+    if not isinstance(sb1_manifest, dict) or not isinstance(sb2_manifest, dict):
+        raise ValueError("Bardo generality manifest lacks both specimens")
 
-    relatte_root = image / RELATTE_REL
-    evidence_path = relatte_root / SB001_EVIDENCE_REL
-    verifier_path = relatte_root / SB001_VERIFIER_REL
-    doc_path = relatte_root / SB001_DOC_REL
+    sb1_root = image / RELATTE_REL
+    sb2_root = image / SB002_REL
+    sb1 = _proof_status(sb1_root, sb1_manifest, "sb001")
+    sb2 = _proof_status(sb2_root, sb2_manifest, "sb002")
 
-    evidence_present = evidence_path.is_file()
-    evidence_id = None
-    if evidence_present:
-        evidence = _load_json(evidence_path)
-        evidence_id = evidence.get("evidence_set_id")
+    witness_path = image / SB002_WITNESS_REL
+    witness = witness_path.read_text(encoding="utf-8").strip() if witness_path.is_file() else None
+    sb2["commit_witness_present"] = witness_path.is_file()
+    sb2["commit_witness_matches"] = witness == sb2_manifest.get("proof_commit")
+    sb2["render_authority"] = sb2_manifest.get("render_authority")
+    sb2["security_lints_after_destruction"] = sb2_manifest.get(
+        "security_lints_after_destruction"
+    )
 
-    expected_evidence = proof.get("evidence_set_id")
-    evidence_matches = evidence_present and evidence_id == expected_evidence
+    if sb1["evidence_manifest_present"] and not sb1["evidence_set_matches"]:
+        raise ValueError("bundled SB-001 evidence set does not match generality pin")
+    if sb2["evidence_manifest_present"] and not sb2["evidence_set_matches"]:
+        raise ValueError("bundled SB-002 evidence set does not match generality pin")
+    if sb2["commit_witness_present"] and not sb2["commit_witness_matches"]:
+        raise ValueError("bundled SB-002 proof commit witness mismatch")
 
     root_initialized = (persistent / "root.json").is_file()
     exports = persistent / "crossing-exports"
-    export_count = 0
-    if exports.is_dir():
-        export_count = sum(1 for path in exports.rglob("*") if path.is_file())
-
+    export_count = (
+        sum(1 for path in exports.rglob("*") if path.is_file()) if exports.is_dir() else 0
+    )
     forbidden_interior = persistent / "organs" / "supabardo"
-    result = {
-        "schema": "static-os.bardo-status/v0",
+    if forbidden_interior.exists():
+        raise ValueError("persistent SupaBardo interior violates Bardo boundary")
+
+    return {
+        "schema": "static-os.bardo-status/v1",
         "mode": "read-only-offline-status",
         "architecture": {
-            "owner_repository": sb.get("repository"),
-            "owner_commit": sb.get("commit"),
-            "spec_path": sb.get("spec_path"),
-            "law": manifest.get("supabardo", {}).get("law"),
-            "lifecycle": manifest.get("supabardo", {}).get("lifecycle", []),
+            "owner_repository": generality.get("architecture_owner", {}).get("repository"),
+            "owner_commit": generality.get("architecture_owner", {}).get("commit"),
+            "spec_path": generality.get("architecture_owner", {}).get("spec_path"),
+            "law": whole.get("supabardo", {}).get("law"),
+            "lifecycle": whole.get("supabardo", {}).get("lifecycle", []),
         },
-        "sb001": {
-            "status": manifest.get("claims", {}).get("supabardo_sb001"),
-            "proof_repository": proof.get("repository"),
-            "proof_commit": proof.get("commit"),
-            "relatte_source_commit": relatte.get("commit"),
-            "evidence_set_id": expected_evidence,
-            "evidence_manifest_present": evidence_present,
-            "evidence_set_matches": evidence_matches,
-            "verifier_present": verifier_path.is_file(),
-            "proof_doc_present": doc_path.is_file(),
-            "runtime_destroyed_after_export": proof.get("runtime_destroyed_after_export"),
-            "reconstruction_requires_live_membrane": proof.get(
-                "reconstruction_requires_live_membrane"
-            ),
-        },
+        "specimens": {"sb001": sb1, "sb002": sb2},
+        "generality": generality.get("generality", {}),
         "live_membrane": {
             "queried": False,
             "state": "not-observed",
@@ -103,20 +132,16 @@ def inspect(image: Path, persistent: Path) -> dict:
             "persistent_root_initialized": root_initialized,
             "crossing_exports_path": str(exports),
             "durable_export_files": export_count,
-            "supabardo_persistent_interior_present": forbidden_interior.exists(),
-            "boundary_ok": not forbidden_interior.exists(),
+            "supabardo_persistent_interior_present": False,
+            "boundary_ok": True,
         },
         "authority": {
             "canonical_memory_owner": False,
             "automatic_admission": False,
             "destination_meaning": "receiver-local",
+            "standalone_repo_promoted": False,
         },
     }
-    if evidence_present and not evidence_matches:
-        raise ValueError("bundled SB-001 evidence set does not match WHOLE-BODY pin")
-    if forbidden_interior.exists():
-        raise ValueError("persistent SupaBardo interior violates BARDO-BRIDGE-001")
-    return result
 
 
 def main(argv=None) -> int:

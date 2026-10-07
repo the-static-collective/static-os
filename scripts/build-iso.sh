@@ -6,10 +6,12 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 MANIFEST="$ROOT/manifest/genesis-001.json"
 WHOLE_BODY_MANIFEST="$ROOT/manifest/whole-body-001.json"
 PERSISTENT_ROOT_MANIFEST="$ROOT/manifest/persistent-root-001.json"
+BARDO_GENERALITY_MANIFEST="$ROOT/manifest/bardo-generality-002.json"
 
 python3 "$ROOT/scripts/validate-manifest.py" "$MANIFEST"
 python3 "$ROOT/scripts/validate-whole-body.py" "$WHOLE_BODY_MANIFEST"
 python3 "$ROOT/scripts/validate-persistent-root.py" "$PERSISTENT_ROOT_MANIFEST"
+python3 "$ROOT/scripts/validate-bardo-generality.py" "$BARDO_GENERALITY_MANIFEST"
 
 if [[ "${EUID}" -ne 0 ]]; then
   echo "REFUSE: live-build needs root; run in a dedicated build VM, not the Zorin host." >&2
@@ -61,6 +63,8 @@ install -m 0644 "$WHOLE_BODY_MANIFEST" \
   config/includes.chroot/usr/share/static-os/whole-body-001.json
 install -m 0644 "$PERSISTENT_ROOT_MANIFEST" \
   config/includes.chroot/usr/share/static-os/persistent-root-001.json
+install -m 0644 "$BARDO_GENERALITY_MANIFEST" \
+  config/includes.chroot/usr/share/static-os/bardo-generality-002.json
 
 python3 - "$WHOLE_BODY_MANIFEST" <<'PY' > whole-body-sources.tsv
 import json, sys
@@ -92,6 +96,26 @@ done < whole-body-sources.tsv
 
 rm -f whole-body-sources.tsv
 rm -rf house-fetch
+
+# BARDO-GENERALITY-002 carries the exact second-family proof separately from
+# the WHOLE-BODY reLATTE pin so historical SB-001 identity is not rewritten.
+SB002_REPO="$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(d["specimens"]["sb002"]["proof_repository"])' "$BARDO_GENERALITY_MANIFEST")"
+SB002_SHA="$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(d["specimens"]["sb002"]["proof_commit"])' "$BARDO_GENERALITY_MANIFEST")"
+SB002_URL="https://github.com/$SB002_REPO.git"
+git init -q sb002-proof-fetch
+git -C sb002-proof-fetch remote add origin "$SB002_URL"
+git -C sb002-proof-fetch -c protocol.version=2 fetch --depth=1 origin "$SB002_SHA"
+test "$(git -C sb002-proof-fetch rev-parse FETCH_HEAD)" = "$SB002_SHA" || {
+  echo "REFUSE: SB-002 proof SHA mismatch" >&2
+  exit 2
+}
+mkdir -p config/includes.chroot/opt/static-os/bardo-proofs/sb002-relatte \
+  config/includes.chroot/usr/share/static-os/bardo-proofs
+git -C sb002-proof-fetch archive "$SB002_SHA" | \
+  tar -xf - -C config/includes.chroot/opt/static-os/bardo-proofs/sb002-relatte
+printf '%s\n' "$SB002_SHA" > \
+  config/includes.chroot/usr/share/static-os/bardo-proofs/sb002-relatte.commit
+rm -rf sb002-proof-fetch
 
 lb build
 
