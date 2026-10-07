@@ -1,0 +1,30 @@
+{
+  "schema": "static-os.crank-capability-registry/v0",
+  "node_id": "static-os:cranknode:founding-001",
+  "capabilities": [
+    {
+      "id": "TEXT.HASH",
+      "description": "Hash one UTF-8 text particular.",
+      "handler": "hash-text",
+      "cost_units": 1,
+      "proposal_only": false,
+      "authority": "none"
+    },
+    {
+      "id": "TEXT.UPPERCASE",
+      "description": "Transform one text particular to uppercase.",
+      "handler": "uppercase-text",
+      "cost_units": 1,
+      "proposal_only": false,
+      "authority": "none"
+    },
+    {
+      "id": "AI.PROPOSE",
+      "description": "Exercise the replaceable AI-organ seam without granting decision authority.",
+      "handler": "proposal-echo",
+      "cost_units": 2,
+      "proposal_only": true,
+      "authority": "none"
+    }
+  ]
+}
