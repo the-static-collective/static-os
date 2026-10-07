@@ -14,6 +14,7 @@ jobs:
           python3 scripts/validate-manifest.py manifest/genesis-001.json
           python3 scripts/validate-whole-body.py manifest/whole-body-001.json
           python3 scripts/validate-persistent-root.py manifest/persistent-root-001.json
+          python3 scripts/validate-bardo-generality.py manifest/bardo-generality-002.json
       - name: Validate script syntax
         run: |
           bash -n scripts/build-iso.sh
@@ -26,6 +27,7 @@ jobs:
           python3 -m py_compile scripts/validate-persistent-root.py
           python3 -m py_compile config/includes.chroot/usr/local/bin/static-persist
           python3 -m py_compile config/includes.chroot/usr/local/bin/static-bardo
+          python3 -m py_compile scripts/validate-bardo-generality.py
           sh -n config/hooks/live/010-install-house.hook.chroot
           sh -n config/includes.chroot/usr/local/bin/static-house-launch
           sh -n config/includes.chroot/usr/local/bin/static-elf-proof
@@ -69,6 +71,8 @@ jobs:
           test -r config/package-lists/persistent-root.list.chroot
           test -r config/includes.chroot/usr/local/bin/static-bardo
           test -r docs/BARDO-BRIDGE-001.md
+          test -r manifest/bardo-generality-002.json
+          test -r docs/BARDO-GENERALITY-002.md
 
   living-codex-endpoint:
     runs-on: ubuntu-latest
@@ -255,3 +259,69 @@ jobs:
         run: npm install --ignore-scripts --no-audit --no-fund --prefix .ci-sb001-relatte
       - name: Replay SB-001 full verification
         run: npm run verify --prefix .ci-sb001-relatte
+
+  supabardo-sb002-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Read exact SB-002 pins
+        id: pins
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          d=json.load(open('manifest/bardo-generality-002.json'))
+          s=d['specimens']['sb002']
+          print('proof_commit='+s['proof_commit'])
+          print('source_commit='+s['source_commit'])
+          print('source_path='+s['source_path'])
+          print('source_sha256='+s['source_sha256'])
+          print('evidence_set_id='+s['evidence_set_id'])
+          PY
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: the-static-collective/reLATTE
+          ref: ${{ steps.pins.outputs.proof_commit }}
+          path: .ci-sb002-relatte
+          persist-credentials: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: the-static-collective/the-haunted-toaster
+          ref: ${{ steps.pins.outputs.source_commit }}
+          path: .ci-sb002-toaster
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+      - name: Verify exact source, bytes, and evidence commitment
+        shell: bash
+        env:
+          PROOF_COMMIT: ${{ steps.pins.outputs.proof_commit }}
+          SOURCE_COMMIT: ${{ steps.pins.outputs.source_commit }}
+          SOURCE_PATH: ${{ steps.pins.outputs.source_path }}
+          SOURCE_SHA256: ${{ steps.pins.outputs.source_sha256 }}
+          EVIDENCE_SET_ID: ${{ steps.pins.outputs.evidence_set_id }}
+        run: |
+          set -eu
+          test "$(git -C .ci-sb002-relatte rev-parse HEAD)" = "$PROOF_COMMIT"
+          test "$(git -C .ci-sb002-toaster rev-parse HEAD)" = "$SOURCE_COMMIT"
+          cmp ".ci-sb002-toaster/$SOURCE_PATH" .ci-sb002-relatte/fixtures/sb002-toaster-proposal.json
+          printf '%s  %s\n' "$SOURCE_SHA256" ".ci-sb002-toaster/$SOURCE_PATH" | sha256sum -c -
+          python3 - <<'PY'
+          import json, os
+          d=json.load(open('.ci-sb002-relatte/fixtures/sb002-evidence-manifest.json'))
+          assert d['evidence_set_id'] == os.environ['EVIDENCE_SET_ID']
+          assert d['body']['destination_disposition'] == 'HOLD'
+          print('SB-002 evidence pin matches:', d['evidence_set_id'])
+          PY
+      - name: Verify Toaster proposal boundary
+        run: node .ci-sb002-toaster/src/full-measure/tests/sb002-bardo-proposal.test.cjs
+      - name: Install bounded SB-002 proof dependencies
+        run: npm install --ignore-scripts --no-audit --no-fund --prefix .ci-sb002-relatte
+      - name: Replay SB-002 full verification
+        run: npm run verify --prefix .ci-sb002-relatte
