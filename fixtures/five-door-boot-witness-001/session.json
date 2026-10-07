@@ -1,0 +1,101 @@
+{
+  "schema": "static-os.five-door-session/v0",
+  "id": "FIVE-DOOR-SESSION-SYNTHETIC-001",
+  "synthetic": true,
+  "real_source_bytes": false,
+  "particular": {
+    "id": "synthetic:five-door-parent-001",
+    "admission": "SYNTHETIC_ADMITTED_FOR_HARNESS_ONLY",
+    "authority": "fixture-only-no-real-authority"
+  },
+  "human_intent": "derive sibling expressions without changing parent authority",
+  "dispatch": {
+    "automatic": false,
+    "decision": "human-explicit-synthetic-fixture",
+    "selected_doors": ["PRESENT", "MOTION", "SOUND", "VOICE", "PRINT"]
+  },
+  "branches": [
+    {
+      "id": "life:present:001",
+      "door": "PRESENT",
+      "parent": "synthetic:five-door-parent-001",
+      "intent": "derive sibling expressions without changing parent authority",
+      "phase": "RETURNED",
+      "disposition": "ADMIT",
+      "real_execution": false,
+      "canonical_result": false,
+      "may_mutate_sibling": false
+    },
+    {
+      "id": "life:motion:001",
+      "door": "MOTION",
+      "parent": "synthetic:five-door-parent-001",
+      "intent": "derive sibling expressions without changing parent authority",
+      "phase": "RETURNED",
+      "disposition": "HOLD",
+      "real_execution": false,
+      "canonical_result": false,
+      "may_mutate_sibling": false
+    },
+    {
+      "id": "life:sound:001",
+      "door": "SOUND",
+      "parent": "synthetic:five-door-parent-001",
+      "intent": "derive sibling expressions without changing parent authority",
+      "phase": "IN_FLIGHT",
+      "disposition": null,
+      "real_execution": false,
+      "canonical_result": false,
+      "may_mutate_sibling": false
+    },
+    {
+      "id": "life:voice:001",
+      "door": "VOICE",
+      "parent": "synthetic:five-door-parent-001",
+      "intent": "derive sibling expressions without changing parent authority",
+      "phase": "RETURNED",
+      "disposition": "REFUSE",
+      "real_execution": false,
+      "canonical_result": false,
+      "may_mutate_sibling": false
+    },
+    {
+      "id": "life:print:001",
+      "door": "PRINT",
+      "parent": "synthetic:five-door-parent-001",
+      "intent": "derive sibling expressions without changing parent authority",
+      "phase": "RETURNED",
+      "disposition": "HOLD",
+      "real_execution": false,
+      "canonical_result": false,
+      "may_mutate_sibling": false
+    }
+  ],
+  "return_tray": {
+    "automatic_admission": false,
+    "independent_disposition": true,
+    "returned_branch_ids": [
+      "life:present:001",
+      "life:motion:001",
+      "life:voice:001",
+      "life:print:001"
+    ]
+  },
+  "shutdown_snapshot": {
+    "branch_states": {
+      "life:present:001": {"phase": "RETURNED", "disposition": "ADMIT"},
+      "life:motion:001": {"phase": "RETURNED", "disposition": "HOLD"},
+      "life:sound:001": {"phase": "IN_FLIGHT", "disposition": null},
+      "life:voice:001": {"phase": "RETURNED", "disposition": "REFUSE"},
+      "life:print:001": {"phase": "RETURNED", "disposition": "HOLD"}
+    },
+    "unfinished_branch_ids": ["life:sound:001"]
+  },
+  "reboot_expectation": {
+    "preserve_exact_branch_states": true,
+    "infer_completion": false,
+    "same_process_inferred": false,
+    "actual_shutdown_executed": false,
+    "actual_reboot_executed": false
+  }
+}
