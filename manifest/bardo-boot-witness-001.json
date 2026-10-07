@@ -1,0 +1,62 @@
+{
+  "schema": "static-os.bardo-boot-witness/v0",
+  "id": "BARDO-BOOT-WITNESS-001",
+  "title": "INVITATION",
+  "status": "host-executed-exact-byte-witness",
+  "stacked_on": {
+    "static_os_pr": 40,
+    "static_os_commit": "7f39c43efb90ce1c4a4014ecd66acde2c2a2a89a",
+    "relatte_commit": "5d96af53a730b0ce3111e8551e62030596815069",
+    "architecture_owner": "the-static-collective/Human-Witness"
+  },
+  "source": {
+    "particular": "sha256:af82b9a3b2d5eeb1ce3d58038b3415ca62f0815bd6f0a04662ec8cf5b773d171",
+    "byte_length": 670478,
+    "observed_name": "1000018575.png",
+    "detected_media_type": "image/jpeg",
+    "filename_media_type_mismatch": true,
+    "bytes_vendored_in_repository": false
+  },
+  "lifecycle": [
+    "SOURCE",
+    "DISPATCH",
+    "RELEASE",
+    "BARDO_HOLD",
+    "LOCAL_ADMIT",
+    "BARDO_EXIT",
+    "CORPUS",
+    "TRANCHNODE",
+    "HOST_ROOT_REOPEN_VERIFY"
+  ],
+  "admission": {
+    "mandatory_hold": true,
+    "automatic": false,
+    "decision": "ADMIT",
+    "authority": "destination-local-human-explicit"
+  },
+  "evidence": {
+    "directory": "fixtures/bardo-boot-witness-001",
+    "cryptographic_verifier": "the-static-collective/reLATTE@5d96af53a730b0ce3111e8551e62030596815069",
+    "source_byte_recheck_requires_external_original": true
+  },
+  "claims": {
+    "signed_crossing_and_receipts_present": true,
+    "exact_byte_identity_observed_during_host_execution": true,
+    "host_root_reopen_proven": true,
+    "actual_process_restart_proven": false,
+    "vm_cold_boot_proven": false,
+    "physical_cold_boot_proven": false,
+    "live_supabardo_membrane_used": false,
+    "second_live_membrane_crossing_proven": false,
+    "supabardo_extraction_gate_satisfied": false
+  },
+  "laws": [
+    "THE PARTICULAR IS THE BYTES",
+    "FILENAME != BYTES",
+    "ARRIVAL != ADMISSION",
+    "HOLD != ADMIT",
+    "DESTINATION MEANING REMAINS LOCAL",
+    "BARDO MAY DIE; DURABLE RECEIPTS MAY SURVIVE",
+    "ROOT IDENTITY != BOOT IDENTITY"
+  ]
+}
