@@ -1,0 +1,52 @@
+{
+  "schema": "relatte.crossing-envelope/v0",
+  "protocol_version": "0",
+  "source_particular": "static-os:particular:invitation",
+  "source_world": "static-os:bardo-boot-witness-001:boot-a",
+  "source_history_head": "5d96af53a730b0ce3111e8551e62030596815069",
+  "parents": [],
+  "declared_kind": "STATIC_OS_IMAGE_PARTICULAR",
+  "payload_refs": [
+    {
+      "address": "sha256:af82b9a3b2d5eeb1ce3d58038b3415ca62f0815bd6f0a04662ec8cf5b773d171",
+      "role": "invitation-image",
+      "media_type": "image/jpeg",
+      "byte_length": 670478
+    }
+  ],
+  "requested_effect": {
+    "destination_disposition": "local"
+  },
+  "capability_ref": null,
+  "privacy_policy": {
+    "field": "bounded",
+    "retention": "decay-after-export"
+  },
+  "audience_policy": {
+    "destination": "static-os:local-corpus"
+  },
+  "return_address": "supabardo:return:bardo-boot-witness-001",
+  "created_at": "2026-10-07T00:35:03.863Z",
+  "extensions": {
+    "bardo_boot_witness_001": {
+      "title": "INVITATION",
+      "observed_source_name": "1000018575.png",
+      "detected_media_type": "image/jpeg",
+      "filename_media_type_mismatch": true,
+      "relatte_proof_pin": "5d96af53a730b0ce3111e8551e62030596815069",
+      "claim_limit": "Host-executed exact-byte crossing; not VM or physical cold-boot proof."
+    }
+  },
+  "crossing_id": "relatte-crossing-v0:d73bc639fd5ed5a687f083e2ca9a5e9507bafa415e207bbb5434674d935e2b8a",
+  "signing": {
+    "algorithm": "ECDSA-P256-SHA256",
+    "public_key": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "jKUSqYc_cvvkjdanvNMIf7l66fSVTH4T5oU6fVep0pE",
+      "y": "66hjjXvU-uwLrmlyQGLtNF-mhUzyiQczXuVsnpbLH0U"
+    },
+    "domain": "relatte.crossing-signature/v0",
+    "signature": "pdlG0l98g5xkGrF1_nxaACy4Ku5w8YGlrbhH7hWVi9SDzJQB-XHDruLbegA74CxGX_2saO4yeFjbnAj_V-s0kA"
+  }
+}
