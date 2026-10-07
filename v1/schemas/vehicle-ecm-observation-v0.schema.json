@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "static-os.v1-vehicle-ecm-observation/v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "vehicle_ref", "source_adapter", "session_id",
+    "observed_at", "signals", "trouble_codes"
+  ],
+  "properties": {
+    "schema": {"const": "static-os.v1-vehicle-ecm-observation/v0"},
+    "vehicle_ref": {"type": "string", "minLength": 1},
+    "source_adapter": {"type": "string", "minLength": 1},
+    "session_id": {"type": "string", "minLength": 1},
+    "observed_at": {"type": "string", "minLength": 1},
+    "signals": {"type": "object"},
+    "trouble_codes": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1, "maxLength": 16}
+    }
+  }
+}

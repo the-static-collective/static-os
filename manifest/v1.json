@@ -1,0 +1,38 @@
+{
+  "schema": "static-os.world-version/v0",
+  "id": "V1",
+  "name": "V1",
+  "status": "named-architecture-with-executable-substrates",
+  "stacked_on": {
+    "static_os_pr": 49,
+    "static_os_commit": "7c80ccca540464e6fae8c412bbb6c365ad883366"
+  },
+  "thesis": "THE WORLD IS THE BUS",
+  "organs": [
+    "CRANK",
+    "MODEL_CARTRIDGE",
+    "WORLD_BUS",
+    "PAPER_BOOTLOADER",
+    "CLOCKWORK_COMPUTE_FIELD",
+    "SLOW_INTERNET",
+    "MECHANICAL_BUDGET",
+    "GHOST_MACHINES",
+    "BOILER_ROOM",
+    "VEHICLE_ECM"
+  ],
+  "vehicle_ecm": {
+    "mode": "observation-only",
+    "vehicle_control_authority": "none",
+    "diagnostic_write_authority": "none",
+    "safety_critical_actuation": "forbidden"
+  },
+  "claims": {
+    "v1_architecture_named": true,
+    "vehicle_ecm_observation_adapter_executable": true,
+    "vehicle_ecm_fixture_receipt_executable": true,
+    "live_vehicle_connected": false,
+    "vehicle_bus_opened_by_repository_code": false,
+    "vehicle_control_executed": false,
+    "vehicle_reflash_executed": false
+  }
+}
