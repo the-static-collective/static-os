@@ -1,0 +1,39 @@
+{
+  "schema": "static-os.life-authoring.occurrence-receipt/v0",
+  "occurrence_id": "open-page-001:occurrence:roundtrip-001",
+  "action_id": "open-page-001:act:roundtrip-001",
+  "witness": "github-api-observation",
+  "status": "OBSERVED_REPOSITORY_MUTATION",
+  "observed": {
+    "repository": "the-static-collective/static-os",
+    "branch": "experiment/life-authoring-open-page-001",
+    "before_head": "1c3741293afd153b3e2d8f5d6ba848e48d2f4110",
+    "after_action_commit": "20dc9202f08796cd457d0c8f287ba64471300174",
+    "after_action_commit_url": "https://github.com/the-static-collective/static-os/commit/20dc9202f08796cd457d0c8f287ba64471300174",
+    "after_action_commit_timestamp": "2026-10-07T01:42:11Z",
+    "source_manifest_git_blob": "a913665b0e7319e782f2237afabc41b5b4d6a7ca",
+    "source_open_page_git_blob": "8bd8a206b121ac682b92d6f7eda107839475aa08",
+    "roundtrip_files_present": [
+      "specimens/open-page-001/roundtrip-001/door-proposal.json",
+      "specimens/open-page-001/roundtrip-001/choice-receipt.json",
+      "specimens/open-page-001/roundtrip-001/act-contract.json"
+    ],
+    "pull_request": 44,
+    "pull_request_state": "open",
+    "pull_request_draft": true
+  },
+  "external_world_consequence": "NOT_OBSERVED",
+  "original_source_page_rewritten": false,
+  "semantic_effect": "repository-state-only",
+  "non_claims": [
+    "A GitHub commit does not establish any downstream event in the depicted life.",
+    "This witness confirms repository state, not the human's identity or unrecorded intentions.",
+    "No GHoT Rack dispatch, TranchNOSE FIELD LAB run, or external admission is claimed."
+  ],
+  "laws": [
+    "EXECUTION != CONSEQUENCE",
+    "OBSERVED REPOSITORY MUTATION != EXTERNAL LIFE CONSEQUENCE",
+    "COUNTERFACTUAL != HISTORY",
+    "PAGE 001 REMAINS HISTORICALLY OPEN"
+  ]
+}
