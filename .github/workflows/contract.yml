@@ -25,6 +25,7 @@ jobs:
           python3 -m py_compile config/includes.chroot/usr/local/bin/static-whole-body
           python3 -m py_compile scripts/validate-persistent-root.py
           python3 -m py_compile config/includes.chroot/usr/local/bin/static-persist
+          python3 -m py_compile config/includes.chroot/usr/local/bin/static-bardo
           sh -n config/hooks/live/010-install-house.hook.chroot
           sh -n config/includes.chroot/usr/local/bin/static-house-launch
           sh -n config/includes.chroot/usr/local/bin/static-elf-proof
@@ -66,6 +67,8 @@ jobs:
           test -r config/includes.chroot/etc/systemd/system/static-persist-boot.service
           test -r 'config/includes.chroot/etc/systemd/system/var-lib-static\x2dos.mount'
           test -r config/package-lists/persistent-root.list.chroot
+          test -r config/includes.chroot/usr/local/bin/static-bardo
+          test -r docs/BARDO-BRIDGE-001.md
 
   living-codex-endpoint:
     runs-on: ubuntu-latest
@@ -201,3 +204,54 @@ jobs:
           if test -f "$RUNNER_TEMP/roadkit-001/roadkit-001-proof.json"; then
             cat "$RUNNER_TEMP/roadkit-001/roadkit-001-proof.json"
           fi
+
+  supabardo-sb001-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Read exact SB-001 proof pin
+        id: pin
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          data=json.load(open('manifest/whole-body-001.json'))
+          sb=next(row for row in data['organs'] if row['id']=='supabardo')
+          relatte=next(row for row in data['organs'] if row['id']=='relatte')
+          proof=sb['proof']
+          assert proof['commit'] == relatte['commit']
+          print('commit='+proof['commit'])
+          print('evidence_set_id='+proof['evidence_set_id'])
+          PY
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: the-static-collective/reLATTE
+          ref: ${{ steps.pin.outputs.commit }}
+          path: .ci-sb001-relatte
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+      - name: Verify exact SB-001 source and evidence commitment
+        shell: bash
+        run: |
+          set -eu
+          test "$(git -C .ci-sb001-relatte rev-parse HEAD)" = "${{ steps.pin.outputs.commit }}"
+          python3 - <<'PY'
+          import json, os
+          data=json.load(open('.ci-sb001-relatte/fixtures/sb001-evidence-manifest.json'))
+          expected=os.environ['EXPECTED_SB001_EVIDENCE_SET']
+          assert data['evidence_set_id'] == expected
+          print('SB-001 evidence pin matches:', expected)
+          PY
+        env:
+          EXPECTED_SB001_EVIDENCE_SET: ${{ steps.pin.outputs.evidence_set_id }}
+      - name: Install bounded proof dependencies
+        run: npm install --ignore-scripts --no-audit --no-fund --prefix .ci-sb001-relatte
+      - name: Replay SB-001 full verification
+        run: npm run verify --prefix .ci-sb001-relatte
