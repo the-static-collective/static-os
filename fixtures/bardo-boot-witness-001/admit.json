@@ -1,0 +1,42 @@
+{
+  "schema": "relatte.receipt/v0",
+  "crossing_id": "relatte-crossing-v0:d73bc639fd5ed5a687f083e2ca9a5e9507bafa415e207bbb5434674d935e2b8a",
+  "world_id": "static-os:local-corpus",
+  "receiver_particular": "corpus:particular:invitation",
+  "kind": "R3_ADMIT",
+  "semantic_effect": "local-constitution",
+  "contract_ref": "relatte:r3-local/v0",
+  "pre_state_ref": "corpus:before:bardo-boot-witness-001",
+  "post_state_ref": "sha256:af82b9a3b2d5eeb1ce3d58038b3415ca62f0815bd6f0a04662ec8cf5b773d171",
+  "descendant_refs": [
+    "tranchnode:particular:sha256:af82b9a3b2d5eeb1ce3d58038b3415ca62f0815bd6f0a04662ec8cf5b773d171"
+  ],
+  "residual_refs": [],
+  "note": "destination locally admits after explicit human approval; authority is not inherited from source or Bardo",
+  "created_at": "2026-10-07T00:35:06.863Z",
+  "extensions": {
+    "local_receiver": {
+      "disposition": "ADMIT",
+      "authority_basis": "explicit-human-approval",
+      "authority_proof": "not-independently-auditable-from-repository-alone",
+      "supabardo_unresolved_receipt_id": "relatte-receipt-v0:66f410a253f32da889e63ff92f3afca986bbd6993c057f7149fc54613dc1923a",
+      "laws": [
+        "RECEIPT != ADMISSION",
+        "HOLD != ADMIT",
+        "AUTHORITY IS LOCAL"
+      ]
+    }
+  },
+  "receipt_id": "relatte-receipt-v0:2d4b566a7239bfce8d99e9f00c1192169b20f43045aaf6a2fc483f2046dc7857",
+  "signing": {
+    "algorithm": "ECDSA-P256-SHA256",
+    "public_key": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "INAyCVzHgnnX1_qd2i-3iijTitca6wY1d6lBlkHdV8A",
+      "y": "y_r-0gA0oUVdoCq8ekg3GAxcDfkZrjMjPk9k4NppHxU"
+    },
+    "domain": "relatte.receipt-signature/v0",
+    "signature": "p87sq4GhsUFu2mUt8s_SruSh11uUhtVS_nTvG1oBiWOSdNEKqi_shsluLdm0Y7O0wgpvjR-zQZ5fiXS-oXNCng"
+  }
+}

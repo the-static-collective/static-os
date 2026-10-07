@@ -1,0 +1,38 @@
+{
+  "schema": "relatte.receipt/v0",
+  "crossing_id": "relatte-crossing-v0:d73bc639fd5ed5a687f083e2ca9a5e9507bafa415e207bbb5434674d935e2b8a",
+  "world_id": "supabardo:bardo-boot-witness-001",
+  "receiver_particular": "crossing-field:bardo-boot-witness-001",
+  "kind": "BBW001_EXIT",
+  "semantic_effect": "none",
+  "contract_ref": "supabardo:bardo-boot-witness-001/v0",
+  "pre_state_ref": "relatte-receipt-v0:66f410a253f32da889e63ff92f3afca986bbd6993c057f7149fc54613dc1923a",
+  "post_state_ref": "relatte-receipt-v0:2d4b566a7239bfce8d99e9f00c1192169b20f43045aaf6a2fc483f2046dc7857",
+  "descendant_refs": [],
+  "residual_refs": [],
+  "note": "field exits because an attributable destination-local disposition exists",
+  "created_at": "2026-10-07T00:35:07.863Z",
+  "extensions": {
+    "supabardo": {
+      "state_before_exit": "OPEN",
+      "terminal_occurrence": "EXIT",
+      "destination_disposition_receipt_id": "relatte-receipt-v0:2d4b566a7239bfce8d99e9f00c1192169b20f43045aaf6a2fc483f2046dc7857",
+      "laws": [
+        "EXIT != ADMISSION",
+        "DESTINATION MEANING REMAINS LOCAL"
+      ]
+    }
+  },
+  "receipt_id": "relatte-receipt-v0:34226313c9274771020559c05f99b26aabdf2784b63ea2ef4fa88176f1938f1b",
+  "signing": {
+    "algorithm": "ECDSA-P256-SHA256",
+    "public_key": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "hyRdLKvzt9oYcH8x6Ue4S90B6W0A0kbo7GzGWAlYo1I",
+      "y": "LwKV122WSyqpaSfnJC4g8_8afhlWOXg0_1iMCUGYAFk"
+    },
+    "domain": "relatte.receipt-signature/v0",
+    "signature": "4u-qPbf51pIBybVDf2Z_IskCI_QB1vlcSMcvE83T0nxwX7wjUjjUgBFG4tPbw5vgxrxZmOwR39_ioVryNLdtTg"
+  }
+}

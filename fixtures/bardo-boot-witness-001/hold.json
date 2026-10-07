@@ -1,0 +1,47 @@
+{
+  "schema": "relatte.receipt/v0",
+  "crossing_id": "relatte-crossing-v0:d73bc639fd5ed5a687f083e2ca9a5e9507bafa415e207bbb5434674d935e2b8a",
+  "world_id": "supabardo:bardo-boot-witness-001",
+  "receiver_particular": "crossing-field:bardo-boot-witness-001",
+  "kind": "BBW001_HOLD",
+  "semantic_effect": "none",
+  "contract_ref": "supabardo:bardo-boot-witness-001/v0",
+  "pre_state_ref": "relatte-receipt-v0:e66c63d4d1ad4545feb3b6d409b49e159fab0a56b9c6e881ee192e97705788b1",
+  "post_state_ref": "relatte-crossing-v0:d73bc639fd5ed5a687f083e2ca9a5e9507bafa415e207bbb5434674d935e2b8a",
+  "descendant_refs": [],
+  "residual_refs": [
+    "sha256:af82b9a3b2d5eeb1ce3d58038b3415ca62f0815bd6f0a04662ec8cf5b773d171"
+  ],
+  "note": "mandatory unresolved interval: arrival is not admission",
+  "created_at": "2026-10-07T00:35:05.863Z",
+  "extensions": {
+    "supabardo": {
+      "state": "OPEN",
+      "occurrence_classes": [
+        "ENTER",
+        "FORM",
+        "WITNESS",
+        "WAIT"
+      ],
+      "destination_disposition": null,
+      "mandatory_hold": true,
+      "laws": [
+        "OPEN != ADMITTED",
+        "HOLD != ADMIT",
+        "WITNESS != AUTHORITY"
+      ]
+    }
+  },
+  "receipt_id": "relatte-receipt-v0:66f410a253f32da889e63ff92f3afca986bbd6993c057f7149fc54613dc1923a",
+  "signing": {
+    "algorithm": "ECDSA-P256-SHA256",
+    "public_key": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "hyRdLKvzt9oYcH8x6Ue4S90B6W0A0kbo7GzGWAlYo1I",
+      "y": "LwKV122WSyqpaSfnJC4g8_8afhlWOXg0_1iMCUGYAFk"
+    },
+    "domain": "relatte.receipt-signature/v0",
+    "signature": "juu6tbUdnqTsttUwfz6JtOl9ZcJuc_Brwm91mXLq8XH8oGg-nbAb0_K3TjXdCiG497_fRJRf5phRKipzoZ1ToQ"
+  }
+}
