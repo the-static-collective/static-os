@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "static-os.crank-physical-edge/v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "device_id", "session_id", "sequence", "direction", "ticks"],
+  "properties": {
+    "schema": {"const": "static-os.crank-physical-edge/v0"},
+    "device_id": {"type": "string", "minLength": 1},
+    "session_id": {"type": "string", "minLength": 1},
+    "sequence": {"type": "integer", "minimum": 0},
+    "direction": {"enum": ["CW", "CCW"]},
+    "ticks": {"const": 1}
+  }
+}
