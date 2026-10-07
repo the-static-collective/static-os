@@ -1,0 +1,24 @@
+{
+  "schema": "static-os.cranknode-manifest/v0",
+  "id": "CRANKNODE-003",
+  "status": "hardware-ready-physical-edge-gate-specimen",
+  "stacked_on": {
+    "static_os_pr": 48,
+    "static_os_commit": "6887e09c87936b53bbaa505ca633a05e7c69c9e5"
+  },
+  "claims": {
+    "posix_tty_one_frame_reader_executable": true,
+    "durable_edge_consumption_executable": true,
+    "duplicate_edge_refusal_executable": true,
+    "one_edge_to_one_turn_request_executable": true,
+    "provider_and_relatte_candidate_path_composable": true,
+    "kernel_pseudoterminal_path_tested": true,
+    "physical_rotary_encoder_observed": false,
+    "physical_hand_crank_observed": false,
+    "electrical_debounce_observed": false,
+    "crank_energy_powered_computation": false,
+    "signed_relatte_crossing_created_by_crank": false,
+    "destination_hold_observed_from_physical_crank": false
+  },
+  "law": "ONE PHYSICAL EDGE = AT MOST ONE TURN ATTEMPT"
+}
