@@ -1,0 +1,29 @@
+{
+  "schema": "static-os.cranknode-manifest/v0",
+  "id": "CRANKNODE-001",
+  "status": "executable-bounded-turn-specimen",
+  "stacked_on": {
+    "static_os_pr": 45,
+    "static_os_commit": "0a446e90d46c261aba0a5755fd49994a6c60525b"
+  },
+  "purpose": "Convert visible local capabilities into explicit one-turn work without creating a daemon, scheduler, authority engine, or hidden agent loop.",
+  "claims": {
+    "bounded_turn_runtime_executable": true,
+    "capability_listing_is_inert": true,
+    "one_selected_capability_per_turn": true,
+    "carrier_neutral_json_receipt": true,
+    "automatic_next_turn": false,
+    "automatic_admission": false,
+    "live_ai_model_called": false,
+    "relatte_signature_attached": false,
+    "physical_crank_observed": false,
+    "physical_energy_metered": false,
+    "network_transport_executed": false
+  },
+  "next_seams": [
+    "bind AI.PROPOSE to a replaceable local or remote model adapter while preserving proposal_only",
+    "wrap receipt as a reLATTE crossing candidate without auto-admission",
+    "accept a real rotary-encoder TURN source",
+    "add printable/QR carrier encodings for the exact same receipt bytes"
+  ]
+}
