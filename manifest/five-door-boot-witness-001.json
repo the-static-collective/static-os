@@ -1,0 +1,66 @@
+{
+  "schema": "static-os.five-door-boot-witness-contract/v0",
+  "id": "FIVE-DOOR-BOOT-WITNESS-001",
+  "status": "synthetic-contract-harness",
+  "stacked_on": {
+    "static_os_pr": 42,
+    "static_os_commit": "17e209cebb8d45b05dd9c564e99b5f5519b2d4a0"
+  },
+  "reported_adapter_harvest": {
+    "short_commit": "043e89a",
+    "provenance": "human-reported-local-work",
+    "github_verifiable": false,
+    "bound_into_this_contract": false
+  },
+  "doors": [
+    {"id": "PRESENT", "binding": "unbound", "automatic_execution": false, "authority": "none"},
+    {"id": "MOTION", "binding": "unbound", "automatic_execution": false, "authority": "none"},
+    {"id": "SOUND", "binding": "unbound", "automatic_execution": false, "authority": "none"},
+    {"id": "VOICE", "binding": "unbound", "automatic_execution": false, "authority": "none"},
+    {"id": "PRINT", "binding": "unbound", "automatic_execution": false, "authority": "none"}
+  ],
+  "execution_policy": {
+    "rack_visibility_executes_nothing": true,
+    "dispatch_requires_explicit_selection": true,
+    "branches_are_siblings": true,
+    "return_requires_local_disposition": true,
+    "unfinished_branches_remain_visible": true,
+    "shutdown_may_preserve_unresolved_state": true,
+    "reboot_must_not_infer_completion": true
+  },
+  "causal_observer": {
+    "id": "TranchNOSE",
+    "role": "comparison-observer",
+    "authority": "none",
+    "held_constant": ["parent_identity", "source_admission", "human_intent"],
+    "varied_dimension": "door-field-configuration",
+    "result": "comparison-ready-only",
+    "causal_attribution_proven": false
+  },
+  "founding_fixture": "fixtures/five-door-boot-witness-001/session.json",
+  "claims": {
+    "validator_executable": true,
+    "synthetic_constellation_defined": true,
+    "real_adapters_bound": false,
+    "real_dispatch_executed": false,
+    "real_returns_observed": false,
+    "actual_shutdown_executed": false,
+    "actual_reboot_executed": false,
+    "cold_replay_of_real_session_proven": false,
+    "causal_attribution_proven": false
+  },
+  "laws": [
+    "VISIBLE POSSIBILITY != EXECUTION",
+    "SESSION != AUTHORITY",
+    "CONSTELLATION != MERGE",
+    "SIBLING != SUCCESSOR",
+    "RETURN != ADMISSION",
+    "ADMISSION != EXECUTION",
+    "IN FLIGHT != LOST",
+    "UNFINISHED != ERROR",
+    "UNOBSERVED != FAILED",
+    "REBOOT != NEW WORLD",
+    "THE HOUSE REMEMBERS RECEIPTS, NOT ASSUMPTIONS",
+    "G_field != G_local"
+  ]
+}
