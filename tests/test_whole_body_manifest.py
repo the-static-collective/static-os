@@ -62,6 +62,25 @@ class WholeBodyManifestTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "promoted"):
             MODULE.validate(value)
 
+    def test_refuses_sb001_evidence_substitution(self):
+        value = clone()
+        value["supabardo"]["proof"]["evidence_set_id"] = "sb001-evidence-v0:" + "0" * 64
+        with self.assertRaisesRegex(ValueError, "evidence"):
+            MODULE.validate(value)
+
+    def test_refuses_relattes_before_proven_sb001_head(self):
+        value = clone()
+        relatte = next(row for row in value["organs"] if row["id"] == "relatte")
+        relatte["commit"] = "87006f3265103a8abe387d81597c58aeb39b0beb"
+        with self.assertRaisesRegex(ValueError, "SB-001"):
+            MODULE.validate(value)
+
+    def test_refuses_live_membrane_as_reconstruction_dependency(self):
+        value = clone()
+        value["supabardo"]["proof"]["live_membrane_required_for_reconstruction"] = True
+        with self.assertRaisesRegex(ValueError, "live Bardo"):
+            MODULE.validate(value)
+
 
 if __name__ == "__main__":
     unittest.main()
