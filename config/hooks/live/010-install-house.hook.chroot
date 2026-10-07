@@ -8,6 +8,7 @@ chmod 0755 /usr/local/bin/static-elf-proof
 chmod 0755 /usr/local/bin/static-git
 chmod 0755 /usr/local/bin/static-whole-body
 chmod 0755 /usr/local/bin/static-persist
+chmod 0755 /usr/local/bin/static-bardo
 mkdir -p /var/lib/static-os /etc/systemd/system/multi-user.target.wants
 ln -sf '../var-lib-static\x2dos.mount' '/etc/systemd/system/multi-user.target.wants/var-lib-static\x2dos.mount'
 ln -sf ../static-persist-boot.service /etc/systemd/system/multi-user.target.wants/static-persist-boot.service
