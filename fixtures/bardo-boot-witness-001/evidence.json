@@ -1,0 +1,80 @@
+{
+  "schema": "static-os.bardo-boot-witness-evidence/v0",
+  "id": "BARDO-BOOT-WITNESS-001",
+  "title": "INVITATION",
+  "executed_at": "2026-10-07T00:35:09.863Z",
+  "source": {
+    "observed_name": "1000018575.png",
+    "byte_length": 670478,
+    "sha256": "af82b9a3b2d5eeb1ce3d58038b3415ca62f0815bd6f0a04662ec8cf5b773d171",
+    "detected_media_type": "image/jpeg",
+    "filename_media_type_mismatch": true,
+    "bytes_vendored_in_repository": false
+  },
+  "relatte": {
+    "proof_pin": "5d96af53a730b0ce3111e8551e62030596815069",
+    "crossing_id": "relatte-crossing-v0:d73bc639fd5ed5a687f083e2ca9a5e9507bafa415e207bbb5434674d935e2b8a",
+    "release_receipt_id": "relatte-receipt-v0:e66c63d4d1ad4545feb3b6d409b49e159fab0a56b9c6e881ee192e97705788b1",
+    "hold_receipt_id": "relatte-receipt-v0:66f410a253f32da889e63ff92f3afca986bbd6993c057f7149fc54613dc1923a",
+    "admit_receipt_id": "relatte-receipt-v0:2d4b566a7239bfce8d99e9f00c1192169b20f43045aaf6a2fc483f2046dc7857",
+    "exit_receipt_id": "relatte-receipt-v0:34226313c9274771020559c05f99b26aabdf2784b63ea2ef4fa88176f1938f1b",
+    "three_distinct_authority_keys": true
+  },
+  "custody": {
+    "root_id": "3042b189-669a-4d4a-93d6-f8c950ca1ca8",
+    "boot_a": "44d5d161-4a48-4f38-80e1-03b353ac03e2",
+    "boot_b": "f333dd7b-04bd-4708-b933-07df798967ff",
+    "same_root": true,
+    "distinct_boots": true,
+    "corpus_sha256": "af82b9a3b2d5eeb1ce3d58038b3415ca62f0815bd6f0a04662ec8cf5b773d171",
+    "tranchnode_pointer_present": true,
+    "bardo_runtime_destroyed": true,
+    "persistent_supabardo_interior": false
+  },
+  "stages": [
+    {
+      "stage": "SOURCE",
+      "sha256": "af82b9a3b2d5eeb1ce3d58038b3415ca62f0815bd6f0a04662ec8cf5b773d171"
+    },
+    {
+      "stage": "DISPATCH",
+      "sha256": "af82b9a3b2d5eeb1ce3d58038b3415ca62f0815bd6f0a04662ec8cf5b773d171"
+    },
+    {
+      "stage": "BARDO_HOLD",
+      "sha256": "af82b9a3b2d5eeb1ce3d58038b3415ca62f0815bd6f0a04662ec8cf5b773d171"
+    },
+    {
+      "stage": "CORPUS_ADMIT",
+      "sha256": "af82b9a3b2d5eeb1ce3d58038b3415ca62f0815bd6f0a04662ec8cf5b773d171"
+    },
+    {
+      "stage": "REOPEN_VERIFY",
+      "sha256": "af82b9a3b2d5eeb1ce3d58038b3415ca62f0815bd6f0a04662ec8cf5b773d171"
+    }
+  ],
+  "decision": {
+    "disposition": "ADMIT",
+    "mandatory_hold_preceded_decision": true,
+    "authority": "destination-local-human-explicit",
+    "repository_can_independently_prove_human_identity": false
+  },
+  "claims": {
+    "exact_byte_identity_preserved": true,
+    "host_root_reopen_proven": true,
+    "actual_process_restart_proven": false,
+    "vm_cold_boot_proven": false,
+    "physical_cold_boot_proven": false,
+    "live_supabardo_membrane_used": false,
+    "second_live_membrane_crossing_proven": false
+  },
+  "laws": [
+    "THE PARTICULAR IS THE BYTES",
+    "FILENAME != BYTES",
+    "ARRIVAL != ADMISSION",
+    "HOLD != ADMIT",
+    "DESTINATION MEANING REMAINS LOCAL",
+    "BARDO MAY DIE; DURABLE RECEIPTS MAY SURVIVE",
+    "ROOT IDENTITY != BOOT IDENTITY"
+  ]
+}
