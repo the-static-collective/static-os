@@ -18,6 +18,8 @@ EXPECTED = {
     "supabardo": ("the-static-collective/Human-Witness", "unresolved-crossing-field"),
 }
 LIFECYCLE = ["ENTER", "FORM", "WITNESS", "WAIT", "EXIT", "DECAY"]
+SB001_RELATTE_COMMIT = "5d96af53a730b0ce3111e8551e62030596815069"
+SB001_EVIDENCE_SET_ID = "sb001-evidence-v0:cbb5e16c8209e1978d1cc1910c4b5128fa58bdab1bb9bbd7d4112ebd0f6c5174"
 
 
 def validate(value):
@@ -54,11 +56,29 @@ def validate(value):
         if not isinstance(commit, str) or not SHA40.fullmatch(commit):
             raise ValueError(f"{oid} commit must be exact 40-hex SHA")
 
+    if by_id["relatte"].get("commit") != SB001_RELATTE_COMMIT:
+        raise ValueError("reLATTE pin must carry the proven SB-001 specimen")
+
     sb = by_id["supabardo"]
-    if sb.get("runtime") != "sb-001-external-specimen-only":
-        raise ValueError("SupaBardo must remain an external bounded specimen")
+    if sb.get("runtime") != "sb-001-proven-external-specimen":
+        raise ValueError("SupaBardo runtime posture must remain proven external specimen")
     if sb.get("spec_path") != "docs/superpowers/specs/2026-08-25-supabardo-crossing-field-design.md":
         raise ValueError("SupaBardo source spec drift")
+    sb_proof = sb.get("proof")
+    if not isinstance(sb_proof, dict):
+        raise ValueError("missing SB-001 proof binding")
+    if sb_proof.get("repository") != "the-static-collective/reLATTE":
+        raise ValueError("SB-001 proof repository drift")
+    if sb_proof.get("commit") != SB001_RELATTE_COMMIT:
+        raise ValueError("SB-001 proof commit drift")
+    if sb_proof.get("evidence_set_id") != SB001_EVIDENCE_SET_ID:
+        raise ValueError("SB-001 evidence-set drift")
+    if sb_proof.get("runtime_destroyed_after_export") is not True:
+        raise ValueError("SB-001 must preserve destructible membrane result")
+    if sb_proof.get("reconstruction_requires_live_membrane") is not False:
+        raise ValueError("SB-001 reconstruction must not require live Bardo")
+    if sb_proof.get("verified_tests") != 134:
+        raise ValueError("SB-001 verified test-count witness drift")
 
     bardo = value.get("supabardo")
     if not isinstance(bardo, dict):
@@ -71,6 +91,19 @@ def validate(value):
         raise ValueError("SupaBardo must not admit automatically")
     if bardo.get("meaning") != "receiver-local":
         raise ValueError("crossing meaning must remain receiver-local")
+    proof = bardo.get("proof")
+    if not isinstance(proof, dict):
+        raise ValueError("missing SupaBardo proof status")
+    if proof.get("status") != "proven-external-destructible-specimen":
+        raise ValueError("SupaBardo proof status drift")
+    if proof.get("commit") != SB001_RELATTE_COMMIT:
+        raise ValueError("SupaBardo proof pin drift")
+    if proof.get("evidence_set_id") != SB001_EVIDENCE_SET_ID:
+        raise ValueError("SupaBardo proof evidence drift")
+    if proof.get("runtime_destroyed_after_export") is not True:
+        raise ValueError("Bardo runtime destruction proof lost")
+    if proof.get("live_membrane_required_for_reconstruction") is not False:
+        raise ValueError("live Bardo must not become historical dependency")
 
     deploy = value.get("deployment")
     if not isinstance(deploy, dict):
@@ -89,8 +122,8 @@ def validate(value):
     expected_claims = {
         "source_bundle": "buildable-candidate",
         "runtime_composition": "unverified",
-        "supabardo_sb001": "external-in-progress",
-        "persistent_volume": "not_implemented",
+        "supabardo_sb001": "proven-external-destructible-specimen",
+        "persistent_volume": "mount-and-lineage-candidate",
         "cross_boot_continuity": "not_proven",
         "physical_boot": "not_proven",
     }
@@ -102,6 +135,8 @@ def validate(value):
         "RECEIVED != ADMITTED",
         "UNRESOLVED != ABSENT",
         "SUPABARDO STATE != CANON",
+        "SERVICE DEATH != HISTORY DEATH",
+        "DURABLE RECEIPT != IMMORTAL BARDO",
         "BOOT != CONTINUITY",
     }:
         if law not in laws:
