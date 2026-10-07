@@ -146,3 +146,20 @@ SUPABARDO INTERIOR != DURABLE ROOT
 HOUSE may attach its user state into the durable root before launching. Durable custody paths are reserved for GHoT, reLATTE, Jubilee, Corpus, and TranchNode, while SupaBardo receives no permanent interior directory; only explicit crossing exports may escape into durable custody.
 
 The host-level proof preserves one particular across two simulated boot occurrences while keeping the boot identities distinct. VM and physical cold-boot proof remain unearned.
+
+
+## Bardo bridge
+
+[BARDO-BRIDGE-001](docs/BARDO-BRIDGE-001.md) pins the completed destructive SB-001 ceremony from reLATTE PR #57 into the whole-body image while keeping Human-Witness as the canonical architecture owner.
+
+`static-bardo status` is an offline, read-only operator surface. It verifies that the exact SB-001 evidence commitment, verifier, and proof documentation are bundled, reports durable crossing exports, and refuses a persistent SupaBardo interior.
+
+```text
+LIVE SERVICE != HISTORICAL AUTHORITY
+SERVICE DEATH != HISTORY DEATH
+DURABLE RECEIPT != IMMORTAL BARDO
+OPEN != ADMITTED
+EXIT != ADMISSION
+```
+
+STATIC OS does not start Supabase or infer current live crossings. Live unresolved state is reported as **not observed**, not zero.

@@ -50,6 +50,7 @@ def inspect(root: Path) -> dict:
             "lifecycle": manifest.get("supabardo", {}).get("lifecycle", []),
             "canonical": manifest.get("supabardo", {}).get("canonical"),
             "automatic_admission": manifest.get("supabardo", {}).get("automatic_admission"),
+            "proof": manifest.get("supabardo", {}).get("proof", {}),
         },
     }
 
