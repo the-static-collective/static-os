@@ -12,54 +12,74 @@ SPEC = importlib.util.spec_from_loader("static_bardo", LOADER)
 MODULE = importlib.util.module_from_spec(SPEC)
 LOADER.exec_module(MODULE)
 
-MANIFEST = json.loads((ROOT / "manifest" / "whole-body-001.json").read_text(encoding="utf-8"))
+WHOLE = json.loads((ROOT / "manifest" / "whole-body-001.json").read_text(encoding="utf-8"))
+GENERALITY = json.loads((ROOT / "manifest" / "bardo-generality-002.json").read_text(encoding="utf-8"))
 
 
 def fixture(base: Path):
     image = base / "image"
     persistent = base / "persistent"
     share = image / "usr" / "share" / "static-os"
-    relatte = image / "opt" / "static-os" / "organs" / "relatte"
+    sb1 = image / "opt" / "static-os" / "organs" / "relatte"
+    sb2 = image / "opt" / "static-os" / "bardo-proofs" / "sb002-relatte"
     share.mkdir(parents=True)
     persistent.mkdir()
     (persistent / "crossing-exports").mkdir()
     (persistent / "organs").mkdir()
 
-    (share / "whole-body-001.json").write_text(
-        json.dumps(MANIFEST), encoding="utf-8"
+    (share / "whole-body-001.json").write_text(json.dumps(WHOLE), encoding="utf-8")
+    (share / "bardo-generality-002.json").write_text(
+        json.dumps(GENERALITY), encoding="utf-8"
     )
-    proof = next(row for row in MANIFEST["organs"] if row["id"] == "supabardo")["proof"]
-    evidence = {
-        "schema": "supabardo.sb001-evidence-manifest/v0",
-        "body": {},
-        "evidence_set_id": proof["evidence_set_id"],
-    }
-    (relatte / "fixtures").mkdir(parents=True)
-    (relatte / "scripts").mkdir(parents=True)
-    (relatte / "docs").mkdir(parents=True)
-    (relatte / "fixtures" / "sb001-evidence-manifest.json").write_text(
-        json.dumps(evidence), encoding="utf-8"
+
+    for specimen, root in (("sb001", sb1), ("sb002", sb2)):
+        proof = GENERALITY["specimens"][specimen]
+        (root / "fixtures").mkdir(parents=True)
+        (root / "scripts").mkdir(parents=True)
+        (root / "docs").mkdir(parents=True)
+        (root / "fixtures" / f"{specimen}-evidence-manifest.json").write_text(
+            json.dumps({"evidence_set_id": proof["evidence_set_id"]}),
+            encoding="utf-8",
+        )
+        (root / "scripts" / f"{specimen}-verify.ts").write_text(
+            "fixture\n", encoding="utf-8"
+        )
+        label = specimen.upper().replace("SB00", "SB-00")
+        (root / "docs" / f"SUPABARDO-{label}.md").write_text(
+            "fixture\n", encoding="utf-8"
+        )
+
+    witness = share / "bardo-proofs" / "sb002-relatte.commit"
+    witness.parent.mkdir(parents=True)
+    witness.write_text(
+        GENERALITY["specimens"]["sb002"]["proof_commit"] + "\n", encoding="utf-8"
     )
-    (relatte / "scripts" / "sb001-verify.ts").write_text("fixture\n", encoding="utf-8")
-    (relatte / "docs" / "SUPABARDO-SB-001.md").write_text("fixture\n", encoding="utf-8")
     return image, persistent
 
 
 class BardoBridgeTests(unittest.TestCase):
-    def test_reports_proven_destroyed_membrane_without_querying_live_service(self):
+    def test_reports_two_proven_destroyed_membranes_without_live_query(self):
         with tempfile.TemporaryDirectory() as directory:
             image, persistent = fixture(Path(directory))
             result = MODULE.inspect(image, persistent)
+            self.assertTrue(result["specimens"]["sb001"]["evidence_set_matches"])
+            self.assertTrue(result["specimens"]["sb002"]["evidence_set_matches"])
             self.assertEqual(
-                result["sb001"]["status"],
-                "proven-external-destructible-specimen",
+                result["specimens"]["sb001"]["destination_disposition"], "ADMIT"
             )
-            self.assertTrue(result["sb001"]["evidence_set_matches"])
-            self.assertTrue(result["sb001"]["runtime_destroyed_after_export"])
-            self.assertFalse(result["sb001"]["reconstruction_requires_live_membrane"])
+            self.assertEqual(
+                result["specimens"]["sb002"]["destination_disposition"], "HOLD"
+            )
+            self.assertFalse(result["specimens"]["sb002"]["render_authority"])
+            self.assertTrue(result["specimens"]["sb002"]["commit_witness_matches"])
             self.assertFalse(result["live_membrane"]["queried"])
-            self.assertEqual(result["live_membrane"]["unresolved_crossings"], "not-observed")
-            self.assertTrue(result["durability"]["boundary_ok"])
+            self.assertEqual(
+                result["live_membrane"]["unresolved_crossings"], "not-observed"
+            )
+            self.assertEqual(
+                result["generality"]["extraction_gate"],
+                "eligible-for-reconsideration-not-promoted",
+            )
 
     def test_counts_only_escaped_durable_files(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -78,14 +98,30 @@ class BardoBridgeTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "persistent SupaBardo"):
                 MODULE.inspect(image, persistent)
 
-    def test_refuses_substituted_evidence_set(self):
+    def test_refuses_substituted_sb002_evidence_set(self):
         with tempfile.TemporaryDirectory() as directory:
             image, persistent = fixture(Path(directory))
-            path = image / "opt/static-os/organs/relatte/fixtures/sb001-evidence-manifest.json"
-            value = json.loads(path.read_text(encoding="utf-8"))
-            value["evidence_set_id"] = "sb001-evidence-v0:" + "0" * 64
-            path.write_text(json.dumps(value), encoding="utf-8")
-            with self.assertRaisesRegex(ValueError, "does not match"):
+            path = (
+                image
+                / "opt/static-os/bardo-proofs/sb002-relatte/fixtures"
+                / "sb002-evidence-manifest.json"
+            )
+            path.write_text(
+                json.dumps({"evidence_set_id": "sb002-evidence-v0:" + "0" * 64}),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(ValueError, "SB-002 evidence"):
+                MODULE.inspect(image, persistent)
+
+    def test_refuses_wrong_sb002_commit_witness(self):
+        with tempfile.TemporaryDirectory() as directory:
+            image, persistent = fixture(Path(directory))
+            witness = (
+                image
+                / "usr/share/static-os/bardo-proofs/sb002-relatte.commit"
+            )
+            witness.write_text("0" * 40 + "\n", encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "commit witness"):
                 MODULE.inspect(image, persistent)
 
 
