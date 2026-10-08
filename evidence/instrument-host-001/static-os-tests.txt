@@ -1,0 +1,241 @@
+test_committed_witness_validates (test_bardo_boot_witness.BardoBootWitnessTests.test_committed_witness_validates) ... ok
+test_refuses_authority_collapse (test_bardo_boot_witness.BardoBootWitnessTests.test_refuses_authority_collapse) ... ok
+test_refuses_false_repository_byte_claim (test_bardo_boot_witness.BardoBootWitnessTests.test_refuses_false_repository_byte_claim) ... ok
+test_refuses_hold_that_manufactures_admission (test_bardo_boot_witness.BardoBootWitnessTests.test_refuses_hold_that_manufactures_admission) ... ok
+test_refuses_particular_hash_drift (test_bardo_boot_witness.BardoBootWitnessTests.test_refuses_particular_hash_drift) ... ok
+test_refuses_physical_boot_claim_promotion (test_bardo_boot_witness.BardoBootWitnessTests.test_refuses_physical_boot_claim_promotion) ... ok
+test_counts_only_escaped_durable_files (test_bardo_bridge.BardoBridgeTests.test_counts_only_escaped_durable_files) ... ok
+test_refuses_persistent_bardo_interior (test_bardo_bridge.BardoBridgeTests.test_refuses_persistent_bardo_interior) ... ok
+test_refuses_substituted_evidence_set (test_bardo_bridge.BardoBridgeTests.test_refuses_substituted_evidence_set) ... ok
+test_reports_proven_destroyed_membrane_without_querying_live_service (test_bardo_bridge.BardoBridgeTests.test_reports_proven_destroyed_membrane_without_querying_live_service) ... ok
+test_ai_seam_is_explicitly_not_a_live_model_claim (test_cranknode.CrankNode001Tests.test_ai_seam_is_explicitly_not_a_live_model_claim) ... ok
+test_budget_cannot_buy_authority (test_cranknode.CrankNode001Tests.test_budget_cannot_buy_authority) ... ok
+test_computation_cannot_request_admission (test_cranknode.CrankNode001Tests.test_computation_cannot_request_admission) ... ok
+test_founding_turn_executes_exactly_one_bounded_capability (test_cranknode.CrankNode001Tests.test_founding_turn_executes_exactly_one_bounded_capability) ... ok
+test_listing_is_inert (test_cranknode.CrankNode001Tests.test_listing_is_inert) ... ok
+test_payload_mutation_changes_receipt_address (test_cranknode.CrankNode001Tests.test_payload_mutation_changes_receipt_address) ... ok
+test_physical_input_is_a_turn_source_not_authority (test_cranknode.CrankNode001Tests.test_physical_input_is_a_turn_source_not_authority) ... ok
+test_receipt_binds_exact_request_and_result (test_cranknode.CrankNode001Tests.test_receipt_binds_exact_request_and_result) ... ok
+test_refuses_hidden_next_turn (test_cranknode.CrankNode001Tests.test_refuses_hidden_next_turn) ... ok
+test_refuses_insufficient_budget (test_cranknode.CrankNode001Tests.test_refuses_insufficient_budget) ... ok
+test_refuses_multiple_selected_capabilities (test_cranknode.CrankNode001Tests.test_refuses_multiple_selected_capabilities) ... ok
+test_refuses_pipeline_disguised_as_payload (test_cranknode.CrankNode001Tests.test_refuses_pipeline_disguised_as_payload) ... ok
+test_refuses_unregistered_handler (test_cranknode.CrankNode001Tests.test_refuses_unregistered_handler) ... ok
+test_candidate_is_explicitly_not_a_signed_crossing (test_cranknode_002.CrankNode002Tests.test_candidate_is_explicitly_not_a_signed_crossing) ... ok
+test_candidate_pins_current_merged_relatte_owner (test_cranknode_002.CrankNode002Tests.test_candidate_pins_current_merged_relatte_owner) ... ok
+test_candidate_timestamp_requires_timezone (test_cranknode_002.CrankNode002Tests.test_candidate_timestamp_requires_timezone) ... ok
+test_external_provider_process_executes_one_proposal (test_cranknode_002.CrankNode002Tests.test_external_provider_process_executes_one_proposal) ... ok
+test_fixture_provider_claim_is_not_independently_verified (test_cranknode_002.CrankNode002Tests.test_fixture_provider_claim_is_not_independently_verified) ... ok
+test_hostile_provider_cannot_smuggle_next_turn (test_cranknode_002.CrankNode002Tests.test_hostile_provider_cannot_smuggle_next_turn) ... ok
+test_mutated_receipt_is_refused_before_candidate (test_cranknode_002.CrankNode002Tests.test_mutated_receipt_is_refused_before_candidate) ... ok
+test_mutated_result_is_refused_before_candidate (test_cranknode_002.CrankNode002Tests.test_mutated_result_is_refused_before_candidate) ... ok
+test_non_proposal_result_cannot_become_proposal_crossing_candidate (test_cranknode_002.CrankNode002Tests.test_non_proposal_result_cannot_become_proposal_crossing_candidate) ... ok
+test_provider_identity_mismatch_is_refused (test_cranknode_002.CrankNode002Tests.test_provider_identity_mismatch_is_refused) ... ok
+test_provider_is_replaceable_without_changing_turn_contract (test_cranknode_002.CrankNode002Tests.test_provider_is_replaceable_without_changing_turn_contract) ... ok
+test_relatte_candidate_has_exact_opaque_organ_shape (test_cranknode_002.CrankNode002Tests.test_relatte_candidate_has_exact_opaque_organ_shape) ... ok
+test_turn_payload_cannot_replace_provider_command (test_cranknode_002.CrankNode002Tests.test_turn_payload_cannot_replace_provider_command) ... ok
+test_claim_is_durable_and_duplicate_is_refused (test_cranknode_003.CrankNode003Tests.test_claim_is_durable_and_duplicate_is_refused) ... ok
+test_edge_becomes_one_plain_physical_turn_request (test_cranknode_003.CrankNode003Tests.test_edge_becomes_one_plain_physical_turn_request) ... ok
+test_edge_identity_is_stable (test_cranknode_003.CrankNode003Tests.test_edge_identity_is_stable) ... ok
+test_invalid_ledger_refuses_instead_of_repairing_history (test_cranknode_003.CrankNode003Tests.test_invalid_ledger_refuses_instead_of_repairing_history) ... ok
+test_json_line_decoder_requires_newline (test_cranknode_003.CrankNode003Tests.test_json_line_decoder_requires_newline) ... ok
+test_physical_edge_composes_through_provider_to_unsigned_candidate (test_cranknode_003.CrankNode003Tests.test_physical_edge_composes_through_provider_to_unsigned_candidate) ... ok
+test_posix_tty_path_reads_exactly_one_edge (test_cranknode_003.CrankNode003Tests.test_posix_tty_path_reads_exactly_one_edge) ... ok
+test_refuses_extra_semantic_fields_from_hardware (test_cranknode_003.CrankNode003Tests.test_refuses_extra_semantic_fields_from_hardware) ... ok
+test_refuses_multi_tick_frame (test_cranknode_003.CrankNode003Tests.test_refuses_multi_tick_frame) ... ok
+test_same_sequence_in_new_device_session_is_a_new_edge (test_cranknode_003.CrankNode003Tests.test_same_sequence_in_new_device_session_is_a_new_edge) ... ok
+test_installed_entrypoint_and_generic_second_instrument (test_eleven_heap_import.OracleImportTests.test_installed_entrypoint_and_generic_second_instrument) ... ok
+test_original_25_checks_and_33_tests_stay_runnable (test_eleven_heap_import.OracleImportTests.test_original_25_checks_and_33_tests_stay_runnable) ... ok
+test_original_source_files_are_byte_preserved (test_eleven_heap_import.OracleImportTests.test_original_source_files_are_byte_preserved) ... ok
+test_committed_synthetic_constellation_validates (test_five_door_boot_witness.FiveDoorBootWitnessTests.test_committed_synthetic_constellation_validates) ... ok
+test_refuses_branch_intent_drift (test_five_door_boot_witness.FiveDoorBootWitnessTests.test_refuses_branch_intent_drift) ... ok
+test_refuses_causal_proof_from_comparison_only_fixture (test_five_door_boot_witness.FiveDoorBootWitnessTests.test_refuses_causal_proof_from_comparison_only_fixture) ... ok
+test_refuses_erasing_unfinished_branch_at_shutdown (test_five_door_boot_witness.FiveDoorBootWitnessTests.test_refuses_erasing_unfinished_branch_at_shutdown) ... ok
+test_refuses_in_flight_pre_admission (test_five_door_boot_witness.FiveDoorBootWitnessTests.test_refuses_in_flight_pre_admission) ... ok
+test_refuses_parent_drift_between_siblings (test_five_door_boot_witness.FiveDoorBootWitnessTests.test_refuses_parent_drift_between_siblings) ... ok
+test_refuses_real_adapter_claim_promotion (test_five_door_boot_witness.FiveDoorBootWitnessTests.test_refuses_real_adapter_claim_promotion) ... ok
+test_refuses_return_without_local_disposition (test_five_door_boot_witness.FiveDoorBootWitnessTests.test_refuses_return_without_local_disposition) ... ok
+test_refuses_sibling_mutation_authority (test_five_door_boot_witness.FiveDoorBootWitnessTests.test_refuses_sibling_mutation_authority) ... ok
+test_refuses_synthetic_replay_as_actual_reboot (test_five_door_boot_witness.FiveDoorBootWitnessTests.test_refuses_synthetic_replay_as_actual_reboot) ... ok
+test_refuses_tranchnose_authority_promotion (test_five_door_boot_witness.FiveDoorBootWitnessTests.test_refuses_tranchnose_authority_promotion) ... ok
+test_refuses_visible_card_auto_execution (test_five_door_boot_witness.FiveDoorBootWitnessTests.test_refuses_visible_card_auto_execution) ... ok
+test_exact_reconciled_candidate (test_flight3.Flight003Tests.test_exact_reconciled_candidate) ... ok
+test_refuses_automatic_upgrade (test_flight3.Flight003Tests.test_refuses_automatic_upgrade) ... ok
+test_refuses_elf_pin_drift (test_flight3.Flight003Tests.test_refuses_elf_pin_drift) ... ok
+test_refuses_host_execution_and_extra_services (test_flight3.Flight003Tests.test_refuses_host_execution_and_extra_services) ... ok
+test_refuses_mismatched_house_pin (test_flight3.Flight003Tests.test_refuses_mismatched_house_pin) ... ok
+test_refuses_packaging_storyship_without_own_gate (test_flight3.Flight003Tests.test_refuses_packaging_storyship_without_own_gate) ... ok
+test_refuses_packaging_tranchnode_without_own_gate (test_flight3.Flight003Tests.test_refuses_packaging_tranchnode_without_own_gate) ... ok
+test_refuses_triads_with_different_workbench (test_flight3.Flight003Tests.test_refuses_triads_with_different_workbench) ... ok
+test_refuses_unwitnessed_boot (test_flight3.Flight003Tests.test_refuses_unwitnessed_boot) ... ok
+test_ghot_manifest_matches_genesis_house_pin (test_ghot_pin.GhotPinTests.test_ghot_manifest_matches_genesis_house_pin) ... ok
+test_polsia_remains_held_and_uncredentialed (test_ghot_pin.GhotPinTests.test_polsia_remains_held_and_uncredentialed) ... ok
+test_receive_is_fast_forward_only_and_send_uses_existing_remote (test_git_bridge.GitBridgeIntegrationTests.test_receive_is_fast_forward_only_and_send_uses_existing_remote) ... hint: Using 'master' as the name for the initial branch. This default branch name
+hint: will change to "main" in Git 3.0. To configure the initial branch name
+hint: to use in all of your new repositories, which will suppress this warning,
+hint: call:
+hint:
+hint: 	git config --global init.defaultBranch <name>
+hint:
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint:
+hint: 	git branch -m <name>
+hint:
+hint: Disable this message with "git config set advice.defaultBranchName false"
+Cloning into '/tmp/tmpylriluw9/seed'...
+warning: You appear to have cloned an empty repository.
+done.
+[master (root-commit) 6038603] seed
+ 1 file changed, 1 insertion(+)
+ create mode 100644 hello.txt
+To /tmp/tmpylriluw9/remote.git
+ * [new branch]      HEAD -> master
+branch 'master' set up to track 'origin/master'.
+Cloning into '/tmp/tmpylriluw9/home/static/local'...
+done.
+[master 1c386bd] remote update
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+To /tmp/tmpylriluw9/remote.git
+   6038603..1c386bd  master -> master
+From /tmp/tmpylriluw9/remote
+   6038603..1c386bd  master     -> origin/master
+Updating 6038603..1c386bd
+Fast-forward
+ hello.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+[master 55af209] outbound
+ 1 file changed, 1 insertion(+)
+ create mode 100644 out.txt
+To /tmp/tmpylriluw9/remote.git
+   1c386bd..55af209  HEAD -> master
+From /tmp/tmpylriluw9/remote
+   1c386bd..55af209  master     -> origin/master
+Updating 1c386bd..55af209
+Fast-forward
+ out.txt | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 out.txt
+ok
+test_accepts_https_and_ssh_remotes (test_git_bridge.GitBridgeUnitTests.test_accepts_https_and_ssh_remotes) ... ok
+test_explicit_paths_cannot_escape_repo (test_git_bridge.GitBridgeUnitTests.test_explicit_paths_cannot_escape_repo) ... ok
+test_refuses_embedded_https_credentials (test_git_bridge.GitBridgeUnitTests.test_refuses_embedded_https_credentials) ... ok
+test_repo_must_stay_under_static_root (test_git_bridge.GitBridgeUnitTests.test_repo_must_stay_under_static_root) ... ok
+test_actual_sigkill_then_fresh_process_verifies_durable_evidence (test_instrument_host.ColdEvidenceTests.test_actual_sigkill_then_fresh_process_verifies_durable_evidence) ... ok
+test_durable_event_state_or_request_mutation_is_rejected (test_instrument_host.ColdEvidenceTests.test_durable_event_state_or_request_mutation_is_rejected) ... ok
+test_adapter_substitution_requires_fresh_incarnation (test_instrument_host.HostTests.test_adapter_substitution_requires_fresh_incarnation) ... ok
+test_attention_preserves_selected_station_and_changes_samples (test_instrument_host.HostTests.test_attention_preserves_selected_station_and_changes_samples) ... ok
+test_changed_calibration (test_instrument_host.HostTests.test_changed_calibration) ... ok
+test_changed_control_range_or_unit_withdraws_existing_binding (test_instrument_host.HostTests.test_changed_control_range_or_unit_withdraws_existing_binding) ... ok
+test_changed_control_revision_requires_new_operation (test_instrument_host.HostTests.test_changed_control_revision_requires_new_operation) ... ok
+test_cold_reconstruction_keeps_exact_controls_and_denies_old_requests (test_instrument_host.HostTests.test_cold_reconstruction_keeps_exact_controls_and_denies_old_requests) ... ok
+test_denial_by_old_writer_cannot_resurrect_superseded_process (test_instrument_host.HostTests.test_denial_by_old_writer_cannot_resurrect_superseded_process) ... ok
+test_disappearance_withdraws_source_and_cannot_resurrect_operation (test_instrument_host.HostTests.test_disappearance_withdraws_source_and_cannot_resurrect_operation) ... ok
+test_excessive_sensitivity_nesting_is_bounded (test_instrument_host.HostTests.test_excessive_sensitivity_nesting_is_bounded) ... ok
+test_explicit_region_selection_is_not_operation_admission (test_instrument_host.HostTests.test_explicit_region_selection_is_not_operation_admission) ... ok
+test_frequency_changes_selected_input_without_authority_expansion (test_instrument_host.HostTests.test_frequency_changes_selected_input_without_authority_expansion) ... ok
+test_imported_or_mutated_operation_is_not_authority (test_instrument_host.HostTests.test_imported_or_mutated_operation_is_not_authority) ... ok
+test_malformed_and_excessive_addresses (test_instrument_host.HostTests.test_malformed_and_excessive_addresses) ... ok
+test_mutated_and_stale_proposals_are_rejected (test_instrument_host.HostTests.test_mutated_and_stale_proposals_are_rejected) ... ok
+test_positions_one_through_eleven_use_original_addresses (test_instrument_host.HostTests.test_positions_one_through_eleven_use_original_addresses) ... ok
+test_process_supersession_rejects_old_live_host (test_instrument_host.HostTests.test_process_supersession_rejects_old_live_host) ... ok
+test_profile_cannot_import_capabilities_or_admission (test_instrument_host.HostTests.test_profile_cannot_import_capabilities_or_admission) ... ok
+test_proposal_is_visible_simulation_and_cannot_execute (test_instrument_host.HostTests.test_proposal_is_visible_simulation_and_cannot_execute) ... ok
+test_read_only_second_instrument_uses_same_contract (test_instrument_host.HostTests.test_read_only_second_instrument_uses_same_contract) ... ok
+test_recording_and_profile_byte_budgets (test_instrument_host.HostTests.test_recording_and_profile_byte_budgets) ... ok
+test_recursive_sensitivity_and_all_response_curves (test_instrument_host.HostTests.test_recursive_sensitivity_and_all_response_curves) ... ok
+test_retirement_requires_fresh_instrument_identity (test_instrument_host.HostTests.test_retirement_requires_fresh_instrument_identity) ... ok
+test_stale_source_history (test_instrument_host.HostTests.test_stale_source_history) ... ok
+test_transmission_is_denied_and_receipted_even_at_position_eleven (test_instrument_host.HostTests.test_transmission_is_denied_and_receipted_even_at_position_eleven) ... ok
+test_unauthorized_control_expansion_and_units (test_instrument_host.HostTests.test_unauthorized_control_expansion_and_units) ... ok
+test_withdrawal_retains_controls_and_invalidates_operations (test_instrument_host.HostTests.test_withdrawal_retains_controls_and_invalidates_operations) ... ok
+test_real_read_only_host_probe_and_second_instrument (test_instrument_host.NativeGhotTests.test_real_read_only_host_probe_and_second_instrument) ... ok
+test_expired_admission (test_instrument_host.NativeRelatteTests.test_expired_admission) ... ok
+test_genuine_crossing_hold_owner_local_admission_record_and_no_replay (test_instrument_host.NativeRelatteTests.test_genuine_crossing_hold_owner_local_admission_record_and_no_replay) ... ok
+test_native_receiver_cold_reopen_does_not_restore_executable_host_requests (test_instrument_host.NativeRelatteTests.test_native_receiver_cold_reopen_does_not_restore_executable_host_requests) ... ok
+test_proposal_receipt_laundering_is_rejected_by_native_verifier (test_instrument_host.NativeRelatteTests.test_proposal_receipt_laundering_is_rejected_by_native_verifier) ... ok
+test_withdrawal_dominates_valid_signed_admission (test_instrument_host.NativeRelatteTests.test_withdrawal_dominates_valid_signed_admission) ... ok
+test_no_privileged_or_destructive_command_in_script (test_launchpad.LaunchpadTests.test_no_privileged_or_destructive_command_in_script) ... ok
+test_python_and_pip_preflight_precede_checkout_and_install (test_launchpad.LaunchpadTests.test_python_and_pip_preflight_precede_checkout_and_install) ... ok
+test_script_syntax_and_help (test_launchpad.LaunchpadTests.test_script_syntax_and_help) ... ok
+test_unknown_mode_refuses (test_launchpad.LaunchpadTests.test_unknown_mode_refuses) ... ok
+test_manifest_does_not_overclaim_endpoint_status (test_living_codex_endpoint.LivingCodexEndpointManifestTests.test_manifest_does_not_overclaim_endpoint_status) ... ok
+test_manifest_is_exact_pinned_integration_candidate (test_living_codex_endpoint.LivingCodexEndpointManifestTests.test_manifest_is_exact_pinned_integration_candidate) ... ok
+test_manifest_preserves_noncollapse_laws (test_living_codex_endpoint.LivingCodexEndpointManifestTests.test_manifest_preserves_noncollapse_laws) ... ok
+test_proof_sequence_contains_foreign_hold_then_local_admit (test_living_codex_endpoint.LivingCodexEndpointManifestTests.test_proof_sequence_contains_foreign_hold_then_local_admit) ... ok
+test_candidate_contract (test_manifest.GenesisManifestTests.test_candidate_contract) ... ok
+test_elf_source_must_match_house (test_manifest.GenesisManifestTests.test_elf_source_must_match_house) ... ok
+test_guest_proof_script_is_manual_and_user_scoped (test_manifest.GenesisManifestTests.test_guest_proof_script_is_manual_and_user_scoped) ... ok
+test_refuse_elf_auto_execution_and_authority (test_manifest.GenesisManifestTests.test_refuse_elf_auto_execution_and_authority) ... ok
+test_refuse_elf_executed_before_house (test_manifest.GenesisManifestTests.test_refuse_elf_executed_before_house) ... ok
+test_refuse_elf_guest_success_without_guest_evidence (test_manifest.GenesisManifestTests.test_refuse_elf_guest_success_without_guest_evidence) ... ok
+test_refuse_enabled_installer (test_manifest.GenesisManifestTests.test_refuse_enabled_installer) ... ok
+test_refuse_forward_dependency (test_manifest.GenesisManifestTests.test_refuse_forward_dependency) ... ok
+test_refuse_mutable_house_ref (test_manifest.GenesisManifestTests.test_refuse_mutable_house_ref) ... ok
+test_refuse_network_exposure (test_manifest.GenesisManifestTests.test_refuse_network_exposure) ... ok
+test_refuse_unapproved_admission (test_manifest.GenesisManifestTests.test_refuse_unapproved_admission) ... ok
+test_refuse_unearned_boot_claim (test_manifest.GenesisManifestTests.test_refuse_unearned_boot_claim) ... ok
+test_refuse_unearned_live_provider_claim (test_manifest.GenesisManifestTests.test_refuse_unearned_live_provider_claim) ... ok
+test_attach_user_refuses_existing_state (test_persistent_root.PersistentRootTests.test_attach_user_refuses_existing_state) ... ok
+test_refuses_nonempty_uninitialized_root (test_persistent_root.PersistentRootTests.test_refuses_nonempty_uninitialized_root) ... ok
+test_refuses_unknown_layout (test_persistent_root.PersistentRootTests.test_refuses_unknown_layout) ... ok
+test_supabardo_has_no_persistent_interior (test_persistent_root.PersistentRootTests.test_supabardo_has_no_persistent_interior) ... ok
+test_two_boots_keep_root_identity_but_not_boot_identity (test_persistent_root.PersistentRootTests.test_two_boots_keep_root_identity_but_not_boot_identity) ... ok
+test_unclean_predecessor_remains_visible (test_persistent_root.PersistentRootTests.test_unclean_predecessor_remains_visible) ... ok
+test_accepts_complete_observed_receipt (test_physical_boot_receipt.PhysicalBootReceiptTests.test_accepts_complete_observed_receipt) ... ok
+test_refuses_agent_witness (test_physical_boot_receipt.PhysicalBootReceiptTests.test_refuses_agent_witness) ... ok
+test_refuses_candidate_as_observation (test_physical_boot_receipt.PhysicalBootReceiptTests.test_refuses_candidate_as_observation) ... ok
+test_refuses_cross_boot_persistence_promotion (test_physical_boot_receipt.PhysicalBootReceiptTests.test_refuses_cross_boot_persistence_promotion) ... ok
+test_refuses_installed_os_promotion (test_physical_boot_receipt.PhysicalBootReceiptTests.test_refuses_installed_os_promotion) ... ok
+test_refuses_installer_invocation (test_physical_boot_receipt.PhysicalBootReceiptTests.test_refuses_installer_invocation) ... ok
+test_refuses_missing_physical_boot (test_physical_boot_receipt.PhysicalBootReceiptTests.test_refuses_missing_physical_boot) ... ok
+test_rfc3339_requires_timezone (test_physical_boot_receipt.PhysicalBootReceiptTests.test_rfc3339_requires_timezone) ... ok
+test_both_deployment_roads_are_declared (test_roadkit_manifest.RoadKitManifestTests.test_both_deployment_roads_are_declared) ... ok
+test_exact_parent_and_donor_pins (test_roadkit_manifest.RoadKitManifestTests.test_exact_parent_and_donor_pins) ... ok
+test_hardware_and_network_claims_remain_bounded (test_roadkit_manifest.RoadKitManifestTests.test_hardware_and_network_claims_remain_bounded) ... ok
+test_noncollapse_laws_are_frozen (test_roadkit_manifest.RoadKitManifestTests.test_noncollapse_laws_are_frozen) ... ok
+test_reference_only_candidate (test_triad.TriadContractTests.test_reference_only_candidate) ... ok
+test_refuse_authority_transfer (test_triad.TriadContractTests.test_refuse_authority_transfer) ... ok
+test_refuse_candidate_manifest_elf_pin_drift (test_triad.TriadContractTests.test_refuse_candidate_manifest_elf_pin_drift) ... ok
+test_refuse_claimed_adapter (test_triad.TriadContractTests.test_refuse_claimed_adapter) ... ok
+test_refuse_host_effect (test_triad.TriadContractTests.test_refuse_host_effect) ... ok
+test_refuse_image_inclusion (test_triad.TriadContractTests.test_refuse_image_inclusion) ... ok
+test_refuse_mutable_upstream_source (test_triad.TriadContractTests.test_refuse_mutable_upstream_source) ... ok
+test_refuse_shadow_capability_field (test_triad.TriadContractTests.test_refuse_shadow_capability_field) ... ok
+test_refuse_stale_pin_while_elf_is_selected (test_triad.TriadContractTests.test_refuse_stale_pin_while_elf_is_selected) ... ok
+test_refuse_unearned_boot (test_triad.TriadContractTests.test_refuse_unearned_boot) ... ok
+test_refuse_unreviewed_act (test_triad.TriadContractTests.test_refuse_unreviewed_act) ... ok
+test_fixture_observation_yields_readonly_receipt (test_v1_vehicle_ecm.V1VehicleECMTests.test_fixture_observation_yields_readonly_receipt) ... ok
+test_observation_hash_is_content_bound (test_v1_vehicle_ecm.V1VehicleECMTests.test_observation_hash_is_content_bound) ... ok
+test_receipt_self_address_is_stable (test_v1_vehicle_ecm.V1VehicleECMTests.test_receipt_self_address_is_stable) ... ok
+test_refuses_control_command_field (test_v1_vehicle_ecm.V1VehicleECMTests.test_refuses_control_command_field) ... ok
+test_refuses_non_allowlisted_signal (test_v1_vehicle_ecm.V1VehicleECMTests.test_refuses_non_allowlisted_signal) ... ok
+test_refuses_reflash_request (test_v1_vehicle_ecm.V1VehicleECMTests.test_refuses_reflash_request) ... ok
+test_refuses_throttle_field_even_when_nested (test_v1_vehicle_ecm.V1VehicleECMTests.test_refuses_throttle_field_even_when_nested) ... ok
+test_refuses_unit_laundering (test_v1_vehicle_ecm.V1VehicleECMTests.test_refuses_unit_laundering) ... ok
+test_accepts_checked_in_candidate (test_whole_body_manifest.WholeBodyManifestTests.test_accepts_checked_in_candidate) ... ok
+test_refuses_auto_start_foreign_organs (test_whole_body_manifest.WholeBodyManifestTests.test_refuses_auto_start_foreign_organs) ... ok
+test_refuses_automatic_admission (test_whole_body_manifest.WholeBodyManifestTests.test_refuses_automatic_admission) ... ok
+test_refuses_cross_boot_claim_promotion (test_whole_body_manifest.WholeBodyManifestTests.test_refuses_cross_boot_claim_promotion) ... ok
+test_refuses_live_membrane_as_reconstruction_dependency (test_whole_body_manifest.WholeBodyManifestTests.test_refuses_live_membrane_as_reconstruction_dependency) ... ok
+test_refuses_mutable_source_ref (test_whole_body_manifest.WholeBodyManifestTests.test_refuses_mutable_source_ref) ... ok
+test_refuses_relattes_before_proven_sb001_head (test_whole_body_manifest.WholeBodyManifestTests.test_refuses_relattes_before_proven_sb001_head) ... ok
+test_refuses_runtime_claim_promotion (test_whole_body_manifest.WholeBodyManifestTests.test_refuses_runtime_claim_promotion) ... ok
+test_refuses_sb001_evidence_substitution (test_whole_body_manifest.WholeBodyManifestTests.test_refuses_sb001_evidence_substitution) ... ok
+test_refuses_supabardo_as_canon (test_whole_body_manifest.WholeBodyManifestTests.test_refuses_supabardo_as_canon) ... ok
+test_refuses_supabardo_as_durable_memory_owner (test_whole_body_manifest.WholeBodyManifestTests.test_refuses_supabardo_as_durable_memory_owner) ... ok
+
+----------------------------------------------------------------------
+Ran 180 tests in 5.356s
+
+OK
+FETCH from https://example.invalid/fixture.git
+RECEIVED fast-forward: 6038603058744c7cf399c07c7a0d78ea46e894f4 -> 1c386bda2d051d6bcc5e0a85f9a1dd7fdeb6df7a
+SOURCE UPDATED. Running STATIC OS image is unchanged.
+STAGED:
+out.txt
+COMMITTED locally: 55af209fcae52617cf8740804202b7940bc1553d
+NOT PUSHED.
+FETCH before SEND from https://example.invalid/fixture.git
+SEND 1 commit(s) to origin/master
+SENT. Remote acceptance is Git transport state, not STATIC OS admission.

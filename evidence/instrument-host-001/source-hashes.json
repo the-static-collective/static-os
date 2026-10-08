@@ -1,0 +1,70 @@
+{
+  "schema": "static-os.instrument-tested-sources/v0",
+  "stacked_on": {
+    "repository": "the-static-collective/static-os",
+    "branch": "experiment/v1-world-bus-vehicle-ecm",
+    "commit": "405fbbf56f96a32af1ed332e2ad9105c09f073da"
+  },
+  "sha256": {
+    "instruments/authority.py": "59467f977a07109bedd3b8569006ebf61db89ff392608d64f2e2aa8d9e1dd50d",
+    "instruments/contract.py": "5e47d9a36f8759101e0eef46ca55f9b42bd86ba371544fb0842fd8162643da15",
+    "instruments/adapters.py": "f78622fff4b996244f4bd596a69530c8a3d84fa4ee79bfebcd0a8e907d17fae4",
+    "instruments/cli.py": "f65cc63418b11610a4d0f3204b6048016a58f445b58bf360bf56649c753ce856",
+    "instruments/host.py": "0f33852b6e6c7b128292cbf70cf9b792a127150a8d484f7e21aa025d108736cc",
+    "instruments/store.py": "9950bf958db86db9b56accdc58309a9e4554c16385858795b7a392686129f8b4",
+    "instruments/__init__.py": "84938e09fb7ea07583d64c18e5c431cdf193b3d2ddd51873398218aeb8ac88e0",
+    "vendor/eleven_heap_001/experiment.py": "b712078c3ffdf2b2965dc4a9ebff342796acf6103359d8b6c66fcb5beb8f2ca8",
+    "vendor/eleven_heap_001/infinite_radio.py": "7c19b86282b17dd7c011760886ef954e4228cad3e27a618731d66519d2700ffa",
+    "vendor/eleven_heap_001/tests/test_infinite_radio.py": "79d12c41df17534df4c97b7f89e0d1d101ea7539ba6a404b865bdfa7a0d24e2f",
+    "instruments/relatte_bridge.mjs": "21c2232b5be657ae73c3fa660c2145db8944001396a29e309f2820a3e94b2fd0"
+  },
+  "oracle": {
+    "source": "workspace original ELEVEN-HEAP-001 from this conversation",
+    "path": "vendor/eleven_heap_001",
+    "import": "byte-preserved; no mathematical rewrite",
+    "experiment_checks": 25,
+    "tests": 33,
+    "sha256": {
+      "infinite_radio.py": "7c19b86282b17dd7c011760886ef954e4228cad3e27a618731d66519d2700ffa",
+      "experiment.py": "b712078c3ffdf2b2965dc4a9ebff342796acf6103359d8b6c66fcb5beb8f2ca8",
+      "tests/test_infinite_radio.py": "79d12c41df17534df4c97b7f89e0d1d101ea7539ba6a404b865bdfa7a0d24e2f",
+      "README.md": "272f10afa36de805b402679deacaf874826066367e4e976f8a373f536902b3b7",
+      "pyproject.toml": "0e150f222457eb283e0b9f0a0dbe1d978618b29f576ffc11b8f2c8c9289ed6fb"
+    }
+  },
+  "donors": {
+    "ghot": {
+      "repository": "the-static-collective/GHoT",
+      "commit": "e35dd470384d864b7b0b629a68dad570875a7df0",
+      "interfaces": [
+        "ghot/reference_node.py:memory_bytes",
+        "ghot/power_field.py:probe_power"
+      ]
+    },
+    "relatte": {
+      "repository": "the-static-collective/reLATTE",
+      "commit": "dcc8cdca84c440aa4294134f020fb7095bf87f24",
+      "interfaces": [
+        "src/organ.ts:sealOpaqueOrganCrossing",
+        "src/organ.ts:verifyOpaqueOrganCrossing",
+        "src/receiver.ts:LocalReceiver",
+        "src/protocol.ts:verifyReceipt"
+      ]
+    },
+    "autodisco": {
+      "repository": "the-static-collective/the-autodisco",
+      "inspected_commit": "83f032b438e7264d3dfdfd2f0b3eb2b3f05484d0",
+      "compatible_bounded_region_proposal_interface": "not found in inspected server.ts and canon/FIRST-LISTEN-RADIO.md",
+      "runtime": "simulated oracle proposer only; native execution NOT_RUN",
+      "additional_inspection": {
+        "repository": "the-static-collective/The-AutodiscoV.20.-question-marks-",
+        "commit": "7ad77a46debc7e8c05fc7434c9091f3e36870651",
+        "interfaces": [
+          "scripts/audio-window.mjs",
+          "scripts/audio-look-twice.mjs"
+        ],
+        "finding": "caller-selected bounded audio extraction and textual model door seeds; no numeric narrower-region proposal contract; not invoked"
+      }
+    }
+  }
+}

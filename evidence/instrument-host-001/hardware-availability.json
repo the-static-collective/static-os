@@ -1,0 +1,18 @@
+{
+  "schema": "static-os.instrument-interface-availability/v0",
+  "platform": "Linux",
+  "exposed_interfaces": {
+    "/dev/snd": false,
+    "/dev/bus/usb": false,
+    "/sys/class/sound": false,
+    "/proc/asound/cards": false
+  },
+  "receiver_commands": {
+    "rtl_test": null,
+    "rtl_sdr": null,
+    "arecord": null
+  },
+  "physical_receiver_exercised": false,
+  "selected_input": "recorded synthetic PCM fixture",
+  "physical_reception": "NOT_RUN"
+}

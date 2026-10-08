@@ -1,0 +1,84 @@
+{
+  "schema": "static-os.instrument-host-manifest/v0",
+  "id": "STATIC-OS INSTRUMENT HOST 001",
+  "status": "native-host-candidate",
+  "stacked_on": {
+    "repository": "the-static-collective/static-os",
+    "branch": "experiment/v1-world-bus-vehicle-ecm",
+    "commit": "405fbbf56f96a32af1ed332e2ad9105c09f073da"
+  },
+  "oracle": {
+    "source": "workspace original ELEVEN-HEAP-001 from this conversation",
+    "path": "vendor/eleven_heap_001",
+    "import": "byte-preserved; no mathematical rewrite",
+    "experiment_checks": 25,
+    "tests": 33,
+    "sha256": {
+      "infinite_radio.py": "7c19b86282b17dd7c011760886ef954e4228cad3e27a618731d66519d2700ffa",
+      "experiment.py": "b712078c3ffdf2b2965dc4a9ebff342796acf6103359d8b6c66fcb5beb8f2ca8",
+      "tests/test_infinite_radio.py": "79d12c41df17534df4c97b7f89e0d1d101ea7539ba6a404b865bdfa7a0d24e2f",
+      "README.md": "272f10afa36de805b402679deacaf874826066367e4e976f8a373f536902b3b7",
+      "pyproject.toml": "0e150f222457eb283e0b9f0a0dbe1d978618b29f576ffc11b8f2c8c9289ed6fb"
+    }
+  },
+  "donors": {
+    "ghot": {
+      "repository": "the-static-collective/GHoT",
+      "commit": "e35dd470384d864b7b0b629a68dad570875a7df0",
+      "interfaces": [
+        "ghot/reference_node.py:memory_bytes",
+        "ghot/power_field.py:probe_power"
+      ]
+    },
+    "relatte": {
+      "repository": "the-static-collective/reLATTE",
+      "commit": "dcc8cdca84c440aa4294134f020fb7095bf87f24",
+      "interfaces": [
+        "src/organ.ts:sealOpaqueOrganCrossing",
+        "src/organ.ts:verifyOpaqueOrganCrossing",
+        "src/receiver.ts:LocalReceiver",
+        "src/protocol.ts:verifyReceipt"
+      ]
+    },
+    "autodisco": {
+      "repository": "the-static-collective/the-autodisco",
+      "inspected_commit": "83f032b438e7264d3dfdfd2f0b3eb2b3f05484d0",
+      "compatible_bounded_region_proposal_interface": "not found in inspected server.ts and canon/FIRST-LISTEN-RADIO.md",
+      "runtime": "simulated oracle proposer only; native execution NOT_RUN",
+      "additional_inspection": {
+        "repository": "the-static-collective/The-AutodiscoV.20.-question-marks-",
+        "commit": "7ad77a46debc7e8c05fc7434c9091f3e36870651",
+        "interfaces": [
+          "scripts/audio-window.mjs",
+          "scripts/audio-look-twice.mjs"
+        ],
+        "finding": "caller-selected bounded audio extraction and textual model door seeds; no numeric narrower-region proposal contract; not invoked"
+      }
+    }
+  },
+  "fixture": {
+    "path": "fixtures/instrument-host-001/two-stations.wav",
+    "sha256": "efebad3028b89667c136c44d2750565a2f7a0a7bf34335a14d25be2118ac6011",
+    "classification": "synthetic recorded PCM; not physical receiver capture"
+  },
+  "budgets": {
+    "max_instruments": 16,
+    "max_address_depth": 16,
+    "max_sensitivity_depth": 8,
+    "max_event_bytes": 65536,
+    "max_observation_items": 4096,
+    "max_events": 10000,
+    "native_process_timeout_seconds": 20
+  },
+  "transmission": {
+    "state": "DISABLED",
+    "adapter": "none",
+    "independent_permission_gate": "requires supported RF adapter and independent admitted operation; not implemented or enabled in V0"
+  },
+  "claims": {
+    "installed_os_or_image_boot": false,
+    "physical_reception": false,
+    "native_autodisco": false,
+    "external_hardware_verification": false
+  }
+}

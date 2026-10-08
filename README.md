@@ -10,6 +10,15 @@ The distribution integrates independently governed organs without absorbing thei
 
 See the GENESIS-001 proposal branch and PR for the executable first slice. Until its image and boot gates are run, claims of a working STATIC OS are premature.
 
+## Instrument subsystem candidate
+
+[STATIC-OS INSTRUMENT HOST 001](docs/INSTRUMENT-HOST-001.md) imports the original
+ELEVEN-HEAP dial engine unchanged and supplies a bounded generic instrument contract,
+native read-only GHoT observations, native reLATTE crossings and owner-local record
+receipts, and durable instrument sessions. Radio input is an explicitly synthetic
+recorded fixture; Autodisco proposals remain explicitly simulated. Transmission is
+disabled. The local source installer and tests do not imply ISO or physical boot proof.
+
 ## Workbench desktop installer preview
 
 [LAUNCHPAD-002](docs/LAUNCHPAD-002.md) packages the pinned Workbench with its own

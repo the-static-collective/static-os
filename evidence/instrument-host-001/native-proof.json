@@ -1,0 +1,411 @@
+{
+  "schema": "static-os.instrument-host-proof/v0",
+  "experiment": "STATIC-OS INSTRUMENT HOST 001",
+  "source_observe_select_attend_record": true,
+  "frequency_changes_selected_recorded_track": true,
+  "attention_changes_sample_region": true,
+  "observation_ref": "106a3d0d345da984b13a0deb9817fa8dde92a73c8a2afdef75d53d49e3bb0d48",
+  "selected": {
+    "type": "AttentionSelection",
+    "unit": "source sample index",
+    "station": 1,
+    "sample_region": [
+      26,
+      27
+    ],
+    "samples": [
+      -9246
+    ],
+    "physical_reception": false
+  },
+  "controls_survive_withdrawal": true,
+  "withdrawal_denied": true,
+  "native_ghot": {
+    "native_ghot": true,
+    "first": {
+      "type": "OSFieldSelection",
+      "source_item": 0,
+      "field": "os",
+      "unit": "name",
+      "value": "Linux"
+    },
+    "second": {
+      "type": "OSFieldSelection",
+      "source_item": 2,
+      "field": "cpu_count",
+      "unit": "count",
+      "value": 3
+    }
+  },
+  "native_relatte": true,
+  "autodisco_boundary": "ELEVEN-HEAP simulated Autodisco (not native Autodisco)",
+  "native_autodisco": false,
+  "physical_reception": false,
+  "rf_emitted": false,
+  "transmission": "DISABLED",
+  "session_id": "0a9fe1b7-cd89-4a2a-b111-a2b432baaa4c",
+  "execution_receipt": {
+    "schema": "static-os.instrument-execution-receipt/v0",
+    "status": "RECORDED",
+    "request_id": "eb44ccb3-8e96-4198-9dc2-3a14bd2ba394",
+    "instrument_id": "recorded-radio",
+    "source": {
+      "kind": "recorded-fixture",
+      "reference": "file:///workspace/static-os/fixtures/instrument-host-001/two-stations.wav",
+      "history": [
+        "synthetic PCM generator:v1",
+        "two station tracks:90MHz/106MHz",
+        "no physical capture"
+      ],
+      "sha256": "efebad3028b89667c136c44d2750565a2f7a0a7bf34335a14d25be2118ac6011"
+    },
+    "observation_ref": "106a3d0d345da984b13a0deb9817fa8dde92a73c8a2afdef75d53d49e3bb0d48",
+    "selection": {
+      "type": "AttentionSelection",
+      "unit": "source sample index",
+      "station": 1,
+      "sample_region": [
+        26,
+        27
+      ],
+      "samples": [
+        -9246
+      ],
+      "physical_reception": false
+    },
+    "dial": {
+      "address": {
+        "radix": 11,
+        "digits": [
+          10,
+          4
+        ]
+      },
+      "curve": "linear",
+      "context_load": "0",
+      "threshold": 2,
+      "remainder": "0",
+      "sensitivity": null
+    },
+    "native_admission_receipt": {
+      "schema": "relatte.receipt/v0",
+      "crossing_id": "relatte-crossing-v0:40ff4595ca0de62f8ebd0c265b43cc4919cf81069697b08b6bfe2746826c891e",
+      "world_id": "world:static-os-instrument:2fb7872a-09e2-47f4-8770-f5d529d7eff2",
+      "receiver_particular": "particular:instrument-owner:6c924dd7-60e4-4911-af19-e222840cbf24",
+      "kind": "R3_ADMIT",
+      "semantic_effect": "one-readonly-instrument-record-authorized",
+      "contract_ref": "static-os:instrument-host/v0",
+      "pre_state_ref": "relatte-local-state-v0:9d2af6d9a16eff04e4cdbef747bbc6485036b184c71260d02b5ab9135a9d73fe",
+      "post_state_ref": "relatte-local-state-v0:1e9f5d737985105cbb25b04a6201e23d28bd8a5493fe6b0268c3cb29b37bbb33",
+      "descendant_refs": [
+        "sha256:7ed3996e2edb3f45f4b304195b5ae48637a6f9cfaba445bf9c6a5796a62e107a"
+      ],
+      "residual_refs": [],
+      "note": "explicit owner-local decision; original proposal remains HOLD; transmission stays DISABLED",
+      "created_at": "2026-10-08T18:35:55.964Z",
+      "extensions": {
+        "local_receiver": {
+          "disposition": "ADMIT",
+          "receive_receipt_id": "relatte-receipt-v0:99dd79fcaa65567775ffbb6f310b40439e94ea91a68c97f8549df04e6da38d7e",
+          "protected_payload_effect": true,
+          "history_head_before": "relatte-local-event-v0:e20e53c0048ef568c75aac3e2d5cacacba87dab857e763a96adf35b35327dd0d",
+          "laws": [
+            "RECEIPT != ADMISSION",
+            "REFUSE != DELETE",
+            "HOLD != ADMIT",
+            "RETURN != TRANSFER OF AUTHORITY"
+          ]
+        }
+      },
+      "receipt_id": "relatte-receipt-v0:1293788283f0347ddb8b5221aac5202dd5f5b88f7210a656205f1dc8991c7717",
+      "signing": {
+        "algorithm": "ECDSA-P256-SHA256",
+        "public_key": {
+          "kty": "EC",
+          "crv": "P-256",
+          "x": "Gd_kh_eh9NWnnKA9YKz4TRbpqaKd7AOLYXkoiVo7lc0",
+          "y": "bAQW5uPwDPUyqVHdI_uxIjKzahmEiI1TFkkl4X-R1nw"
+        },
+        "signature": "vgIuuqfNHipOZCepxNWuXOP1R544mBCXB2cfGGJfluQFRr9Q6t384xizOXhpLSDXyPWDKF6EMlC2vDJQBBRr-A",
+        "domain": "relatte.receipt-signature/v0"
+      }
+    },
+    "authority_effect": "none",
+    "rf_emitted": false,
+    "receipt_sha256": "0128a681a4a8ad5ced605b2271d6bc05f4b4aa6894acb7a40e9e471e51189cad"
+  },
+  "discovery": {
+    "schema": "static-os.instrument-discovery/v0",
+    "transmission": "DISABLED",
+    "instruments": [
+      {
+        "instrument_id": "recorded-radio",
+        "descriptor": {
+          "schema": "static-os.instrument-adapter/v0",
+          "instrument_id": "recorded-radio",
+          "adapter": "recorded-radio/v0",
+          "label": "RECORDED SYNTHETIC FIXTURE",
+          "source": {
+            "kind": "recorded-fixture",
+            "reference": "file:///workspace/static-os/fixtures/instrument-host-001/two-stations.wav",
+            "history": [
+              "synthetic PCM generator:v1",
+              "two station tracks:90MHz/106MHz",
+              "no physical capture"
+            ],
+            "sha256": "efebad3028b89667c136c44d2750565a2f7a0a7bf34335a14d25be2118ac6011"
+          },
+          "calibration": {
+            "revision": "fixture-v1",
+            "sample_rate_hz": 8000,
+            "frames": 128,
+            "station_frequencies_hz": [
+              90000000,
+              106000000
+            ],
+            "band_hz": [
+              88000000,
+              108000000
+            ]
+          },
+          "controls": [
+            {
+              "id": "selector",
+              "quantity": "frequency",
+              "unit": "Hz",
+              "range": [
+                88000000,
+                108000000
+              ],
+              "curves": [
+                "linear",
+                "logarithmic",
+                "thresholded",
+                "context-sensitive"
+              ],
+              "sensitivity": "recursive"
+            },
+            {
+              "id": "attention",
+              "quantity": "source region",
+              "unit": "source item index",
+              "range": [
+                0,
+                4096
+              ],
+              "curves": [
+                "linear",
+                "logarithmic",
+                "thresholded",
+                "context-sensitive"
+              ],
+              "sensitivity": "recursive"
+            }
+          ],
+          "capabilities": [
+            "observe",
+            "select",
+            "attend",
+            "record"
+          ],
+          "transmission": "DISABLED"
+        },
+        "lifecycle": "withdrawn",
+        "incarnation": "4fdf5f60-cf59-452f-82b1-a37944337df9",
+        "current_adapter_installed": false,
+        "dial": {
+          "address": {
+            "radix": 11,
+            "digits": [
+              10,
+              4
+            ]
+          },
+          "curve": "linear",
+          "context_load": "0",
+          "threshold": 2,
+          "remainder": "0",
+          "sensitivity": null
+        },
+        "mode": "attention",
+        "psi_regions": [
+          {
+            "positions": [
+              11
+            ],
+            "address": {
+              "radix": 11,
+              "digits": [
+                10
+              ]
+            },
+            "normalized_interval": [
+              "10/11",
+              "1"
+            ]
+          },
+          {
+            "positions": [
+              11,
+              5
+            ],
+            "address": {
+              "radix": 11,
+              "digits": [
+                10,
+                4
+              ]
+            },
+            "normalized_interval": [
+              "114/121",
+              "115/121"
+            ]
+          }
+        ]
+      },
+      {
+        "instrument_id": "ghot-local-system",
+        "descriptor": {
+          "schema": "static-os.instrument-adapter/v0",
+          "instrument_id": "ghot-local-system",
+          "adapter": "ghot-readonly/v0",
+          "label": "NATIVE GHOT LOCAL OS PROBES",
+          "source": {
+            "kind": "local-os",
+            "reference": "ghot:e35dd470384d864b7b0b629a68dad570875a7df0:memory_bytes+probe_power",
+            "history": [
+              "the-static-collective/GHoT@e35dd470384d864b7b0b629a68dad570875a7df0",
+              "897e69e874b830f5594ae9ddd3c2b4d25c8e02550f63a58415e6de262fc63da0",
+              "36a70249041153c2073070882ea0f94ac4a26b48c52dec1018f677308c53cfb4"
+            ],
+            "sha256": "33f16516ab3b578c5ad1bbdcdfdd9fc66a33d2c0c705f6682fdad18b8ff0b611"
+          },
+          "calibration": {
+            "revision": "ghot-readonly-v0",
+            "fields": [
+              [
+                "os",
+                "name"
+              ],
+              [
+                "architecture",
+                "name"
+              ],
+              [
+                "cpu_count",
+                "count"
+              ],
+              [
+                "memory_bytes",
+                "bytes"
+              ],
+              [
+                "load_1m",
+                "load"
+              ],
+              [
+                "load_5m",
+                "load"
+              ],
+              [
+                "load_15m",
+                "load"
+              ],
+              [
+                "battery_percent",
+                "percent"
+              ],
+              [
+                "temperature_c",
+                "degC"
+              ],
+              [
+                "source",
+                "name"
+              ],
+              [
+                "thermal_state",
+                "name"
+              ]
+            ]
+          },
+          "controls": [
+            {
+              "id": "selector",
+              "quantity": "OS field",
+              "unit": "typed field",
+              "range": [
+                1,
+                11
+              ],
+              "curves": [
+                "linear",
+                "logarithmic",
+                "thresholded",
+                "context-sensitive"
+              ],
+              "sensitivity": "recursive"
+            },
+            {
+              "id": "attention",
+              "quantity": "source region",
+              "unit": "source item index",
+              "range": [
+                0,
+                4096
+              ],
+              "curves": [
+                "linear",
+                "logarithmic",
+                "thresholded",
+                "context-sensitive"
+              ],
+              "sensitivity": "recursive"
+            }
+          ],
+          "capabilities": [
+            "observe",
+            "select",
+            "attend",
+            "record"
+          ],
+          "transmission": "DISABLED"
+        },
+        "lifecycle": "active",
+        "incarnation": "a1c3cb21-6c9b-4216-8258-30dc5e1a3ae7",
+        "current_adapter_installed": true,
+        "dial": {
+          "address": {
+            "radix": 11,
+            "digits": [
+              2
+            ]
+          },
+          "curve": "linear",
+          "context_load": "0",
+          "threshold": 2,
+          "remainder": "0",
+          "sensitivity": null
+        },
+        "mode": "field",
+        "psi_regions": [
+          {
+            "positions": [
+              3
+            ],
+            "address": {
+              "radix": 11,
+              "digits": [
+                2
+              ]
+            },
+            "normalized_interval": [
+              "2/11",
+              "3/11"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

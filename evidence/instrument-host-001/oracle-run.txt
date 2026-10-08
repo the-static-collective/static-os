@@ -1,0 +1,3 @@
+ELEVEN-HEAP-001: PASS (25 checks)
+Evidence: evidence/instrument-host-001/oracle/RESULTS.md
+RF emitted: false

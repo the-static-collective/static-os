@@ -1,0 +1,306 @@
+{
+  "schema": "static-os.instrument-cold-verification/v0",
+  "session_id": "0a9fe1b7-cd89-4a2a-b111-a2b432baaa4c",
+  "history_verified": true,
+  "cold_requests_denied": 2,
+  "historical_requests": 2,
+  "no_current_adapters": true,
+  "discovery": {
+    "schema": "static-os.instrument-discovery/v0",
+    "transmission": "DISABLED",
+    "instruments": [
+      {
+        "instrument_id": "ghot-local-system",
+        "descriptor": {
+          "adapter": "ghot-readonly/v0",
+          "calibration": {
+            "fields": [
+              [
+                "os",
+                "name"
+              ],
+              [
+                "architecture",
+                "name"
+              ],
+              [
+                "cpu_count",
+                "count"
+              ],
+              [
+                "memory_bytes",
+                "bytes"
+              ],
+              [
+                "load_1m",
+                "load"
+              ],
+              [
+                "load_5m",
+                "load"
+              ],
+              [
+                "load_15m",
+                "load"
+              ],
+              [
+                "battery_percent",
+                "percent"
+              ],
+              [
+                "temperature_c",
+                "degC"
+              ],
+              [
+                "source",
+                "name"
+              ],
+              [
+                "thermal_state",
+                "name"
+              ]
+            ],
+            "revision": "ghot-readonly-v0"
+          },
+          "capabilities": [
+            "observe",
+            "select",
+            "attend",
+            "record"
+          ],
+          "controls": [
+            {
+              "curves": [
+                "linear",
+                "logarithmic",
+                "thresholded",
+                "context-sensitive"
+              ],
+              "id": "selector",
+              "quantity": "OS field",
+              "range": [
+                1,
+                11
+              ],
+              "sensitivity": "recursive",
+              "unit": "typed field"
+            },
+            {
+              "curves": [
+                "linear",
+                "logarithmic",
+                "thresholded",
+                "context-sensitive"
+              ],
+              "id": "attention",
+              "quantity": "source region",
+              "range": [
+                0,
+                4096
+              ],
+              "sensitivity": "recursive",
+              "unit": "source item index"
+            }
+          ],
+          "instrument_id": "ghot-local-system",
+          "label": "NATIVE GHOT LOCAL OS PROBES",
+          "schema": "static-os.instrument-adapter/v0",
+          "source": {
+            "history": [
+              "the-static-collective/GHoT@e35dd470384d864b7b0b629a68dad570875a7df0",
+              "897e69e874b830f5594ae9ddd3c2b4d25c8e02550f63a58415e6de262fc63da0",
+              "36a70249041153c2073070882ea0f94ac4a26b48c52dec1018f677308c53cfb4"
+            ],
+            "kind": "local-os",
+            "reference": "ghot:e35dd470384d864b7b0b629a68dad570875a7df0:memory_bytes+probe_power",
+            "sha256": "33f16516ab3b578c5ad1bbdcdfdd9fc66a33d2c0c705f6682fdad18b8ff0b611"
+          },
+          "transmission": "DISABLED"
+        },
+        "lifecycle": "active",
+        "incarnation": "a1c3cb21-6c9b-4216-8258-30dc5e1a3ae7",
+        "current_adapter_installed": false,
+        "dial": {
+          "address": {
+            "digits": [
+              2
+            ],
+            "radix": 11
+          },
+          "context_load": "0",
+          "curve": "linear",
+          "remainder": "0",
+          "sensitivity": null,
+          "threshold": 2
+        },
+        "mode": "field",
+        "psi_regions": [
+          {
+            "positions": [
+              3
+            ],
+            "address": {
+              "radix": 11,
+              "digits": [
+                2
+              ]
+            },
+            "normalized_interval": [
+              "2/11",
+              "3/11"
+            ]
+          }
+        ]
+      },
+      {
+        "instrument_id": "recorded-radio",
+        "descriptor": {
+          "adapter": "recorded-radio/v0",
+          "calibration": {
+            "band_hz": [
+              88000000,
+              108000000
+            ],
+            "frames": 128,
+            "revision": "fixture-v1",
+            "sample_rate_hz": 8000,
+            "station_frequencies_hz": [
+              90000000,
+              106000000
+            ]
+          },
+          "capabilities": [
+            "observe",
+            "select",
+            "attend",
+            "record"
+          ],
+          "controls": [
+            {
+              "curves": [
+                "linear",
+                "logarithmic",
+                "thresholded",
+                "context-sensitive"
+              ],
+              "id": "selector",
+              "quantity": "frequency",
+              "range": [
+                88000000,
+                108000000
+              ],
+              "sensitivity": "recursive",
+              "unit": "Hz"
+            },
+            {
+              "curves": [
+                "linear",
+                "logarithmic",
+                "thresholded",
+                "context-sensitive"
+              ],
+              "id": "attention",
+              "quantity": "source region",
+              "range": [
+                0,
+                4096
+              ],
+              "sensitivity": "recursive",
+              "unit": "source item index"
+            }
+          ],
+          "instrument_id": "recorded-radio",
+          "label": "RECORDED SYNTHETIC FIXTURE",
+          "schema": "static-os.instrument-adapter/v0",
+          "source": {
+            "history": [
+              "synthetic PCM generator:v1",
+              "two station tracks:90MHz/106MHz",
+              "no physical capture"
+            ],
+            "kind": "recorded-fixture",
+            "reference": "file:///workspace/static-os/fixtures/instrument-host-001/two-stations.wav",
+            "sha256": "efebad3028b89667c136c44d2750565a2f7a0a7bf34335a14d25be2118ac6011"
+          },
+          "transmission": "DISABLED"
+        },
+        "lifecycle": "withdrawn",
+        "incarnation": "4fdf5f60-cf59-452f-82b1-a37944337df9",
+        "current_adapter_installed": false,
+        "dial": {
+          "address": {
+            "digits": [
+              10,
+              4
+            ],
+            "radix": 11
+          },
+          "context_load": "0",
+          "curve": "linear",
+          "remainder": "0",
+          "sensitivity": null,
+          "threshold": 2
+        },
+        "mode": "attention",
+        "psi_regions": [
+          {
+            "positions": [
+              11
+            ],
+            "address": {
+              "radix": 11,
+              "digits": [
+                10
+              ]
+            },
+            "normalized_interval": [
+              "10/11",
+              "1"
+            ]
+          },
+          {
+            "positions": [
+              11,
+              5
+            ],
+            "address": {
+              "radix": 11,
+              "digits": [
+                10,
+                4
+              ]
+            },
+            "normalized_interval": [
+              "114/121",
+              "115/121"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "native_relatte_journal_verified": true,
+  "native_receiver": {
+    "schema": "relatte.local-receiver-snapshot/v0",
+    "world_id": "world:static-os-instrument:2fb7872a-09e2-47f4-8770-f5d529d7eff2",
+    "receiver_particular": "particular:instrument-owner:6c924dd7-60e4-4911-af19-e222840cbf24",
+    "history_head": "relatte-local-event-v0:fa4850f8ba6e6783e7381497ed3892582bbb7247f01fda675a7aa81b811c306c",
+    "received": [
+      "relatte-crossing-v0:39c0bd84fcbdd2551452c1934a24a38c10cf4df7fcc797b4fffc85fb3d940016",
+      "relatte-crossing-v0:40ff4595ca0de62f8ebd0c265b43cc4919cf81069697b08b6bfe2746826c891e",
+      "relatte-crossing-v0:6f8bdc7a86f98416a559e6bdcdfba813160b21817326da906fb51771ae1d9ceb"
+    ],
+    "held": [
+      "relatte-crossing-v0:39c0bd84fcbdd2551452c1934a24a38c10cf4df7fcc797b4fffc85fb3d940016",
+      "relatte-crossing-v0:6f8bdc7a86f98416a559e6bdcdfba813160b21817326da906fb51771ae1d9ceb"
+    ],
+    "admitted": [
+      "relatte-crossing-v0:40ff4595ca0de62f8ebd0c265b43cc4919cf81069697b08b6bfe2746826c891e"
+    ],
+    "refused": [],
+    "returned": [],
+    "state_ref": "relatte-local-state-v0:3741e7a19a919454390ab3a0984d8853a614d72d6c8acd02f1c2682106ee4db1"
+  },
+  "transmission": "DISABLED",
+  "rf_emitted": false
+}
