@@ -1,0 +1,74 @@
+{
+  "schema": "ghot.external-adapter-manifest/v0",
+  "adapter_id": "static-os.apparatus-compiler.mechanisms",
+  "capabilities": [
+    {
+      "capability": "mechanism.gear.forward.simulate",
+      "protocol": "stdin-json/stdout-json-v0",
+      "command": "python3",
+      "args": [
+        "../../question_first/gear_donor.py"
+      ],
+      "timeout_seconds": 6,
+      "limits": {
+        "network": false,
+        "transmit": false,
+        "physical_effects": false,
+        "simulation_only": true,
+        "authority": "none",
+        "cost_units": 1
+      }
+    },
+    {
+      "capability": "mechanism.gear.inverse.simulate",
+      "protocol": "stdin-json/stdout-json-v0",
+      "command": "python3",
+      "args": [
+        "../../question_first/gear_donor.py"
+      ],
+      "timeout_seconds": 6,
+      "limits": {
+        "network": false,
+        "transmit": false,
+        "physical_effects": false,
+        "simulation_only": true,
+        "authority": "none",
+        "cost_units": 1
+      }
+    },
+    {
+      "capability": "mechanism.leadscrew.translate.simulate",
+      "protocol": "stdin-json/stdout-json-v0",
+      "command": "python3",
+      "args": [
+        "../../question_first/apparatus_donor.py"
+      ],
+      "timeout_seconds": 6,
+      "limits": {
+        "network": false,
+        "transmit": false,
+        "physical_effects": false,
+        "simulation_only": true,
+        "authority": "none",
+        "cost_units": 1
+      }
+    },
+    {
+      "capability": "mechanism.apparatus.gear-leadscrew.simulate",
+      "protocol": "stdin-json/stdout-json-v0",
+      "command": "python3",
+      "args": [
+        "../../question_first/apparatus_donor.py"
+      ],
+      "timeout_seconds": 6,
+      "limits": {
+        "network": false,
+        "transmit": false,
+        "physical_effects": false,
+        "simulation_only": true,
+        "authority": "none",
+        "cost_units": 1
+      }
+    }
+  ]
+}
