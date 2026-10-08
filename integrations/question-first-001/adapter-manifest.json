@@ -1,0 +1,42 @@
+{
+  "schema": "ghot.external-adapter-manifest/v0",
+  "adapter_id": "static-os.question-first.mechanisms",
+  "capabilities": [
+    {
+      "capability": "mechanism.gear.forward.simulate",
+      "protocol": "stdin-json/stdout-json-v0",
+      "command": "python3",
+      "args": [
+        "../../question_first/gear_donor.py"
+      ],
+      "timeout_seconds": 6,
+      "limits": {
+        "network": false,
+        "transmit": false,
+        "physical_effects": false,
+        "simulation_only": true,
+        "cost_units": 1,
+        "max_teeth": 200,
+        "authority": "none"
+      }
+    },
+    {
+      "capability": "mechanism.gear.inverse.simulate",
+      "protocol": "stdin-json/stdout-json-v0",
+      "command": "python3",
+      "args": [
+        "../../question_first/gear_donor.py"
+      ],
+      "timeout_seconds": 6,
+      "limits": {
+        "network": false,
+        "transmit": false,
+        "physical_effects": false,
+        "simulation_only": true,
+        "cost_units": 1,
+        "max_teeth": 200,
+        "authority": "none"
+      }
+    }
+  ]
+}
