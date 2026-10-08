@@ -244,7 +244,8 @@ def _observe(question: dict, candidate: dict, native: dict, ghot_root: Path) -> 
         packet.get("source_card_id") == candidate["card_id"]
         and packet.get("capability") == candidate["capability"]
         and packet.get("status") == "PORTABLE_NOT_ADMITTED"
-        and packet.get("dispatch_id") == native.get("dispatch_id"),
+        and packet.get("dispatch_id") == native.get("dispatch_id")
+        and packet.get("input_sha256") == digest(candidate["input"]),
         "GHOT_PACKET_CANDIDATE_MISMATCH",
     )
     donor = packet.get("donor_result")
