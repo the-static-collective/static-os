@@ -1,0 +1,48 @@
+name: Apparatus Compiler 002 — native GHoT question-instrument assembly
+on:
+  push:
+    branches:
+      - experiment/apparatus-compiler-002
+  pull_request:
+    paths:
+      - "question_first/apparatus_*.py"
+      - "scripts/apparatus-compiler.py"
+      - "integrations/apparatus-002/**"
+      - "fixtures/apparatus-002/**"
+      - "tests/test_apparatus_compiler_002.py"
+      - "docs/APPARATUS-COMPILER-002.md"
+      - ".github/workflows/apparatus-compiler-002.yml"
+jobs:
+  apparatus-compiler:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout Static OS
+        uses: actions/checkout@v4
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install GHoT P-256 verification dependency
+        run: python3 -m pip install cryptography
+      - name: Checkout pinned GHoT native Instrument Rack
+        uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/GHoT
+          ref: 6e4aab6aec3b28f8dd50d01c3d571ae754c653d1
+          path: external/GHoT
+          persist-credentials: false
+      - name: Validate sources and manifests
+        run: |
+          python3 -m py_compile question_first/*.py scripts/apparatus-compiler.py
+          python3 -m json.tool integrations/apparatus-002/adapter-manifest.json >/dev/null
+          python3 -m json.tool fixtures/apparatus-002/source-grounded-question.json >/dev/null
+      - name: Run hardened native GHoT signed apparatus proof
+        env:
+          GHOT_SRC: ${{ github.workspace }}/external/GHoT
+        run: python3 -m unittest tests.test_apparatus_compiler_002 -v
+      - name: Run inherited first-question regressions
+        env:
+          GHOT_SRC: ${{ github.workspace }}/external/GHoT
+        run: python3 -m unittest tests.test_question_first_001 -v
