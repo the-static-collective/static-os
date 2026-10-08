@@ -1,0 +1,22 @@
+{
+  "schema": "static-os.apparatus-question-seed/v0",
+  "question": "does-gearing-change-leadscrew-travel",
+  "wanted_quantity": "AXIAL_TRAVEL_MICROMETRES",
+  "driver_teeth": 12,
+  "driven_teeth": 36,
+  "input_turns": 6,
+  "lead_um_per_turn": 1500,
+  "claimed_axial_um": 9000,
+  "source_witness": {
+    "schema": "static-os.catalog-source-witness/v0",
+    "repository": "Veneranda Biblioteca Ambrosiana",
+    "catalog_url": "https://www.ambrosiana.it/en/discover/masterpieces/codex-atlanticus/",
+    "folio": "Codex Atlanticus f. 1069 recto",
+    "catalog_topic": "water-lifting-cochleas",
+    "relation_to_apparatus": "CONCEPTUAL_ANALOGY_ONLY",
+    "source_image_sha256": null,
+    "source_image_bytes_verified": false,
+    "attribution_proof": "CURATORIAL_CATALOG_REFERENCE_ONLY",
+    "exact_gear_leadscrew_assembly_depicted": false
+  }
+}
