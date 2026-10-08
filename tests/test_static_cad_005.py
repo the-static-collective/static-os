@@ -52,6 +52,8 @@ class Solid005Tests(unittest.TestCase):
         assert cls.sketch["constraint_report"]["state"]=="SOLVED"
         cls.folder=cls.root/"cad-solid"
         cls.manifest=build_solid(cls.sketch,cls.folder)
+        cls.native_runtime=cls.root/"native-relatte-private"
+        cls.relatte_evidence=cross(cls.folder,cls.native_runtime)
 
     @classmethod
     def tearDownClass(cls):
@@ -123,8 +125,8 @@ class Solid005Tests(unittest.TestCase):
         self.assertEqual(manifest["authority"],"none")
 
     def test_real_relatte_signs_crossing_and_two_hold_receipts(self):
-        runtime=self.root/"secret-native-relatte-runtime"
-        result=cross(self.folder,runtime)
+        runtime=self.native_runtime
+        result=self.relatte_evidence
         v=verify_native(self.folder)
         self.assertEqual(v["status"],"SIGNED_CROSSING_AND_RECEIVE_HOLD_VERIFIED")
         self.assertEqual(v["disposition"],"HOLD")
@@ -163,8 +165,6 @@ class Solid005Tests(unittest.TestCase):
             verify_native(again)
 
     def test_operator_cli_cold_verifies_without_second_kernel_execution(self):
-        if not (self.folder/"relatte-evidence.json").exists():
-            cross(self.folder,self.root/"cli-relatte-root")
         cli=ROOT/"scripts/static-solid.py"
         p=subprocess.run([sys.executable,str(cli),"verify","--out-dir",
                          str(self.folder)],capture_output=True,text=True)
