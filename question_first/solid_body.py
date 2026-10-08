@@ -143,8 +143,8 @@ def build_solid(sketch: object, output_dir: Path) -> dict:
     # Real native OCCT STEP and tessellated STL bytes, not a macro proposal.
     step_file = path / "solid.step"
     stl_file = path / "solid.stl"
-    after.export(str(step_file), exportType="STEP")
-    after.export(str(stl_file), exportType="STL",
+    after.export(str(step_file))
+    after.export(str(stl_file),
                  tolerance=0.04, angularTolerance=0.12)
     require(step_file.stat().st_size > 500 and stl_file.stat().st_size > 100,
             "EMPTY_CAD_KERNEL_EXPORT")
