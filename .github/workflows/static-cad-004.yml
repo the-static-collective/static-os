@@ -1,0 +1,69 @@
+name: STATIC-CAD-004 — constraint-solved sketches and feature exports
+on:
+  push:
+    branches:
+      - experiment/static-cad-004
+  pull_request:
+    paths:
+      - "question_first/sketch_*.py"
+      - "scripts/static-sketch.py"
+      - "fixtures/static-cad-004/**"
+      - "tests/test_static_cad_004.py"
+      - "docs/STATIC-CAD-004.md"
+      - ".github/workflows/static-cad-004.yml"
+jobs:
+  constrained-sketch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout Static OS
+        uses: actions/checkout@v4
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install native GHoT signing dependency
+        run: python3 -m pip install cryptography
+      - name: Checkout pinned GHoT Instrument Rack
+        uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/GHoT
+          ref: 6e4aab6aec3b28f8dd50d01c3d571ae754c653d1
+          path: external/GHoT
+          persist-credentials: false
+      - name: Validate compiler and sketch fixture
+        run: |
+          python3 -m py_compile question_first/sketch_solver.py question_first/sketch_exports.py scripts/static-sketch.py
+          python3 -m json.tool fixtures/static-cad-004/rounded-mount-sketch.json >/dev/null
+      - name: Constraint solver, arcs, tangency, geometry and hostile package tests
+        env:
+          GHOT_SRC: ${{ github.workspace }}/external/GHoT
+        run: python3 -m unittest tests.test_static_cad_004 -v
+      - name: Inherited CAD, apparatus, question-first regressions
+        env:
+          GHOT_SRC: ${{ github.workspace }}/external/GHoT
+        run: |
+          python3 -m unittest tests.test_static_cad_003 -v
+          python3 -m unittest tests.test_apparatus_compiler_002 -v
+          python3 -m unittest tests.test_question_first_001 -v
+      - name: Compile from real parent question and verify inert sketch exports
+        env:
+          GHOT_SRC: ${{ github.workspace }}/external/GHoT
+          GHOT_HOME: ${{ runner.temp }}/sketch004-home
+          GHOT_ADAPTER_MANIFESTS: ${{ github.workspace }}/integrations/apparatus-002/adapter-manifest.json
+        run: |
+          python3 scripts/apparatus-compiler.py compile --ghot-root "$GHOT_SRC" --seed fixtures/apparatus-002/source-grounded-question.json --out /tmp/sketch004-parent.json
+          python3 scripts/static-cad.py compile --apparatus-plan /tmp/sketch004-parent.json --parameters fixtures/static-cad-003/reference-parameters.json --candidate gear-then-screw --out-dir dist/static-cad-004-parent
+          python3 -c 'import json; p=json.load(open("dist/static-cad-004-parent/project.json"));s=json.load(open("fixtures/static-cad-004/rounded-mount-sketch.json"));s["cad_parent_id"]=p["project_id"];json.dump(s,open("/tmp/sketch004-seed.json","w"),indent=2)'
+          python3 scripts/static-sketch.py solve --seed /tmp/sketch004-seed.json --parent-project dist/static-cad-004-parent/project.json --out-dir dist/static-cad-004-sketch
+          python3 scripts/static-sketch.py verify --out-dir dist/static-cad-004-sketch
+      - name: Upload CAD design preview (no B-rep/STL/STEP execution)
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-cad-004-constrained-sketch-candidate
+          path: |
+            dist/static-cad-004-parent/
+            dist/static-cad-004-sketch/
+          if-no-files-found: error
+          retention-days: 14
