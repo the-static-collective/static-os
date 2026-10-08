@@ -87,6 +87,13 @@ jobs:
         run: |
           xvfb-run -a python3 scripts/static-print.py slice --source dist/cad010-real-solid --packet dist/print011-held
           xvfb-run -a python3 scripts/static-print.py verify --source dist/cad010-real-solid --packet dist/print011-held
+      - name: Diagnostic only — identify slicer dialect on preflight HOLD
+        if: failure()
+        run: |
+          if test -f dist/print011-held/toolpath.gcode; then
+            echo "G-code command families actually emitted by pinned slicer:"
+            awk '{sub(/;.*/, ""); if ($1 ~ /^[GMT][0-9]+$/) print $1}' dist/print011-held/toolpath.gcode | sort -u | head -60
+          fi
       - name: Hostile physical printing boundary tests
         env:
           STATIC_OS_PRINT011_CAD: ${{ github.workspace }}/dist/cad010-real-solid
