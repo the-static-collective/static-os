@@ -1,0 +1,114 @@
+name: STATIC-PRINT-011 — signed CAD to real slicer G-code
+on:
+  push:
+    branches: [experiment/physical-print-packet-011]
+  pull_request:
+    paths:
+      - "question_first/print_packet.py"
+      - "scripts/static-print.py"
+      - "tests/test_print_packet_011.py"
+      - "fixtures/print-011/virtual-pla-180.ini"
+      - ".github/workflows/physical-print-packet-011.yml"
+permissions:
+  contents: read
+jobs:
+  native-design:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Install actual OCCT kernel
+        run: python3 -m pip install cadquery==2.8.0 cryptography
+      - name: Install actual PrusaSlicer FFF slice engine and virtual framebuffer
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y prusa-slicer xvfb xauth
+          prusa-slicer --version
+      - name: Checkout frozen GHoT instrument owner
+        uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/GHoT
+          ref: 6e4aab6aec3b28f8dd50d01c3d571ae754c653d1
+          path: external/GHoT
+          persist-credentials: false
+      - name: Checkout native reLATTE signer/verifier
+        uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/reLATTE
+          ref: dcc8cdca84c440aa4294134f020fb7095bf87f24
+          path: external/reLATTE
+          persist-credentials: false
+      - name: Install native reLATTE
+        working-directory: external/reLATTE
+        run: npm install --ignore-scripts --no-audit --no-fund
+      - name: Build source-constrained design and actual OCCT STEP
+        env:
+          GHOT_SRC: ${{ github.workspace }}/external/GHoT
+          GHOT_HOME: ${{ runner.temp }}/cad010-ghot
+          GHOT_ADAPTER_MANIFESTS: ${{ github.workspace }}/integrations/apparatus-002/adapter-manifest.json
+        run: |
+          python3 scripts/apparatus-compiler.py compile --ghot-root "$GHOT_SRC" --seed fixtures/apparatus-002/source-grounded-question.json --out /tmp/cad010-parent.json
+          python3 scripts/static-cad.py compile --apparatus-plan /tmp/cad010-parent.json --parameters fixtures/static-cad-003/reference-parameters.json --candidate gear-then-screw --out-dir dist/cad010-cad-parent
+          python3 -c 'import json; p=json.load(open("dist/cad010-cad-parent/project.json")); s=json.load(open("fixtures/static-cad-004/rounded-mount-sketch.json")); s["cad_parent_id"]=p["project_id"];json.dump(s,open("/tmp/cad010-seed.json","w"))'
+          python3 scripts/static-sketch.py solve --seed /tmp/cad010-seed.json --parent-project dist/cad010-cad-parent/project.json --out-dir dist/cad010-sketch
+          python3 scripts/static-solid.py build --sketch dist/cad010-sketch/sketch.json --out-dir dist/cad010-real-solid
+          python3 scripts/static-solid.py cross --out-dir dist/cad010-real-solid --private-relatte-root "$RUNNER_TEMP/cad010-private-keys"
+          python3 scripts/static-solid.py verify --out-dir dist/cad010-real-solid
+      - name: Cold export and rerun signature verifier without building new solids
+        run: |
+          python3 scripts/static-design-capacity.py export --family STATIC_CAD_005 --package dist/cad010-real-solid --out dist/cad010-design-capacity.json
+          python3 scripts/static-design-capacity.py verify --family STATIC_CAD_005 --package dist/cad010-real-solid --out dist/cad010-design-capacity.json
+      - name: Hostile tests against genuine native signed evidence
+        env:
+          STATIC_OS_CAD010_PACKAGE: ${{ github.workspace }}/dist/cad010-real-solid
+        run: python3 -m unittest tests.test_regenerative_design_capacity_010 -v
+      - name: Checkout pinned Jubilee 010 draft integration
+        uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/Jubilee-treasury
+          ref: dcf6ac7e8dbc487a83612e552a43ba5edc577fb5
+          path: external/Jubilee-treasury
+          persist-credentials: false
+      - name: Native Static OS signed CAD evidence → Jubilee reviewed noncash capacity
+        working-directory: external/Jubilee-treasury
+        env:
+          NATIVE_CAD010_EXPORT: ${{ github.workspace }}/dist/cad010-design-capacity.json
+          RELATTE_ROOT: ${{ github.workspace }}/external/reLATTE
+        run: |
+          npm test
+          node src/regenerative-cad-demo-010.mjs "$NATIVE_CAD010_EXPORT"
+      - name: Real slicer generates actual FDM G-code (no printer connected)
+        run: |
+          xvfb-run -a python3 scripts/static-print.py slice --source dist/cad010-real-solid --packet dist/print011-held
+          xvfb-run -a python3 scripts/static-print.py verify --source dist/cad010-real-solid --packet dist/print011-held
+      - name: Hostile physical printing boundary tests
+        env:
+          STATIC_OS_PRINT011_CAD: ${{ github.workspace }}/dist/cad010-real-solid
+        run: xvfb-run -a python3 -m unittest tests.test_print_packet_011 -v
+      - name: Evidence exported, no printer transmission or machine grant
+        run: |
+          python3 - <<'PY'
+          import json
+          p=json.load(open("dist/print011-held/packet.json"))
+          assert p["machine_motion_executed"] is False
+          assert p["printer_connected"] is False
+          assert p["physical_output_created"] is False
+          assert p["transmission_enabled"] is False
+          print("PRINT_PACKET_HOLD",p["packet_id"])
+          PY
+      - name: Upload public source package and capacity candidate, never private keys
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-print-011-real-slicer-gcode-held
+          path: |
+            dist/cad010-real-solid/
+            dist/cad010-design-capacity.json
+            dist/print011-held/
+          retention-days: 14
+          if-no-files-found: error
