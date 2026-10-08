@@ -1,0 +1,100 @@
+{
+  "schema": "static-os.instrument-acceptance/v0",
+  "status": "PASS bounded local candidate",
+  "test_results": {
+    "inherited_static_os_tests": 143,
+    "new_repository_tests": 37,
+    "total_repository_tests": 180,
+    "repository_skips": 0,
+    "original_oracle_tests": 33,
+    "original_experiment_checks": 25,
+    "native_relatte_tests": 119
+  },
+  "gates": [
+    {
+      "gate": 1,
+      "result": "PASS",
+      "evidence": "oracle/experiment.json and static-os-tests.txt; original source hashes preserved"
+    },
+    {
+      "gate": 2,
+      "result": "PASS",
+      "evidence": "native GHoT OS and CPU count observations in native-proof.json"
+    },
+    {
+      "gate": 3,
+      "result": "PASS",
+      "evidence": "frequency and attention change selected fixture data; no grant operations"
+    },
+    {
+      "gate": 4,
+      "result": "PASS with explicit boundary",
+      "evidence": "native reLATTE crossing/receipts exercised; Autodisco explicitly simulated"
+    },
+    {
+      "gate": 5,
+      "result": "PASS",
+      "evidence": "no RF API; transmission DISABLED; native bridge admits only read-only records"
+    },
+    {
+      "gate": 6,
+      "result": "PASS",
+      "evidence": "actual SIGKILL before SQLite close, process-death-proof.json"
+    },
+    {
+      "gate": 7,
+      "result": "PASS",
+      "evidence": "fresh-process reconstruction and native reLATTE journal verification, cold-proof.json"
+    },
+    {
+      "gate": 8,
+      "result": "PASS",
+      "evidence": "installed prefix second-instrument test; recorded radio + real GHoT on same contract"
+    }
+  ],
+  "capability_matrix": [
+    {
+      "capability": "radio receive",
+      "simulated": "synthetic recorded PCM fixture",
+      "locally_demonstrated": "source \u2192 observe \u2192 select \u2192 attend \u2192 owner-admitted record",
+      "externally_verified": "physical reception NOT_RUN"
+    },
+    {
+      "capability": "GHoT",
+      "simulated": "none in native proof",
+      "locally_demonstrated": "real pinned memory_bytes and probe_power; selected OS and CPU fields",
+      "externally_verified": "other physical hosts/sensors NOT_RUN"
+    },
+    {
+      "capability": "Autodisco",
+      "simulated": "original oracle energy-window proposer",
+      "locally_demonstrated": "proposal/selection distinction and laundering rejection",
+      "externally_verified": "native execution NOT_RUN"
+    },
+    {
+      "capability": "reLATTE",
+      "simulated": "none in native proof",
+      "locally_demonstrated": "real crossing, native signature verification, HOLD, owner-local ADMIT and journal reopen",
+      "externally_verified": "no live remote service or independent operator witness"
+    },
+    {
+      "capability": "durability",
+      "simulated": "recorded source data",
+      "locally_demonstrated": "SIGKILL, fresh process, exact control reconstruction, stale operation denial",
+      "externally_verified": "physical power cut and OS boot NOT_RUN"
+    },
+    {
+      "capability": "transmission",
+      "simulated": "original independent authorization oracle regressions only",
+      "locally_demonstrated": "all native transmit paths disabled; no RF emitted",
+      "externally_verified": "RF transmission NOT_RUN"
+    }
+  ],
+  "claims": {
+    "physical_reception": false,
+    "native_autodisco": false,
+    "rf_emitted": false,
+    "os_image_boot": false,
+    "external_ci_completion_claimed": false
+  }
+}

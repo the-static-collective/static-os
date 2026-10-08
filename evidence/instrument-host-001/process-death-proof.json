@@ -1,0 +1,270 @@
+{
+  "schema": "static-os.instrument-process-death-proof/v0",
+  "actual_sigkill": true,
+  "child_returncode": -9,
+  "sqlite_closed_by_child": false,
+  "fresh_verifier_process": true,
+  "cold": {
+    "schema": "static-os.instrument-cold-verification/v0",
+    "session_id": "49f4340f-2b04-48a0-aa65-a54717a85494",
+    "history_verified": true,
+    "cold_requests_denied": 1,
+    "historical_requests": 1,
+    "no_current_adapters": true,
+    "discovery": {
+      "schema": "static-os.instrument-discovery/v0",
+      "transmission": "DISABLED",
+      "instruments": [
+        {
+          "instrument_id": "recorded-radio",
+          "descriptor": {
+            "adapter": "recorded-radio/v0",
+            "calibration": {
+              "band_hz": [
+                88000000,
+                108000000
+              ],
+              "frames": 128,
+              "revision": "fixture-v1",
+              "sample_rate_hz": 8000,
+              "station_frequencies_hz": [
+                90000000,
+                106000000
+              ]
+            },
+            "capabilities": [
+              "observe",
+              "select",
+              "attend",
+              "record"
+            ],
+            "controls": [
+              {
+                "curves": [
+                  "linear",
+                  "logarithmic",
+                  "thresholded",
+                  "context-sensitive"
+                ],
+                "id": "selector",
+                "quantity": "frequency",
+                "range": [
+                  88000000,
+                  108000000
+                ],
+                "sensitivity": "recursive",
+                "unit": "Hz"
+              },
+              {
+                "curves": [
+                  "linear",
+                  "logarithmic",
+                  "thresholded",
+                  "context-sensitive"
+                ],
+                "id": "attention",
+                "quantity": "source region",
+                "range": [
+                  0,
+                  4096
+                ],
+                "sensitivity": "recursive",
+                "unit": "source item index"
+              }
+            ],
+            "instrument_id": "recorded-radio",
+            "label": "RECORDED SYNTHETIC FIXTURE",
+            "schema": "static-os.instrument-adapter/v0",
+            "source": {
+              "history": [
+                "synthetic PCM generator:v1",
+                "two station tracks:90MHz/106MHz",
+                "no physical capture"
+              ],
+              "kind": "recorded-fixture",
+              "reference": "file:///workspace/static-os/fixtures/instrument-host-001/two-stations.wav",
+              "sha256": "efebad3028b89667c136c44d2750565a2f7a0a7bf34335a14d25be2118ac6011"
+            },
+            "transmission": "DISABLED"
+          },
+          "lifecycle": "active",
+          "incarnation": "520bd5f1-cf2a-4cac-b22b-536b905cff61",
+          "current_adapter_installed": false,
+          "dial": {
+            "address": {
+              "digits": [
+                7,
+                3,
+                10,
+                2,
+                8,
+                4
+              ],
+              "radix": 11
+            },
+            "context_load": "0",
+            "curve": "linear",
+            "remainder": "0",
+            "sensitivity": {
+              "address": {
+                "digits": [
+                  3,
+                  7
+                ],
+                "radix": 11
+              },
+              "context_load": "0",
+              "curve": "linear",
+              "remainder": "0",
+              "sensitivity": {
+                "address": {
+                  "digits": [
+                    8,
+                    1
+                  ],
+                  "radix": 11
+                },
+                "context_load": "0",
+                "curve": "linear",
+                "remainder": "0",
+                "sensitivity": null,
+                "threshold": 2
+              },
+              "threshold": 2
+            },
+            "threshold": 2
+          },
+          "mode": "frequency",
+          "psi_regions": [
+            {
+              "positions": [
+                8
+              ],
+              "address": {
+                "radix": 11,
+                "digits": [
+                  7
+                ]
+              },
+              "normalized_interval": [
+                "7/11",
+                "8/11"
+              ]
+            },
+            {
+              "positions": [
+                8,
+                4
+              ],
+              "address": {
+                "radix": 11,
+                "digits": [
+                  7,
+                  3
+                ]
+              },
+              "normalized_interval": [
+                "80/121",
+                "81/121"
+              ]
+            },
+            {
+              "positions": [
+                8,
+                4,
+                11
+              ],
+              "address": {
+                "radix": 11,
+                "digits": [
+                  7,
+                  3,
+                  10
+                ]
+              },
+              "normalized_interval": [
+                "890/1331",
+                "81/121"
+              ]
+            },
+            {
+              "positions": [
+                8,
+                4,
+                11,
+                3
+              ],
+              "address": {
+                "radix": 11,
+                "digits": [
+                  7,
+                  3,
+                  10,
+                  2
+                ]
+              },
+              "normalized_interval": [
+                "9792/14641",
+                "9793/14641"
+              ]
+            },
+            {
+              "positions": [
+                8,
+                4,
+                11,
+                3,
+                9
+              ],
+              "address": {
+                "radix": 11,
+                "digits": [
+                  7,
+                  3,
+                  10,
+                  2,
+                  8
+                ]
+              },
+              "normalized_interval": [
+                "107720/161051",
+                "107721/161051"
+              ]
+            },
+            {
+              "positions": [
+                8,
+                4,
+                11,
+                3,
+                9,
+                5
+              ],
+              "address": {
+                "radix": 11,
+                "digits": [
+                  7,
+                  3,
+                  10,
+                  2,
+                  8,
+                  4
+                ]
+              },
+              "normalized_interval": [
+                "1184924/1771561",
+                "1184925/1771561"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "native_relatte_journal_verified": false,
+    "native_receiver": null,
+    "transmission": "DISABLED",
+    "rf_emitted": false
+  },
+  "physical_os_boot": "NOT_RUN",
+  "rf_emitted": false
+}

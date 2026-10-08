@@ -1,0 +1,48 @@
+name: INSTRUMENT HOST 001
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  native-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: the-static-collective/GHoT
+          ref: e35dd470384d864b7b0b629a68dad570875a7df0
+          path: .ci-instrument-ghot
+          persist-credentials: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: the-static-collective/reLATTE
+          ref: dcc8cdca84c440aa4294134f020fb7095bf87f24
+          path: .ci-instrument-relatte
+          persist-credentials: false
+      - name: Install pinned reLATTE dependencies and verify owner implementation
+        run: |
+          npm install --ignore-scripts --no-audit --no-fund --prefix .ci-instrument-relatte
+          npm run verify --prefix .ci-instrument-relatte
+      - name: Run all Static-OS and native instrument tests, including the 58 oracle checks
+        env:
+          STATIC_INSTRUMENT_GHOT: ${{ github.workspace }}/.ci-instrument-ghot
+          STATIC_INSTRUMENT_RELATTE: ${{ github.workspace }}/.ci-instrument-relatte
+        run: python3 -m unittest discover -s tests -v
+      - name: Run native observation, crossing, owner-local record, and cold verification
+        run: |
+          python3 -m instruments.cli demo --session "$RUNNER_TEMP/instrument-session" \
+            --ghot "$PWD/.ci-instrument-ghot" --relatte "$PWD/.ci-instrument-relatte" --owner-record
+          python3 -m instruments.cli verify --session "$RUNNER_TEMP/instrument-session" \
+            --relatte "$PWD/.ci-instrument-relatte"
+          python3 scripts/instrument-process-death-proof.py --session "$RUNNER_TEMP/instrument-killed-session"

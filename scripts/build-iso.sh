@@ -93,6 +93,14 @@ done < whole-body-sources.tsv
 rm -f whole-body-sources.tsv
 rm -rf house-fetch
 
+# INSTRUMENT HOST 001 is a bounded source-installed subsystem. Native organ roots
+# remain explicit: the image's older reLATTE pin must never be silently substituted.
+# No RF device, service, key, or admission is enabled by this installation.
+python3 "$ROOT/scripts/install-instrument-host.py" \
+  --prefix "$BUILD_DIR/config/includes.chroot/usr/local"
+install -m 0644 "$ROOT/manifest/instrument-host-001.json" \
+  config/includes.chroot/usr/share/static-os/instrument-host-001.json
+
 lb build
 
 mapfile -t images < <(find . -maxdepth 1 -type f -name '*.iso' -print)
