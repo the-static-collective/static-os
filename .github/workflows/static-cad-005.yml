@@ -1,0 +1,90 @@
+name: STATIC-CAD-005 — real OCCT solids through native reLATTE
+on:
+  push:
+    branches:
+      - experiment/static-cad-005-relatte
+  pull_request:
+    paths:
+      - "question_first/solid_*.py"
+      - "scripts/static-solid.py"
+      - "scripts/solid-relatte-bridge.mjs"
+      - "tests/test_static_cad_005.py"
+      - "docs/STATIC-CAD-005.md"
+      - ".github/workflows/static-cad-005.yml"
+jobs:
+  cad-005:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Install real OpenCASCADE engine and GHoT signing dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install cadquery==2.8.0 cryptography
+      - name: Checkout pinned native GHoT
+        uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/GHoT
+          ref: 6e4aab6aec3b28f8dd50d01c3d571ae754c653d1
+          path: external/GHoT
+          persist-credentials: false
+      - name: Checkout pinned native reLATTE core
+        uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/reLATTE
+          ref: dcc8cdca84c440aa4294134f020fb7095bf87f24
+          path: external/reLATTE
+          persist-credentials: false
+      - name: Install native reLATTE protocol dependencies
+        working-directory: external/reLATTE
+        run: npm install --ignore-scripts --no-audit --no-fund
+      - name: Confirm native protocol contracts compile
+        working-directory: external/reLATTE
+        run: npm run check
+      - name: Compile Static-OS programs
+        run: |
+          python3 -m py_compile question_first/solid_body.py question_first/solid_relatte.py scripts/static-solid.py
+          node --check scripts/solid-relatte-bridge.mjs
+      - name: Native OCCT BRep, genuine reLATTE crossing, and adversarial cold replay
+        env:
+          GHOT_SRC: ${{ github.workspace }}/external/GHoT
+        run: python3 -m unittest tests.test_static_cad_005 -v
+      - name: Inherited bounded CAD + instrument contract regressions
+        env:
+          GHOT_SRC: ${{ github.workspace }}/external/GHoT
+        run: |
+          python3 -m unittest tests.test_static_cad_004 -v
+          python3 -m unittest tests.test_static_cad_003 -v
+          python3 -m unittest tests.test_apparatus_compiler_002 -v
+          python3 -m unittest tests.test_question_first_001 -v
+      - name: Reconstruct from question to actual solid and native reLATTE HOLD
+        env:
+          GHOT_SRC: ${{ github.workspace }}/external/GHoT
+          GHOT_HOME: ${{ runner.temp }}/staticcad005-ghot
+          GHOT_ADAPTER_MANIFESTS: ${{ github.workspace }}/integrations/apparatus-002/adapter-manifest.json
+        run: |
+          python3 scripts/apparatus-compiler.py compile --ghot-root "$GHOT_SRC" --seed fixtures/apparatus-002/source-grounded-question.json --out /tmp/solid005-parent.json
+          python3 scripts/static-cad.py compile --apparatus-plan /tmp/solid005-parent.json --parameters fixtures/static-cad-003/reference-parameters.json --candidate gear-then-screw --out-dir dist/solid005-cad-parent
+          python3 -c 'import json; p=json.load(open("dist/solid005-cad-parent/project.json"));s=json.load(open("fixtures/static-cad-004/rounded-mount-sketch.json"));s["cad_parent_id"]=p["project_id"];json.dump(s,open("/tmp/solid005-seed.json","w"),indent=2)'
+          python3 scripts/static-sketch.py solve --seed /tmp/solid005-seed.json --parent-project dist/solid005-cad-parent/project.json --out-dir dist/solid005-sketch-parent
+          python3 scripts/static-solid.py build --sketch dist/solid005-sketch-parent/sketch.json --out-dir dist/solid005-solid
+          python3 scripts/static-solid.py cross --out-dir dist/solid005-solid --private-relatte-root "$RUNNER_TEMP/cad005-relatte-private"
+          python3 scripts/static-solid.py verify --out-dir dist/solid005-solid
+      - name: Upload public CAD trace and actual STEP/STL, never private keys
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-cad-005-occt-relatte-evidence
+          path: |
+            dist/solid005-cad-parent/
+            dist/solid005-sketch-parent/
+            dist/solid005-solid/
+          retention-days: 14
+          if-no-files-found: error
