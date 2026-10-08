@@ -1,0 +1,102 @@
+name: STATIC-CAD-006 — GOATnote-native feature journal through reLATTE
+on:
+  push:
+    branches:
+      - experiment/static-cad-006-goatnote
+  pull_request:
+    paths:
+      - "question_first/feature_tree.py"
+      - "question_first/cad_goatnote.py"
+      - "scripts/static-cad-goatnote.py"
+      - "scripts/goatnote-cad-bridge.mjs"
+      - "tests/test_static_cad_006.py"
+      - "docs/STATIC-CAD-006.md"
+      - ".github/workflows/static-cad-006.yml"
+jobs:
+  cad-goatnote:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Install real CAD kernel and GHoT signing dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install cadquery==2.8.0 cryptography
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/GHoT
+          ref: 6e4aab6aec3b28f8dd50d01c3d571ae754c653d1
+          path: external/GHoT
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/reLATTE
+          ref: dcc8cdca84c440aa4294134f020fb7095bf87f24
+          path: external/reLATTE
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/GOATnote
+          ref: 64fee0380bf10d68c9885ccfd6b5632567892704
+          path: external/GOATnote
+          persist-credentials: false
+      - name: Install native reLATTE dependencies
+        working-directory: external/reLATTE
+        run: npm install --ignore-scripts --no-audit --no-fund
+      - name: Verify native reLATTE contracts
+        working-directory: external/reLATTE
+        run: npm run check
+      - name: Verify pinned native GOATnote journal and offline source
+        working-directory: external/GOATnote
+        run: |
+          node tests/cad-journal.test.mjs
+          node tests/smoke.mjs
+      - name: Compile bridge and CAD feature tree
+        run: |
+          python3 -m py_compile question_first/feature_tree.py question_first/cad_goatnote.py scripts/static-cad-goatnote.py
+          node --check scripts/goatnote-cad-bridge.mjs
+      - name: Two real OCCT branches, two signed reLATTE HOLDs and GOATnote-native journals
+        env:
+          GHOT_SRC: ${{ github.workspace }}/external/GHoT
+        run: python3 -m unittest tests.test_static_cad_006 -v
+      - name: Inherited CAD + signed question regressions
+        env:
+          GHOT_SRC: ${{ github.workspace }}/external/GHoT
+        run: |
+          python3 -m unittest tests.test_static_cad_005 -v
+          python3 -m unittest tests.test_static_cad_004 -v
+          python3 -m unittest tests.test_static_cad_003 -v
+          python3 -m unittest tests.test_apparatus_compiler_002 -v
+          python3 -m unittest tests.test_question_first_001 -v
+      - name: Reconstruct one exact owner-selected CAD branch and GOATnote journal package
+        env:
+          GHOT_SRC: ${{ github.workspace }}/external/GHoT
+          GHOT_HOME: ${{ runner.temp }}/cad006-ghot
+          GHOT_ADAPTER_MANIFESTS: ${{ github.workspace }}/integrations/apparatus-002/adapter-manifest.json
+        run: |
+          python3 scripts/apparatus-compiler.py compile --ghot-root "$GHOT_SRC" --seed fixtures/apparatus-002/source-grounded-question.json --out /tmp/cad006-parent.json
+          python3 scripts/static-cad.py compile --apparatus-plan /tmp/cad006-parent.json --parameters fixtures/static-cad-003/reference-parameters.json --candidate gear-then-screw --out-dir dist/cad006-source-cad
+          python3 -c 'import json; p=json.load(open("dist/cad006-source-cad/project.json"));s=json.load(open("fixtures/static-cad-004/rounded-mount-sketch.json"));s["cad_parent_id"]=p["project_id"];json.dump(s,open("/tmp/cad006-root-sketch.json","w"),indent=2)'
+          python3 scripts/static-sketch.py solve --seed /tmp/cad006-root-sketch.json --parent-project dist/cad006-source-cad/project.json --out-dir dist/cad006-root-sketch
+          python3 scripts/static-cad-goatnote.py plan --source-sketch dist/cad006-root-sketch/sketch.json --out /tmp/cad006-feature-tree.json
+          python3 -c 'import json;p=json.load(open("/tmp/cad006-feature-tree.json"));v={"schema":"static-os.cad-feature-selection/v0","tree_id":p["tree_id"],"candidate_id":"pad-deeper","owner_id":"ci-test-owner","approved":True,"execution_scope":"SOFTWARE_CAD_KERNEL_AND_SIGNED_HOLD"};json.dump(v,open("/tmp/cad006-selection.json","w"))'
+          python3 scripts/static-cad-goatnote.py execute --tree /tmp/cad006-feature-tree.json --selection /tmp/cad006-selection.json --out-dir dist/cad006-selected-branch --private-relatte-root "$RUNNER_TEMP/cad006-private-keys"
+          python3 scripts/static-cad-goatnote.py verify --out-dir dist/cad006-selected-branch
+      - name: Upload public STEP/STL and GOATnote import handoff, not receiver keys
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-cad-006-goatnote-native-journal
+          path: |
+            dist/cad006-source-cad/
+            dist/cad006-root-sketch/
+            dist/cad006-selected-branch/
+          retention-days: 14
+          if-no-files-found: error
