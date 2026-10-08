@@ -1,0 +1,160 @@
+{
+  "schema": "static-os.sketch-seed/v0",
+  "cad_parent_id": "<replace-with-signed-parent-from-003>",
+  "points": {
+    "p0": {
+      "x_um": 0,
+      "y_um": 0
+    },
+    "p1": {
+      "x_um": 69000,
+      "y_um": 700
+    },
+    "p2": {
+      "x_um": 80000,
+      "y_um": 10000
+    },
+    "p3": {
+      "x_um": 79000,
+      "y_um": 49000
+    },
+    "p4": {
+      "x_um": 1000,
+      "y_um": 49000
+    },
+    "c0": {
+      "x_um": 70000,
+      "y_um": 10000
+    },
+    "h1": {
+      "x_um": 15000,
+      "y_um": 15000
+    },
+    "h2": {
+      "x_um": 65000,
+      "y_um": 35000
+    }
+  },
+  "path": [
+    {
+      "kind": "line",
+      "start": "p0",
+      "end": "p1"
+    },
+    {
+      "kind": "arc",
+      "start": "p1",
+      "end": "p2",
+      "center": "c0",
+      "direction": "CCW"
+    },
+    {
+      "kind": "line",
+      "start": "p2",
+      "end": "p3"
+    },
+    {
+      "kind": "line",
+      "start": "p3",
+      "end": "p4"
+    },
+    {
+      "kind": "line",
+      "start": "p4",
+      "end": "p0"
+    }
+  ],
+  "holes": [
+    {
+      "id": "mount1",
+      "center": "h1",
+      "radius_um": 3000
+    },
+    {
+      "id": "mount2",
+      "center": "h2",
+      "radius_um": 3000
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "fix",
+      "point": "p0",
+      "x_um": 0,
+      "y_um": 0
+    },
+    {
+      "kind": "fix",
+      "point": "p2",
+      "x_um": 80000,
+      "y_um": 10000
+    },
+    {
+      "kind": "fix",
+      "point": "c0",
+      "x_um": 70000,
+      "y_um": 10000
+    },
+    {
+      "kind": "fix",
+      "point": "h1",
+      "x_um": 15000,
+      "y_um": 15000
+    },
+    {
+      "kind": "fix",
+      "point": "h2",
+      "x_um": 65000,
+      "y_um": 35000
+    },
+    {
+      "kind": "distance",
+      "a": "p0",
+      "b": "p1",
+      "length_um": 70000
+    },
+    {
+      "kind": "tangent_line_arc",
+      "line_start": "p0",
+      "line_end": "p1",
+      "arc_point": "p1",
+      "center": "c0"
+    },
+    {
+      "kind": "vertical",
+      "a": "p2",
+      "b": "p3"
+    },
+    {
+      "kind": "distance",
+      "a": "p2",
+      "b": "p3",
+      "length_um": 40000
+    },
+    {
+      "kind": "horizontal",
+      "a": "p3",
+      "b": "p4"
+    },
+    {
+      "kind": "distance",
+      "a": "p3",
+      "b": "p4",
+      "length_um": 80000
+    }
+  ],
+  "features": [
+    {
+      "kind": "pad",
+      "depth_um": 7000
+    },
+    {
+      "kind": "pocket_through",
+      "holes": [
+        "mount1",
+        "mount2"
+      ]
+    }
+  ],
+  "revision_parent_id": null
+}
