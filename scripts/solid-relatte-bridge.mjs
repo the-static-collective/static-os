@@ -38,9 +38,20 @@ async function verifyEvidence(value) {
   }
   const payloadRefs = result.crossing.payload_refs;
   const expected = value.expected_refs;
-  if (!Array.isArray(expected) || expected.length !== 4
-      || JSON.stringify(payloadRefs) !== JSON.stringify(expected)
-      || result.crossing.source_history_head !== value.trace_id) {
+  // reLATTE's source adapter normalizes field insertion order; compare
+  // strict semantic values, not JSON.stringify object insertion order.
+  const matches = Array.isArray(payloadRefs) && Array.isArray(expected)
+    && payloadRefs.length === 4 && expected.length === 4
+    && expected.every((ref, i) => {
+      const native = payloadRefs[i];
+      return native && ref
+        && Object.keys(native).length === 3
+        && Object.keys(ref).length === 3
+        && native.address === ref.address
+        && native.role === ref.role
+        && native.media_type === ref.media_type;
+    });
+  if (!matches || result.crossing.source_history_head !== value.trace_id) {
     throw new Error('RELATTE_PAYLOAD_BINDING_MISMATCH');
   }
   return {
