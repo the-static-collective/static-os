@@ -1,0 +1,52 @@
+name: Question First Session 001 — owner-gated GHoT instrument
+on:
+  push:
+    branches:
+      - experiment/question-first-session-001
+  pull_request:
+    paths:
+      - "question_first/**"
+      - "scripts/question-first.py"
+      - "scripts/question-ghot-verify.py"
+      - "integrations/question-first-001/**"
+      - "fixtures/question-first-001/**"
+      - "tests/test_question_first_001.py"
+      - "docs/QUESTION-FIRST-SESSION-001.md"
+      - ".github/workflows/question-first-001.yml"
+jobs:
+  question-first:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout STATIC OS
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install GHoT P-256 verification dependency
+        run: python3 -m pip install cryptography
+      - name: Checkout pinned GHoT native Instrument Rack
+        uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/GHoT
+          ref: 6e4aab6aec3b28f8dd50d01c3d571ae754c653d1
+          path: external/GHoT
+          persist-credentials: false
+      - name: Compile userspace experiment and check manifest
+        run: |
+          python3 -m py_compile question_first/*.py scripts/question-first.py scripts/question-ghot-verify.py
+          python3 -m json.tool integrations/question-first-001/adapter-manifest.json >/dev/null
+      - name: Test question compiler and native signed GHoT dispatch
+        env:
+          GHOT_SRC: ${{ github.workspace }}/external/GHoT
+        run: python3 -m unittest tests.test_question_first_001 -v
+      - name: Smoke operator ask command (no instrument execution)
+        env:
+          GHOT_SRC: ${{ github.workspace }}/external/GHoT
+          GHOT_HOME: ${{ runner.temp }}/question-first-cli-home
+          GHOT_ADAPTER_MANIFESTS: ${{ github.workspace }}/integrations/question-first-001/adapter-manifest.json
+        run: |
+          python3 scripts/question-first.py ask --seed fixtures/question-first-001/gear-seed.json --ghot-root "$GHOT_SRC" > /tmp/question-first-ask.json
+          python3 -c "import json; r=json.load(open('/tmp/question-first-ask.json')); assert len(r['question']['candidate_experiments'])==2 and r['executed'] is False"
