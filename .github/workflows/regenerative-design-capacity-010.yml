@@ -62,6 +62,21 @@ jobs:
         env:
           STATIC_OS_CAD010_PACKAGE: ${{ github.workspace }}/dist/cad010-real-solid
         run: python3 -m unittest tests.test_regenerative_design_capacity_010 -v
+      - name: Checkout pinned Jubilee 010 draft integration
+        uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/Jubilee-treasury
+          ref: dcf6ac7e8dbc487a83612e552a43ba5edc577fb5
+          path: external/Jubilee-treasury
+          persist-credentials: false
+      - name: Native Static OS signed CAD evidence → Jubilee reviewed noncash capacity
+        working-directory: external/Jubilee-treasury
+        env:
+          NATIVE_CAD010_EXPORT: ${{ github.workspace }}/dist/cad010-design-capacity.json
+          RELATTE_ROOT: ${{ github.workspace }}/external/reLATTE
+        run: |
+          npm test
+          node src/regenerative-cad-demo-010.mjs "$NATIVE_CAD010_EXPORT"
       - name: Upload public source package and capacity candidate, never private keys
         uses: actions/upload-artifact@v4
         with:
