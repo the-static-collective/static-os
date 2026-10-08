@@ -22,7 +22,7 @@ ROOT=Path(__file__).resolve().parents[1]
 SCHEMA="static-os.fff-print-packet/v0"
 PROFILE=ROOT/"fixtures/print-011/virtual-pla-180.ini"
 MACHINE="VIRTUAL_FFF_PLA_180_NO_PHYSICAL_PRINTER"
-ALLOWED={"G0","G1","G28","G90","G92","M82","M83","M84","M104","M109",
+ALLOWED={"G0","G1","G21","G28","G90","G92","M82","M83","M84","M104","M109",
          "M140","M190","M106","M107","M73","M117","M201","M203","M204","M205",
          "M220","M221","M400","T0"}
 MAX_GCODE_BYTES=16*1024*1024
@@ -94,6 +94,8 @@ def preflight(gcode:Path)->dict:
                 xy_moves+=1
             if "E" in kv and xy_moves and ("X" in kv or "Y" in kv):
                 deposition+=1
+        elif opcode=="G21":
+            require(not kv,"MILLIMETRES_DIRECTIVE_MUST_HAVE_NO_ARGUMENTS")
         elif opcode=="G92":
             # Coordinate resets other than extruder would defeat XY bounds.
             require(set(kv)=={"E"},"NO_XYZ_COORDINATE_RESET")
