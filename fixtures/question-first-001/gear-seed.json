@@ -1,0 +1,9 @@
+{
+  "schema": "static-os.question-seed/v0",
+  "source": "MODERN_IDEALIZATION_NO_VERIFIED_LEONARDO_FOLIO",
+  "mechanism": "two-external-spur-gears-ideal-no-slip",
+  "driver_teeth": 12,
+  "driven_teeth": 36,
+  "driver_turns": 6,
+  "claimed_driven_turns": -2
+}
