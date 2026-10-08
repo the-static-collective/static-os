@@ -143,7 +143,9 @@ def prepare_print(source:Path,out:Path,*,slicer:str="prusa-slicer")->dict:
     try:
         version=subprocess.run([program,"--version"],capture_output=True,text=True,
                                timeout=20,check=False)
-        require(version.returncode==0,"SLICER_VERSION_NOT_AVAILABLE")
+        version_banner=(version.stdout+"\\n"+version.stderr).strip()
+        require("PrusaSlicer" in version_banner,
+                "SLICER_VERSION_BANNER_NOT_AVAILABLE")
         execution=subprocess.run([program,"--export-gcode","--load",
                         str(root/"profile.ini"),"--center","90,90",
                         "--output",str(result_path),str(source/"solid.stl")],
@@ -160,7 +162,7 @@ def prepare_print(source:Path,out:Path,*,slicer:str="prusa-slicer")->dict:
           "profile_sha256":sha(root/"profile.ini"),
           "profile_kind":MACHINE,
           "slicer_software":Path(program).name,
-          "slicer_version_claim":version.stdout.strip()[:120],
+          "slicer_version_claim":version_banner[:120],
           "gcode_sha256":sha(result_path),"preflight_sha256":digest(report),
           "prepared_sha256":sha(root/"PREPARED.json"),
           "state":"PRINT_JOB_CANDIDATE_NOT_AUTHORIZED",
