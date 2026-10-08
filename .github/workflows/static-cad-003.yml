@@ -1,0 +1,67 @@
+name: STATIC-CAD-003 — parametric design and neutral export candidate
+on:
+  push:
+    branches:
+      - experiment/static-cad-003
+  pull_request:
+    paths:
+      - "question_first/static_cad.py"
+      - "question_first/cad_exports.py"
+      - "scripts/static-cad.py"
+      - "tests/test_static_cad_003.py"
+      - "fixtures/static-cad-003/**"
+      - "docs/STATIC-CAD-003.md"
+      - ".github/workflows/static-cad-003.yml"
+jobs:
+  cad-workbench:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout Static OS
+        uses: actions/checkout@v4
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install native GHoT signature-verification dependency
+        run: python3 -m pip install cryptography
+      - name: Checkout pinned native GHoT
+        uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/GHoT
+          ref: 6e4aab6aec3b28f8dd50d01c3d571ae754c653d1
+          path: external/GHoT
+          persist-credentials: false
+      - name: Compile and validate engineering fixture
+        run: |
+          python3 -m py_compile question_first/static_cad.py question_first/cad_exports.py scripts/static-cad.py
+          python3 -m json.tool fixtures/static-cad-003/reference-parameters.json >/dev/null
+      - name: Run CAD design/geometry/lineage/export hostile tests
+        env:
+          GHOT_SRC: ${{ github.workspace }}/external/GHoT
+        run: python3 -m unittest tests.test_static_cad_003 -v
+      - name: Regression — apparatus compiler and signed native GHoT
+        env:
+          GHOT_SRC: ${{ github.workspace }}/external/GHoT
+        run: python3 -m unittest tests.test_apparatus_compiler_002 -v
+      - name: Regression — question-first signed execution
+        env:
+          GHOT_SRC: ${{ github.workspace }}/external/GHoT
+        run: python3 -m unittest tests.test_question_first_001 -v
+      - name: Generate reproducible CAD preview package
+        env:
+          GHOT_SRC: ${{ github.workspace }}/external/GHoT
+          GHOT_HOME: ${{ runner.temp }}/static-cad-003-home
+          GHOT_ADAPTER_MANIFESTS: ${{ github.workspace }}/integrations/apparatus-002/adapter-manifest.json
+        run: |
+          python3 scripts/apparatus-compiler.py compile --ghot-root "$GHOT_SRC" --seed fixtures/apparatus-002/source-grounded-question.json --out /tmp/apparatus-cad-parent.json
+          python3 scripts/static-cad.py compile --apparatus-plan /tmp/apparatus-cad-parent.json --parameters fixtures/static-cad-003/reference-parameters.json --candidate gear-then-screw --out-dir dist/static-cad-003
+          python3 scripts/static-cad.py verify --out-dir dist/static-cad-003
+      - name: Publish preview CAD package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-cad-003-design-candidate
+          path: dist/static-cad-003/
+          if-no-files-found: error
+          retention-days: 14
