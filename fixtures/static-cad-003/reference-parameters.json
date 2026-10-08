@@ -1,0 +1,12 @@
+{
+  "module_um": 1600,
+  "base_width_um": 64000,
+  "base_thickness_um": 6000,
+  "wall_um": 8000,
+  "upright_height_um": 45000,
+  "bore_diameter_um": 8000,
+  "mount_hole_diameter_um": 5000,
+  "mount_margin_um": 11000,
+  "clearance_um": 1500,
+  "material": "UNSPECIFIED"
+}
