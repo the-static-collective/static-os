@@ -148,7 +148,7 @@ def extract_frame(video: Path, frame_index: int) -> tuple[bytes, dict]:
         "-f", "image2pipe", "-vcodec", "png", "pipe:1",
     ])
     require(0 < len(png) <= MAX_FRAME_BYTES
-            and png.startswith(b"\\x89PNG\\r\\n\\x1a\\n"),
+            and png.startswith(b"\x89PNG\r\n\x1a\n"),
             "EXACTLY_ONE_BOUNDED_DECODED_PNG_REQUIRED")
     sha_post, bytes_post = _hash_video(Path(video))
     require(sha_pre == sha_post and bytes_pre == bytes_post,
