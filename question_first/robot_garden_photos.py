@@ -63,6 +63,8 @@ def _image_metrics(data: bytes) -> dict:
             gray.thumbnail((PREVIEW_SIDE, PREVIEW_SIDE), Image.Resampling.BILINEAR)
             width_small, height_small = gray.size
             luminance = gray.tobytes()
+    except Hold:
+        raise
     except (OSError, ValueError, SyntaxError, UnidentifiedImageError,
             Image.DecompressionBombError, Image.DecompressionBombWarning) as exc:
         raise Hold("ORIGINAL_IMAGE_FAILED_STRICT_DECODE") from exc
