@@ -1,0 +1,27 @@
+{
+  "schema": "static-os.print-technology-registry/v0",
+  "purpose": "OPEN_WORLD_MACHINE_DISCOVERY_NOT_HARDWARE_AUTHORITY",
+  "supported_printer_count_claim": 0,
+  "machine_execution_enabled": false,
+  "families": [
+    {"id":"FFF_FDM","process":"material-extrusion","required_bridge":"machine-specific-filament-slicer-profile","output_class":"FIRMWARE_SPECIFIC_TOOLPATH","reference_adapter":"VIRTUAL_PRUSASLICER_011","physical_execution_verified":false},
+    {"id":"MSLA","process":"vat-photopolymerization","required_bridge":"model-specific-layer-exposure-and-resin-profile","output_class":"RESIN_PRINTER_SPECIFIC_LAYERS","reference_adapter":null,"physical_execution_verified":false},
+    {"id":"LASER_SLA","process":"vat-photopolymerization","required_bridge":"specific-laser-path-exposure-and-resin-profile","output_class":"VENDOR_SPECIFIC_JOB","reference_adapter":null,"physical_execution_verified":false},
+    {"id":"DLP","process":"vat-photopolymerization","required_bridge":"model-specific-projection-and-resin-profile","output_class":"VENDOR_SPECIFIC_LAYERS","reference_adapter":null,"physical_execution_verified":false},
+    {"id":"SLS_POLYMER","process":"powder-bed-fusion","required_bridge":"machine-licensed-build-packing-and-powder-policy","output_class":"MACHINE_SPECIFIC_BUILD","reference_adapter":null,"physical_execution_verified":false},
+    {"id":"MJF_POLYMER","process":"powder-fusion-agent","required_bridge":"manufacturer-build-packing-and-powder-policy","output_class":"VENDOR_SPECIFIC_JOB","reference_adapter":null,"physical_execution_verified":false},
+    {"id":"BINDER_JETTING","process":"binder-jetting","required_bridge":"material-binder-cure-process-profile","output_class":"VENDOR_SPECIFIC_JOB","reference_adapter":null,"physical_execution_verified":false},
+    {"id":"MATERIAL_JETTING","process":"material-jetting","required_bridge":"vendor-material-jetting-profile","output_class":"VENDOR_SPECIFIC_JOB","reference_adapter":null,"physical_execution_verified":false},
+    {"id":"METAL_PBF","process":"metal-powder-bed-fusion","required_bridge":"qualified-industrial-build-and-safety-process","output_class":"QUALIFIED_MACHINE_SPECIFIC_BUILD","reference_adapter":null,"physical_execution_verified":false},
+    {"id":"DED","process":"directed-energy-deposition","required_bridge":"industrial-robot-process-engineering-and-safety","output_class":"QUALIFIED_MACHINE_SPECIFIC_PATH","reference_adapter":null,"physical_execution_verified":false}
+  ],
+  "laws": [
+    "OPEN_WORLD_COMPATIBILITY != UNIVERSAL_GCODE",
+    "DISCOVERABLE != CONNECTED",
+    "CLAIMED_PROFILE != VERIFIED_PROFILE",
+    "VIRTUAL_SLICING != HARDWARE_TEST",
+    "DIGITAL_DESIGN != PHYSICAL_STOCK",
+    "KNOWN_TECHNOLOGY != SUPPORTED_MACHINE",
+    "NO_DEFAULT_TRANSPORT_NO_DEFAULT_ACTUATION"
+  ]
+}
