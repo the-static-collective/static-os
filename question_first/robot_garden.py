@@ -70,7 +70,9 @@ def plan_inspection(verified_request: Any, solid_dims: Any, station: Any) -> dic
             and verified_request.get("state") == "FABRICATION_PROPOSAL_ONLY"
             and verified_request.get("fabrication_occurred") is False
             and verified_request.get("owner_machine_grants_included") is False
+            and type(verified_request.get("physical_parts")) is int
             and verified_request.get("physical_parts") == 0
+            and type(verified_request.get("new_money")) is int
             and verified_request.get("new_money") == 0
             and verified_request.get("requested_node_count") == 3,
             "ONLY_BOUNDED_UNEXECUTED_013_PROPOSAL")
@@ -127,6 +129,17 @@ def plan_inspection(verified_request: Any, solid_dims: Any, station: Any) -> dic
 def _check_plan(plan: Any) -> None:
     require(type(plan) is dict and isinstance(plan.get("plan_id"), str),
             "PLAN_REQUIRED")
+    expected_keys = {
+        "schema", "source_repository", "fabrication_request_id",
+        "signed_cad_crossing_id", "source_print_packet_id",
+        "source_design_candidate_id", "selected_source_node", "station_id",
+        "station_declaration_digest", "inspection_modality",
+        "source_target_xy_mm", "pixels_per_mm", "tolerance_mm",
+        "plan_state", "no_machine_commands", "camera_connected",
+        "physical_part_present", "toolchange_permitted",
+        "robot_motion_permitted", "physical_inventory_delta", "plan_id",
+    }
+    require(set(plan) == expected_keys, "PLAN_NOT_A_SAFE_SIMULATION")
     body = {k: v for k, v in plan.items() if k != "plan_id"}
     require(plan["plan_id"] == "static-os-robot-garden-001:" + digest(body)
             and plan.get("schema") == SCHEMA
