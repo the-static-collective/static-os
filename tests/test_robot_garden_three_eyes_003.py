@@ -116,6 +116,8 @@ class ThreeEyes(unittest.TestCase):
 
     def test_nominal_checkerboard_exact_geometry(self):
         svg = chart_svg(CHART)
+        self.assertEqual(
+            svg, (ROOT / "fixtures/robot-garden-003/nominal-checkerboard.svg").read_bytes())
         self.assertIn(b'width="174mm"', svg)
         self.assertIn(b'height="129mm"', svg)
         self.assertEqual(svg.count(b'<rect x='), 35)
