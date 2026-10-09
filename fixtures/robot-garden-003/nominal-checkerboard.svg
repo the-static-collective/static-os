@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="174mm" height="129mm" viewBox="0 0 174 129">
+<title>ROBOT-GARDEN-003 nominal 10 by 7 checkerboard</title>
+<desc>Nominal dimensions only. Print at 100 percent, then physically measure squares before any calibration.</desc>
+<rect width="174" height="129" fill="#fff"/>
+<rect x="12" y="12" width="15" height="15" fill="#000"/>
+<rect x="42" y="12" width="15" height="15" fill="#000"/>
+<rect x="72" y="12" width="15" height="15" fill="#000"/>
+<rect x="102" y="12" width="15" height="15" fill="#000"/>
+<rect x="132" y="12" width="15" height="15" fill="#000"/>
+<rect x="27" y="27" width="15" height="15" fill="#000"/>
+<rect x="57" y="27" width="15" height="15" fill="#000"/>
+<rect x="87" y="27" width="15" height="15" fill="#000"/>
+<rect x="117" y="27" width="15" height="15" fill="#000"/>
+<rect x="147" y="27" width="15" height="15" fill="#000"/>
+<rect x="12" y="42" width="15" height="15" fill="#000"/>
+<rect x="42" y="42" width="15" height="15" fill="#000"/>
+<rect x="72" y="42" width="15" height="15" fill="#000"/>
+<rect x="102" y="42" width="15" height="15" fill="#000"/>
+<rect x="132" y="42" width="15" height="15" fill="#000"/>
+<rect x="27" y="57" width="15" height="15" fill="#000"/>
+<rect x="57" y="57" width="15" height="15" fill="#000"/>
+<rect x="87" y="57" width="15" height="15" fill="#000"/>
+<rect x="117" y="57" width="15" height="15" fill="#000"/>
+<rect x="147" y="57" width="15" height="15" fill="#000"/>
+<rect x="12" y="72" width="15" height="15" fill="#000"/>
+<rect x="42" y="72" width="15" height="15" fill="#000"/>
+<rect x="72" y="72" width="15" height="15" fill="#000"/>
+<rect x="102" y="72" width="15" height="15" fill="#000"/>
+<rect x="132" y="72" width="15" height="15" fill="#000"/>
+<rect x="27" y="87" width="15" height="15" fill="#000"/>
+<rect x="57" y="87" width="15" height="15" fill="#000"/>
+<rect x="87" y="87" width="15" height="15" fill="#000"/>
+<rect x="117" y="87" width="15" height="15" fill="#000"/>
+<rect x="147" y="87" width="15" height="15" fill="#000"/>
+<rect x="12" y="102" width="15" height="15" fill="#000"/>
+<rect x="42" y="102" width="15" height="15" fill="#000"/>
+<rect x="72" y="102" width="15" height="15" fill="#000"/>
+<rect x="102" y="102" width="15" height="15" fill="#000"/>
+<rect x="132" y="102" width="15" height="15" fill="#000"/>
+<text x="12" y="126" font-size="3.5" fill="#000">10x7 squares; 9x6 inner corners; nominal 15 mm/square; MEASURE ACTUAL PRINT</text>
+</svg>
