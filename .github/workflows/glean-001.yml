@@ -1,0 +1,41 @@
+name: GLEAN-001 — steward remainder and conservation
+on:
+  push:
+    branches: [experiment/glean-001-steward-remainder]
+  pull_request:
+    paths:
+      - 'glean/**'
+      - 'scripts/static-glean.py'
+      - 'fixtures/glean-001/**'
+      - 'tests/test_glean_001.py'
+      - 'docs/glean-001.md'
+      - '.github/workflows/glean-001.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  glean-kernel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify exact schemas and source replay
+        run: |
+          python3 -m compileall -q glean scripts/static-glean.py tests/test_glean_001.py
+          python3 -m unittest discover -s tests -p 'test_glean_001.py' -v
+      - name: Unreviewed donated orchard offer remains a HOLD
+        run: |
+          python3 scripts/static-glean.py assess --offer fixtures/glean-001/orchard-offer.json --out /tmp/glean-unreviewed.json
+          python3 scripts/static-glean.py verify --offer fixtures/glean-001/orchard-offer.json --out /tmp/glean-unreviewed.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/glean-unreviewed.json'))
+          assert x['state']=='HOLD_AND_VERIFY'
+          assert 'NO_SCOPED_STEWARD_REVIEW' in x['reason_codes']
+          assert not x['food_safety_certified']
+          assert not x['owner_permission_legally_verified']
+          assert not x['physical_inventory_admitted']
+          PY
