@@ -173,8 +173,7 @@ class FieldReview(unittest.TestCase):
                 fake["lead_ref"] = lead["lead_ref"]
                 fake["scope"]["site_ref"] = lead["site_ref"]
                 fake["scope"]["item_ref"] = lead["item_ref"]
-                with self.assertRaises(Hold) if False else self.subTest():
-                    self.assertEqual(assess(lead, fake)["status"], "HOLD_AND_RESEARCH")
+                self.assertEqual(assess(lead, fake)["status"], "HOLD_AND_RESEARCH")
 
     def test_unidentified_food_and_cultural_artifacts_are_hard_holds(self):
         for category, hazard in (("FOOD", "UNIDENTIFIED_EDIBLE"),
