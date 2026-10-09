@@ -1,0 +1,16 @@
+{
+  "schema": "static-os.robot-garden-station/v0",
+  "station_id": "sim:science-jubilee-camera",
+  "reference_platform": "machineagency/jubilee",
+  "reference_software": "machineagency/science-jubilee",
+  "simulator_kind": "SYNTHETIC_MONOCHROME_PGM",
+  "camera_pixels_per_mm": 2,
+  "envelope_mm": {"x": 300, "y": 300, "z": 300},
+  "owner_claim": "NONE_REFERENCE_ONLY",
+  "hardware_present": false,
+  "camera_connected": false,
+  "movement_authorized": false,
+  "toolchange_authorized": false,
+  "transport_authorized": false,
+  "physical_inspection_authorized": false
+}
