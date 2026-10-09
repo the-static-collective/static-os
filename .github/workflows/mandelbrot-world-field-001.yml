@@ -1,0 +1,47 @@
+name: MANDELBROT WORLD FIELD 001 — exact eleven-address navigation
+on:
+  push:
+    branches:
+      - experiment/mandelbrot-world-field-001
+  pull_request:
+    paths:
+      - src/**
+      - web/**
+      - tests/**
+      - package.json
+      - docs/MANDELBROT-WORLD-FIELD-001.md
+      - .github/workflows/mandelbrot-world-field-001.yml
+permissions:
+  contents: read
+jobs:
+  exact-address-and-mandelbrot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Hostile base-11 address, real Mandelbrot orbit and read-only HTTP tests
+        run: npm test
+      - name: Browser code and first-party PWA remain navigation only
+        run: |
+          node --check web/world-field.js
+          node --check web/sw.js
+          node --check src/mandelbrot-field.mjs
+          node --check src/mandelbrot-math.mjs
+          node --check src/radio-world-adapter.mjs
+          node --input-type=module - <<'JS'
+          import {createField,enter,address,exactCell,previewViewport} from './src/mandelbrot-field.mjs';
+          import {radioWorldDoors} from './src/radio-world-adapter.mjs';
+          let state=createField();
+          for(let i=0;i<80;i++)state=enter(state);
+          const exact=exactCell(state);
+          if(exact.denominator.length<80)throw Error('DEEP_ADDRESS_COLLAPSED');
+          if(previewViewport(state).renderable)throw Error('FALSE_INFINITE_PRECISION');
+          if(radioWorldDoors(state).playing)throw Error('UNAUTHORIZED_RADIO_PLAYBACK');
+          if(!address(state).startsWith('MWF1/'))throw Error('BAD_BOOKMARK');
+          console.log('MANDELBROT 001: exact deep address survives while finite preview refuses');
+          JS
