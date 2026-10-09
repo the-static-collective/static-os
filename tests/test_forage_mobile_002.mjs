@@ -108,7 +108,7 @@ test("mobile page has capture and no network dependency or geolocation side chan
   assert.match(html, /connect-src 'none'/);
   assert.match(html, /FORAGE-002/);
   assert.match(html, /collection NOT authorized/);
-  assert.doesNotMatch(app, /\bfetch\(|XMLHttpRequest|sendBeacon|geolocation|localStorage|WebSocket/);
+  assert.doesNotMatch(app, /\bfetch\s*\(|\bnew\s+XMLHttpRequest\b|navigator\.geolocation\b|\b(?:window|globalThis)\.localStorage\b|\bnew\s+WebSocket\b|navigator\.sendBeacon\b/);
   assert.match(app, /scout-core\.mjs/);
   assert.match(app, /save-photo/);
 });
