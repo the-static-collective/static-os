@@ -1,0 +1,234 @@
+{
+  "schema": "static-os.printer-fleet/v0",
+  "requested_effect": "DISCOVER_ONLY_NO_EXECUTION",
+  "machines": [
+    {
+      "schema": "static-os.printer-owner-declaration/v0",
+      "machine_id": "virtual:fff-pla-180",
+      "manufacturer": "Static OS",
+      "model": "Virtual FFF 180",
+      "technology": "FFF_FDM",
+      "build_volume_mm": {
+        "x": 180,
+        "y": 180,
+        "z": 180
+      },
+      "material_classes": [
+        "PLA"
+      ],
+      "profile_ref": "virtual-pla-180-011",
+      "claim_kind": "OWNER_DECLARED_UNVERIFIED",
+      "transport_allowed": false,
+      "hardware_execution_allowed": false
+    },
+    {
+      "schema": "static-os.printer-owner-declaration/v0",
+      "machine_id": "example:machine-01",
+      "manufacturer": "Hypothetical Sample Lab",
+      "model": "Unverified Device 1",
+      "technology": "FFF_FDM",
+      "build_volume_mm": {
+        "x": 400,
+        "y": 400,
+        "z": 400
+      },
+      "material_classes": [
+        "PLA"
+      ],
+      "profile_ref": null,
+      "claim_kind": "OWNER_DECLARED_UNVERIFIED",
+      "transport_allowed": false,
+      "hardware_execution_allowed": false
+    },
+    {
+      "schema": "static-os.printer-owner-declaration/v0",
+      "machine_id": "example:machine-02",
+      "manufacturer": "Hypothetical Sample Lab",
+      "model": "Unverified Device 2",
+      "technology": "MSLA",
+      "build_volume_mm": {
+        "x": 400,
+        "y": 400,
+        "z": 400
+      },
+      "material_classes": [
+        "STANDARD_RESIN"
+      ],
+      "profile_ref": null,
+      "claim_kind": "OWNER_DECLARED_UNVERIFIED",
+      "transport_allowed": false,
+      "hardware_execution_allowed": false
+    },
+    {
+      "schema": "static-os.printer-owner-declaration/v0",
+      "machine_id": "example:machine-03",
+      "manufacturer": "Hypothetical Sample Lab",
+      "model": "Unverified Device 3",
+      "technology": "LASER_SLA",
+      "build_volume_mm": {
+        "x": 400,
+        "y": 400,
+        "z": 400
+      },
+      "material_classes": [
+        "ENGINEERING_RESIN"
+      ],
+      "profile_ref": null,
+      "claim_kind": "OWNER_DECLARED_UNVERIFIED",
+      "transport_allowed": false,
+      "hardware_execution_allowed": false
+    },
+    {
+      "schema": "static-os.printer-owner-declaration/v0",
+      "machine_id": "example:machine-04",
+      "manufacturer": "Hypothetical Sample Lab",
+      "model": "Unverified Device 4",
+      "technology": "DLP",
+      "build_volume_mm": {
+        "x": 400,
+        "y": 400,
+        "z": 400
+      },
+      "material_classes": [
+        "STANDARD_RESIN"
+      ],
+      "profile_ref": null,
+      "claim_kind": "OWNER_DECLARED_UNVERIFIED",
+      "transport_allowed": false,
+      "hardware_execution_allowed": false
+    },
+    {
+      "schema": "static-os.printer-owner-declaration/v0",
+      "machine_id": "example:machine-05",
+      "manufacturer": "Hypothetical Sample Lab",
+      "model": "Unverified Device 5",
+      "technology": "SLS_POLYMER",
+      "build_volume_mm": {
+        "x": 400,
+        "y": 400,
+        "z": 400
+      },
+      "material_classes": [
+        "NYLON_POWDER"
+      ],
+      "profile_ref": null,
+      "claim_kind": "OWNER_DECLARED_UNVERIFIED",
+      "transport_allowed": false,
+      "hardware_execution_allowed": false
+    },
+    {
+      "schema": "static-os.printer-owner-declaration/v0",
+      "machine_id": "example:machine-06",
+      "manufacturer": "Hypothetical Sample Lab",
+      "model": "Unverified Device 6",
+      "technology": "MJF_POLYMER",
+      "build_volume_mm": {
+        "x": 400,
+        "y": 400,
+        "z": 400
+      },
+      "material_classes": [
+        "POLYMER_POWDER"
+      ],
+      "profile_ref": null,
+      "claim_kind": "OWNER_DECLARED_UNVERIFIED",
+      "transport_allowed": false,
+      "hardware_execution_allowed": false
+    },
+    {
+      "schema": "static-os.printer-owner-declaration/v0",
+      "machine_id": "example:machine-07",
+      "manufacturer": "Hypothetical Sample Lab",
+      "model": "Unverified Device 7",
+      "technology": "BINDER_JETTING",
+      "build_volume_mm": {
+        "x": 400,
+        "y": 400,
+        "z": 400
+      },
+      "material_classes": [
+        "CERAMIC_POWDER"
+      ],
+      "profile_ref": null,
+      "claim_kind": "OWNER_DECLARED_UNVERIFIED",
+      "transport_allowed": false,
+      "hardware_execution_allowed": false
+    },
+    {
+      "schema": "static-os.printer-owner-declaration/v0",
+      "machine_id": "example:machine-08",
+      "manufacturer": "Hypothetical Sample Lab",
+      "model": "Unverified Device 8",
+      "technology": "MATERIAL_JETTING",
+      "build_volume_mm": {
+        "x": 400,
+        "y": 400,
+        "z": 400
+      },
+      "material_classes": [
+        "PROPRIETARY"
+      ],
+      "profile_ref": null,
+      "claim_kind": "OWNER_DECLARED_UNVERIFIED",
+      "transport_allowed": false,
+      "hardware_execution_allowed": false
+    },
+    {
+      "schema": "static-os.printer-owner-declaration/v0",
+      "machine_id": "example:machine-09",
+      "manufacturer": "Hypothetical Sample Lab",
+      "model": "Unverified Device 9",
+      "technology": "METAL_PBF",
+      "build_volume_mm": {
+        "x": 400,
+        "y": 400,
+        "z": 400
+      },
+      "material_classes": [
+        "METAL_POWDER"
+      ],
+      "profile_ref": null,
+      "claim_kind": "OWNER_DECLARED_UNVERIFIED",
+      "transport_allowed": false,
+      "hardware_execution_allowed": false
+    },
+    {
+      "schema": "static-os.printer-owner-declaration/v0",
+      "machine_id": "example:machine-10",
+      "manufacturer": "Hypothetical Sample Lab",
+      "model": "Unverified Device 10",
+      "technology": "DED",
+      "build_volume_mm": {
+        "x": 400,
+        "y": 400,
+        "z": 400
+      },
+      "material_classes": [
+        "METAL_POWDER"
+      ],
+      "profile_ref": null,
+      "claim_kind": "OWNER_DECLARED_UNVERIFIED",
+      "transport_allowed": false,
+      "hardware_execution_allowed": false
+    },
+    {
+      "schema": "static-os.printer-owner-declaration/v0",
+      "machine_id": "example:machine-11",
+      "manufacturer": "Hypothetical Sample Lab",
+      "model": "Unverified Device 11",
+      "technology": "NEXT_TECH_UNKNOWN",
+      "build_volume_mm": {
+        "x": 400,
+        "y": 400,
+        "z": 400
+      },
+      "material_classes": [
+        "UNKNOWN"
+      ],
+      "profile_ref": null,
+      "claim_kind": "OWNER_DECLARED_UNVERIFIED",
+      "transport_allowed": false,
+      "hardware_execution_allowed": false
+    }
+  ]
+}
