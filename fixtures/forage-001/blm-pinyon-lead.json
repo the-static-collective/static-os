@@ -1,0 +1,19 @@
+{
+  "schema": "static-os.forage-lead/v0",
+  "lead_ref": "fixture:blm-pinyon-001",
+  "item_ref": "fixture:pinyon-001",
+  "description": "Illustrative personal-use pine nut observation on possibly BLM land",
+  "category": "FOOD",
+  "source_kind": "PUBLIC_LAND_COLLECTION",
+  "land_class": "BLM",
+  "site_ref": "fixture:blm-district-unspecified",
+  "steward_ref": "fixture:blm-field-office-unconfirmed",
+  "purpose": "PERSONAL_NONCOMMERCIAL",
+  "quantity": {
+    "amount": 1,
+    "unit": "POUND"
+  },
+  "hazards": [],
+  "observation": "Area designation and seasonal species collection rules have not been verified",
+  "operator_claim_of_ownership": false
+}
