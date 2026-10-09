@@ -84,11 +84,11 @@ def identifier(value: Any) -> bool:
 
 
 def words(value: Any) -> bool:
-    return type(value) is str and 3 <= len(value) <= 240 and "\\x00" not in value
+    return type(value) is str and 3 <= len(value) <= 240 and "\x00" not in value
 
 
 def day(value: Any) -> date:
-    require(type(value) is str and re.fullmatch(r"\\d{4}-\\d{2}-\\d{2}", value)
+    require(type(value) is str and re.fullmatch(r"\d{4}-\d{2}-\d{2}", value)
             is not None, "ISO_DATE_REQUIRED")
     try:
         return date.fromisoformat(value)
@@ -180,6 +180,8 @@ def validate_review(value: Any, lead: dict) -> dict:
 
 def _reasons(lead: dict, review: dict | None) -> list[str]:
     reasons = []
+    if lead["category"] == "DIGITAL_MATERIAL":
+        reasons.append("DIGITAL_RIGHTS_AND_LICENSE_NEED_SEPARATE_REVIEW")
     if lead["source_kind"] in ("CURBSIDE_UNVERIFIED", "UNKNOWN"):
         reasons.append("DISCARD_OR_LOCATION_DOES_NOT_ESTABLISH_TITLE")
     if lead["source_kind"] == "PRIVATE_GROUND":
