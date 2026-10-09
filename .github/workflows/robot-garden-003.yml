@@ -1,0 +1,151 @@
+name: ROBOT-GARDEN-003 — GoPro third eye and nominal calibration target
+
+on:
+  push:
+    branches: [experiment/robot-garden-003-gopro-calibration]
+  pull_request:
+    paths:
+      - "question_first/robot_garden_three_eyes.py"
+      - "scripts/static-robot-garden-three-eyes.py"
+      - "fixtures/robot-garden-003/**"
+      - "tests/test_robot_garden_three_eyes_003.py"
+      - "docs/robot-garden-003.md"
+      - ".github/workflows/robot-garden-003.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bounded-camera:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install local image decoder
+        run: python3 -m pip install 'Pillow>=11,<13'
+      - name: Independent real-byte image decoder and hostile provenance suite
+        run: |
+          python3 -m compileall -q question_first/robot_garden_three_eyes.py scripts/static-robot-garden-three-eyes.py
+          python3 -m unittest tests.test_robot_garden_001 tests.test_robot_garden_photos_002 tests.test_robot_garden_three_eyes_003 -v
+
+  native-signed-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Install genuine OCCT CAD and native PrusaSlicer
+        run: |
+          python3 -m pip install cadquery==2.8.0 cryptography 'Pillow>=11,<13'
+          sudo apt-get update
+          sudo apt-get install -y prusa-slicer xvfb xauth
+      - name: Pin real GHoT and native reLATTE dependencies
+        uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/GHoT
+          ref: 6e4aab6aec3b28f8dd50d01c3d571ae754c653d1
+          path: external/GHoT
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/reLATTE
+          ref: dcc8cdca84c440aa4294134f020fb7095bf87f24
+          path: external/reLATTE
+          persist-credentials: false
+      - name: Install native reLATTE
+        working-directory: external/reLATTE
+        run: npm install --ignore-scripts --no-audit --no-fund
+      - name: Original GHoT-constrained CAD, native signed crossing, and cold verification
+        run: |
+          export GHOT_SRC="$PWD/external/GHoT"
+          export GHOT_HOME="$RUNNER_TEMP/cad010-ghot"
+          export GHOT_ADAPTER_MANIFESTS="$PWD/integrations/apparatus-002/adapter-manifest.json"
+          python3 scripts/apparatus-compiler.py compile --ghot-root "$GHOT_SRC" --seed fixtures/apparatus-002/source-grounded-question.json --out /tmp/cad010-parent.json
+          python3 scripts/static-cad.py compile --apparatus-plan /tmp/cad010-parent.json --parameters fixtures/static-cad-003/reference-parameters.json --candidate gear-then-screw --out-dir dist/cad010-cad-parent
+          python3 -c 'import json; p=json.load(open("dist/cad010-cad-parent/project.json")); s=json.load(open("fixtures/static-cad-004/rounded-mount-sketch.json")); s["cad_parent_id"]=p["project_id"]; json.dump(s,open("/tmp/cad010-seed.json","w"))'
+          python3 scripts/static-sketch.py solve --seed /tmp/cad010-seed.json --parent-project dist/cad010-cad-parent/project.json --out-dir dist/cad010-sketch
+          python3 scripts/static-solid.py build --sketch dist/cad010-sketch/sketch.json --out-dir dist/cad010-real-solid
+          python3 scripts/static-solid.py cross --out-dir dist/cad010-real-solid --private-relatte-root "$RUNNER_TEMP/cad010-private-keys"
+          python3 scripts/static-solid.py verify --out-dir dist/cad010-real-solid
+      - name: Real FFF G-code, verified virtual slice, no printer
+        run: |
+          xvfb-run -a python3 scripts/static-print.py slice --source dist/cad010-real-solid --packet dist/print011-held
+          xvfb-run -a python3 scripts/static-print.py verify --source dist/cad010-real-solid --packet dist/print011-held
+      - name: Cold 013 source-bound three-node fabrication proposal
+        run: |
+          python3 scripts/static-fabrication-request.py propose \
+            --source dist/cad010-real-solid \
+            --packet dist/print011-held \
+            --fleet fixtures/printer-field-012/synthetic-fleet.json \
+            --selection fixtures/fabrication-013/three-node-selection.json \
+            --out dist/fabrication-request-013.json
+          python3 scripts/static-fabrication-request.py verify \
+            --source dist/cad010-real-solid \
+            --packet dist/print011-held \
+            --fleet fixtures/printer-field-012/synthetic-fleet.json \
+            --selection fixtures/fabrication-013/three-node-selection.json \
+            --out dist/fabrication-request-013.json
+      - name: Native-cold-signed-source hostile inspection suite
+        env:
+          STATIC_OS_ROBOT001_SOURCE: dist/cad010-real-solid
+          STATIC_OS_ROBOT001_PACKET: dist/print011-held
+          STATIC_OS_ROBOT001_REQUEST: dist/fabrication-request-013.json
+        run: python3 -m unittest tests.test_robot_garden_001 -v
+      - name: Decode real JPEG and PNG files against native signed CAD provenance
+        env:
+          STATIC_OS_ROBOT001_SOURCE: dist/cad010-real-solid
+          STATIC_OS_ROBOT001_PACKET: dist/print011-held
+          STATIC_OS_ROBOT001_REQUEST: dist/fabrication-request-013.json
+        run: python3 -m unittest tests.test_robot_garden_photos_002 -v
+      - name: Native signed original CAD → three photo roles and uncalibrated checkerboard
+        env:
+          STATIC_OS_ROBOT001_SOURCE: dist/cad010-real-solid
+          STATIC_OS_ROBOT001_PACKET: dist/print011-held
+          STATIC_OS_ROBOT001_REQUEST: dist/fabrication-request-013.json
+        run: python3 -m unittest tests.test_robot_garden_three_eyes_003 -v
+      - name: Distinct synthetic camera mismatch (no physical part)
+        run: |
+          python3 scripts/static-robot-garden.py run \
+            --source dist/cad010-real-solid \
+            --packet dist/print011-held \
+            --fleet fixtures/printer-field-012/synthetic-fleet.json \
+            --selection fixtures/fabrication-013/three-node-selection.json \
+            --request dist/fabrication-request-013.json \
+            --station fixtures/robot-garden-001/synthetic-jubilee-station.json \
+            --mock-width-factor 0.75 \
+            --out-dir dist/robot-garden-001-mismatch
+          python3 scripts/static-robot-garden.py verify \
+            --source dist/cad010-real-solid \
+            --packet dist/print011-held \
+            --fleet fixtures/printer-field-012/synthetic-fleet.json \
+            --selection fixtures/fabrication-013/three-node-selection.json \
+            --request dist/fabrication-request-013.json \
+            --station fixtures/robot-garden-001/synthetic-jubilee-station.json \
+            --out-dir dist/robot-garden-001-mismatch
+          python3 - <<'PY'
+          import json
+          p = json.load(open("dist/robot-garden-001-mismatch/report.json"))
+          assert p["classification"] == "SIMULATED_GEOMETRY_MISMATCH", p
+          assert not p["is_physical_observation"]
+          assert not p["printer_or_robot_activated"]
+          assert p["new_physical_inventory"] == 0
+          print("SIMULATED_PIXEL_MISMATCH_WITH_ZERO_PHYSICAL_OUTPUT")
+          PY
+      - name: Export public simulated inspection artifacts; never private signing keys
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-garden-003-three-image-digests-no-photographs
+          path: |
+            dist/fabrication-request-013.json
+            dist/robot-garden-001-mismatch/
+          if-no-files-found: error
+          retention-days: 14

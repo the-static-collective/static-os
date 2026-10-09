@@ -1,0 +1,8 @@
+{
+  "schema": "static-os.operator-gopro-lens-declaration/v0",
+  "operator_reported_model": "UNKNOWN GOPRO MODEL",
+  "operator_reported_digital_lens": "UNKNOWN",
+  "operator_reported_image_processing": "UNKNOWN",
+  "camera_identity_authenticated": false,
+  "lens_intrinsics_calibrated": false
+}
