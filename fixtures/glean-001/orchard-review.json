@@ -1,0 +1,25 @@
+{
+  "schema": "static-os.glean-human-review/v0",
+  "offer_ref": "specimen:orchard-glean-offer-001",
+  "reviewer_ref": "specimen:human-reviewer",
+  "reviewed_on": "2026-10-09",
+  "decision": "SCOPED_ACCESS_ASSERTED",
+  "evidence_ref": "specimen:operator-human-review-note",
+  "scope": {
+    "site_ref": "specimen:orchard-site-unverified",
+    "material_ref": "specimen:apples-surplus",
+    "purpose": "FREE_DISTRIBUTION",
+    "recipient_ref": "specimen:food-pantry-unverified",
+    "maximum_quantity": 8,
+    "unit": "POUND",
+    "valid_from": "2026-10-09",
+    "valid_until": "2026-10-19",
+    "operation": "ENTER_AND_REMOVE_REMAINDER_ONLY"
+  },
+  "owner_identity_authenticated_by_software": false,
+  "access_and_removal_checked_by_human": true,
+  "site_rules_checked_by_human": true,
+  "recipient_scope_checked_by_human": true,
+  "food_safety_certified": false,
+  "physical_ownership_transferred": false
+}
