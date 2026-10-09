@@ -1,0 +1,66 @@
+name: FORAGE-001 — no implied permission from found materials
+on:
+  push:
+    branches: [experiment/forage-001-permission-custody]
+  pull_request:
+    paths:
+      - "forage/**"
+      - "scripts/static-forage.py"
+      - "fixtures/forage-001/**"
+      - "tests/test_forage_001.py"
+      - "docs/forage-001.md"
+      - ".github/workflows/forage-001.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  permission-and-handoff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Syntax validation and hostile scope/hazard tests
+        run: |
+          python3 -m compileall -q forage scripts/static-forage.py tests/test_forage_001.py
+          python3 -m unittest discover -s tests -p 'test_forage_001.py' -v
+      - name: Owner-offer remains HOLD without human permission assertion
+        run: |
+          python3 scripts/static-forage.py assess \
+            --lead fixtures/forage-001/owner-offered-stepper.json \
+            --out /tmp/forage-owner-unreviewed.json
+          python3 scripts/static-forage.py verify \
+            --lead fixtures/forage-001/owner-offered-stepper.json \
+            --out /tmp/forage-owner-unreviewed.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open('/tmp/forage-owner-unreviewed.json'))
+          assert d['status']=='HOLD_AND_RESEARCH'
+          assert d['reason_codes']==['NO_SCOPED_AUTHORITY_REVIEW']
+          assert d['physical_inventory_delta']==0
+          PY
+      - name: Unsafe offers and unowned curbside finds stay held
+        run: |
+          python3 scripts/static-forage.py assess \
+            --lead fixtures/forage-001/locked-e-waste-lead.json \
+            --out /tmp/forage-locked.json
+          python3 scripts/static-forage.py assess \
+            --lead fixtures/forage-001/swollen-battery-lead.json \
+            --out /tmp/forage-battery.json
+          python3 scripts/static-forage.py assess \
+            --lead fixtures/forage-001/curbside-laptop-lead.json \
+            --out /tmp/forage-curbside.json
+          python3 - <<'PY'
+          import json
+          pairs=[
+            ('/tmp/forage-locked.json','STOP_LOCKED_CONTAINER'),
+            ('/tmp/forage-battery.json','STOP_DAMAGED_LITHIUM'),
+            ('/tmp/forage-curbside.json','DISCARD_OR_LOCATION_DOES_NOT_ESTABLISH_TITLE'),
+          ]
+          for file, code in pairs:
+            d=json.load(open(file))
+            assert code in d['reason_codes'], (file,d)
+            assert not d['permission_legally_verified_by_software']
+          PY
