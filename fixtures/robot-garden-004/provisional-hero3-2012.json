@@ -1,0 +1,16 @@
+{
+  "schema": "static-os.provisional-hero3-family/v0",
+  "reference_family": "GOPRO_HERO3_2012",
+  "approximate_release_year": 2012,
+  "edition": "UNKNOWN",
+  "identity_status": "PROVISIONAL_REFERENCE_NOT_OWNED_DEVICE_PROOF",
+  "owner_confirmed_device": false,
+  "firmware_verified": false,
+  "media_transfer": "MANUAL_MICROSD_OR_LOCAL_COPY",
+  "expected_container": "MP4",
+  "expected_video_codec": "H264",
+  "wifi_authorized": false,
+  "usb_camera_control_authorized": false,
+  "robot_motion_authorized": false,
+  "physical_part_attested": false
+}
