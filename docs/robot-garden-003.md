@@ -42,6 +42,13 @@ GoPro documentation:
 
 ## Nominal chart
 
+The printable source target is checked into the repository at
+[`fixtures/robot-garden-003/nominal-checkerboard.svg`](../fixtures/robot-garden-003/nominal-checkerboard.svg).
+It is deterministically equivalent to the `chart_svg()` output and can be
+printed without running the CAD fabrication pipeline. Print at 100% scale,
+disable fit-to-page, and **measure the actual printed squares** before using
+it as a calibration reference.
+
 Generated `nominal-checkerboard.svg` is:
 - 10 squares across by 7 squares down
 - 9 by 6 *internal* corner lattice
