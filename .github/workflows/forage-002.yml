@@ -1,0 +1,80 @@
+name: FORAGE-002 — WALL-E phone scout holds and photo evidence
+on:
+  push:
+    branches: [experiment/forage-002-walle-field-scout]
+  pull_request:
+    paths:
+      - "forage/scout.py"
+      - "forage/mobile/**"
+      - "scripts/static-forage-scout.py"
+      - "tests/test_forage_scout_002.py"
+      - "tests/test_forage_mobile_002.mjs"
+      - "docs/forage-002.md"
+      - ".github/workflows/forage-002.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-permission-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Native 001 permission and 002 original photo hostile suite
+        run: |
+          python3 -m compileall -q forage scripts/static-forage.py scripts/static-forage-scout.py
+          python3 -m unittest discover -s tests -p 'test_forage_001.py' -v
+          python3 -m unittest discover -s tests -p 'test_forage_scout_002.py' -v
+      - name: Synthetic photo always leads to source-verified HOLD
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,tempfile,subprocess,pathlib,sys
+          with tempfile.TemporaryDirectory() as tmp:
+              root=pathlib.Path(tmp)
+              lead=json.loads(pathlib.Path("fixtures/forage-001/curbside-laptop-lead.json").read_text())
+              image=b"\x89PNG\r\n\x1a\n"+b"SYNTHETIC_FOR_TEST_NOT_CAMERA_CAPTURE"
+              photo=root/"fake-photo.png"
+              photo.write_bytes(image)
+              evidence={
+                "schema":"static-os.forage-photo-evidence/v0",
+                "lead_ref":lead["lead_ref"],
+                "origin_role":"OPERATOR_SELECTED_LOCAL_IMAGE_UNVERIFIED",
+                "original_bytes_sha256":hashlib.sha256(image).hexdigest(),
+                "original_byte_count":len(image),
+                "content_type":"image/png",
+                "device_authenticated":False,
+                "camera_capture_authenticated":False,
+                "rights_inferred_from_photo":False,
+                "hazards_screened_by_machine":False,
+                "photo_included_in_receipt":False,
+              }
+              lp,ep,out=root/"lead.json",root/"evidence.json",root/"scout.json"
+              lp.write_text(json.dumps(lead));ep.write_text(json.dumps(evidence))
+              args=["--lead",str(lp),"--photo-evidence",str(ep),
+                    "--photo",str(photo),"--out",str(out)]
+              cmd=[sys.executable,"scripts/static-forage-scout.py"]
+              subprocess.run(cmd+["receive"]+args,check=True)
+              subprocess.run(cmd+["verify"]+args,check=True)
+              result=json.loads(out.read_text())
+              assert result["state"]=="DISCOVERED_UNREVIEWED_PHOTO_PROSPECT_HOLD"
+              assert "DISCARD_OR_LOCATION_DOES_NOT_ESTABLISH_TITLE" in result["parent_foraging_reason_codes"]
+              assert not result["authority_for_entry_or_removal"]
+              assert not result["image_classifier_executed"]
+              assert result["robot_garden_inventory_delta"]==0
+          PY
+  phone-ui-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Native JS photo, lead, safety and static UI tests
+        run: |
+          node --check forage/mobile/scout-core.mjs
+          node --check forage/mobile/app.mjs
+          node --test tests/test_forage_mobile_002.mjs
