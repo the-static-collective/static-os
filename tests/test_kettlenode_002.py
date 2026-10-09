@@ -145,7 +145,7 @@ class HeatCommonsTests(unittest.TestCase):
             validate_world(self.world)
 
     def test_compost_lacks_direct_fluid_connection(self):
-        self.route.update(source="compost-hx", destination="solar-bank",
+        self.route.update(source="compost-hx", destination="computer-coolant",
                           transfer_j=50000, exchanger_id=None)
         with self.assertRaisesRegex(Refuse, "isolating exchanger"):
             evaluate(self.world, self.route)
