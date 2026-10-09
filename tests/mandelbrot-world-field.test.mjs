@@ -230,10 +230,11 @@ test('UI includes actual canvas, swipe, sliders, keyboard, bookmark and both sou
     'id="bookmark"','id="enter"','id="rise"','id="root"',
     'id="door-list"','id="exact-intervals"'
   ])assert.ok(html.includes(item),item);
+  assert.ok(html.includes('Copy world address'));
   for(const item of [
     "pointermove","pointerdown","wheel","popstate","hashchange",
     "keydown","requestAnimationFrame","mandelbrotEscape","radioWorldDoors",
-    "copy world address","clipboard","history.replaceState","history.pushState"
+    "clipboard","history.replaceState","history.pushState"
   ])assert.ok(app.toLowerCase().includes(item.toLowerCase()),item);
 });
 test('app never calls audio, geolocation, streaming or remote compute APIs',()=>{
