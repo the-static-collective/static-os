@@ -1,0 +1,11 @@
+{
+  "schema": "static-os.robot-garden-nominal-chart/v0",
+  "squares_across": 10,
+  "squares_down": 7,
+  "nominal_square_mm": 15,
+  "physical_chart_printed": false,
+  "physical_square_measured": false,
+  "camera_calibrated": false,
+  "lens_distortion_corrected": false,
+  "physical_scale_authorized": false
+}
