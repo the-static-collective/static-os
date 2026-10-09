@@ -1,0 +1,106 @@
+{
+  "schema": "static-os.heat-commons-world/v0",
+  "evidence_kind": "simulation-only",
+  "nodes": {
+    "solar-bank": {
+      "kind": "store",
+      "medium": "sealed-thermal",
+      "heat_capacity_j_per_centidegree": 10000,
+      "thermal_energy_j": 50000000,
+      "min_centi_c": 500,
+      "max_centi_c": 8500,
+      "circulation_ok": true,
+      "oxygen_ok": true
+    },
+    "compost-hx": {
+      "kind": "producer",
+      "medium": "compost-side",
+      "heat_capacity_j_per_centidegree": 3000,
+      "thermal_energy_j": 12600000,
+      "min_centi_c": 500,
+      "max_centi_c": 7000,
+      "circulation_ok": true,
+      "oxygen_ok": true
+    },
+    "computer-coolant": {
+      "kind": "producer",
+      "medium": "sealed-thermal",
+      "heat_capacity_j_per_centidegree": 1000,
+      "thermal_energy_j": 3600000,
+      "min_centi_c": 500,
+      "max_centi_c": 7500,
+      "circulation_ok": true,
+      "oxygen_ok": true
+    },
+    "fish-tank": {
+      "kind": "load",
+      "medium": "fish-water",
+      "heat_capacity_j_per_centidegree": 20000,
+      "thermal_energy_j": 44000000,
+      "min_centi_c": 1700,
+      "max_centi_c": 2800,
+      "circulation_ok": true,
+      "oxygen_ok": true
+    },
+    "root-zone": {
+      "kind": "load",
+      "medium": "nutrient-water",
+      "heat_capacity_j_per_centidegree": 10000,
+      "thermal_energy_j": 20000000,
+      "min_centi_c": 1700,
+      "max_centi_c": 2600,
+      "circulation_ok": true,
+      "oxygen_ok": true
+    },
+    "outdoor-heat-sink": {
+      "kind": "sink",
+      "medium": "air-side",
+      "heat_capacity_j_per_centidegree": 50000,
+      "thermal_energy_j": 50000000,
+      "min_centi_c": 0,
+      "max_centi_c": 6500,
+      "circulation_ok": true,
+      "oxygen_ok": true
+    }
+  },
+  "exchangers": {
+    "hx-fish": {
+      "media": [
+        "fish-water",
+        "sealed-thermal"
+      ],
+      "max_transfer_j": 20000000,
+      "isolated": true,
+      "simulation_only": true
+    },
+    "hx-roots": {
+      "media": [
+        "nutrient-water",
+        "sealed-thermal"
+      ],
+      "max_transfer_j": 12000000,
+      "isolated": true,
+      "simulation_only": true
+    },
+    "hx-compost": {
+      "media": [
+        "compost-side",
+        "sealed-thermal"
+      ],
+      "max_transfer_j": 5000000,
+      "isolated": true,
+      "simulation_only": true
+    },
+    "hx-outdoor": {
+      "media": [
+        "air-side",
+        "sealed-thermal"
+      ],
+      "max_transfer_j": 10000000,
+      "isolated": true,
+      "simulation_only": true
+    }
+  },
+  "spent_request_ids": [],
+  "receipts": []
+}
