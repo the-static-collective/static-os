@@ -29,6 +29,7 @@ export function createFieldServer({host='127.0.0.1',port=0}={}){
     let item=assets.get(path);
     if(path==='/src/mandelbrot-field.mjs')item=['../src/mandelbrot-field.mjs','text/javascript; charset=utf-8'];
     if(path==='/src/radio-world-adapter.mjs')item=['../src/radio-world-adapter.mjs','text/javascript; charset=utf-8'];
+    if(path==='/src/mandelbrot-math.mjs')item=['../src/mandelbrot-math.mjs','text/javascript; charset=utf-8'];
     if(!item||!item[0])return respond(404,'NO_SUCH_DOOR');
     // Whitelist prevents directory traversal, arbitrary file access and URL relay.
     return respond(200,readFileSync(join(root,item[0])),item[1]);

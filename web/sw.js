@@ -1,7 +1,7 @@
 /* First-party offline shell only; no audio, feeds, recordings or requests across origin. */
 const CACHE='static-os-mandelbrot-world-field-001-v1';
 const SHELL=['/','/world-field.js','/world-field.css','/icon.svg','/manifest.webmanifest',
-  '/src/mandelbrot-field.mjs','/src/radio-world-adapter.mjs'];
+  '/src/mandelbrot-field.mjs','/src/mandelbrot-math.mjs','/src/radio-world-adapter.mjs'];
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)));
   self.skipWaiting();

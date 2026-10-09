@@ -3,6 +3,7 @@ import {
   worldState,previewViewport,RENDER_DEPTH_LIMIT
 } from '/src/mandelbrot-field.mjs';
 import {radioWorldDoors,chooseRadioDoor} from '/src/radio-world-adapter.mjs';
+import {mandelbrotEscape} from '/src/mandelbrot-math.mjs';
 
 const $=id=>document.getElementById(id);
 let state=createField();
@@ -84,13 +85,8 @@ function drawFractal(){
       const im=viewport.im+(y-H/2)*factor;
       for(let x=0;x<W;x++){
         const re=viewport.re+(x-W/2)*factor;
-        let zr=0,zi=0,zr2=0,zi2=0,n=0;
-        while(n<iterations&&zr2+zi2<=256){
-          zi=2*zr*zi+im;
-          zr=zr2-zi2+re;
-          zr2=zr*zr;zi2=zi*zi;n++;
-        }
-        const c=pointColor(n,zr,zi,iterations),idx=(y*W+x)*4;
+        const orbit=mandelbrotEscape(re,im,iterations);
+        const c=pointColor(orbit.iterations,orbit.zr,orbit.zi,iterations),idx=(y*W+x)*4;
         data[idx]=c[0];data[idx+1]=c[1];data[idx+2]=c[2];data[idx+3]=255;
       }
     }
