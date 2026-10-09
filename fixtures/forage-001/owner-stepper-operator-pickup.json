@@ -1,0 +1,15 @@
+{
+  "schema": "static-os.forage-operator-pickup/v0",
+  "lead_ref": "fixture:offered-stepper-001",
+  "assessment_id": "REPLACE_DURING_TEST",
+  "operator_ref": "fixture:claiming-person",
+  "reported_date": "2026-10-09",
+  "reported_amount": 1,
+  "unit": "ITEM",
+  "witness_ref": "fixture:unverified-witness",
+  "handoff_evidence_ref": "fixture:unverified-photo-note",
+  "reported_physical_receipt": true,
+  "site_owner_rights_verified_by_software": false,
+  "physical_safety_certified": false,
+  "inventory_accepted": false
+}

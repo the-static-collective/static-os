@@ -1,0 +1,21 @@
+{
+  "schema": "static-os.forage-lead/v0",
+  "lead_ref": "fixture:swollen-cell-001",
+  "item_ref": "fixture:old-lithium-pack-001",
+  "description": "Damaged lithium battery pack considered for salvaged power supply",
+  "category": "TECH_PARTS",
+  "source_kind": "DIRECT_OWNER_OFFER",
+  "land_class": "PRIVATE",
+  "site_ref": "fixture:owner-handoff-site",
+  "steward_ref": "fixture:operator-claimed-owner",
+  "purpose": "COMMUNITY_NONCOMMERCIAL",
+  "quantity": {
+    "amount": 1,
+    "unit": "ITEM"
+  },
+  "hazards": [
+    "DAMAGED_LITHIUM"
+  ],
+  "observation": "Do not salvage for battery reuse; seek appropriate specialist handling",
+  "operator_claim_of_ownership": false
+}

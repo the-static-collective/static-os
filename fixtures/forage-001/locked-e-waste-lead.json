@@ -1,0 +1,22 @@
+{
+  "schema": "static-os.forage-lead/v0",
+  "lead_ref": "fixture:locked-ewaste-001",
+  "item_ref": "fixture:locked-electronics-001",
+  "description": "Electronics inside restricted waste collection enclosure",
+  "category": "TECH_ELECTRONICS",
+  "source_kind": "PRIVATE_GROUND",
+  "land_class": "PRIVATE",
+  "site_ref": "fixture:closed-bin-site",
+  "steward_ref": "fixture:bin-owner-unconfirmed",
+  "purpose": "COMMUNITY_NONCOMMERCIAL",
+  "quantity": {
+    "amount": 1,
+    "unit": "ITEM"
+  },
+  "hazards": [
+    "LOCKED_CONTAINER",
+    "POSTED_NO_ENTRY"
+  ],
+  "observation": "Presence of equipment in a bin conveys no collection or entry rights",
+  "operator_claim_of_ownership": false
+}

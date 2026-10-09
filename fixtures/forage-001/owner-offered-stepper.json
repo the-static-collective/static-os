@@ -1,0 +1,19 @@
+{
+  "schema": "static-os.forage-lead/v0",
+  "lead_ref": "fixture:offered-stepper-001",
+  "item_ref": "fixture:stepper-motor-001",
+  "description": "Example stepper motor from a dismantled printer, offered by its owner",
+  "category": "TECH_PARTS",
+  "source_kind": "DIRECT_OWNER_OFFER",
+  "land_class": "PRIVATE",
+  "site_ref": "fixture:owner-handoff-site",
+  "steward_ref": "fixture:operator-claimed-owner",
+  "purpose": "COMMUNITY_NONCOMMERCIAL",
+  "quantity": {
+    "amount": 1,
+    "unit": "ITEM"
+  },
+  "hazards": [],
+  "observation": "Synthetic demonstration only; no actual owner or hardware has been contacted",
+  "operator_claim_of_ownership": false
+}
