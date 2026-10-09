@@ -1,0 +1,11 @@
+{
+  "schema": "static-os.fabrication-human-selection/v0",
+  "operator_ref": "synthetic-operator-013",
+  "purpose_ref": "educational-fabrication-proposal-013",
+  "requested_machine_ids": [
+    "example:machine-01",
+    "example:machine-02",
+    "virtual:fff-pla-180"
+  ],
+  "authority_effect": "PROPOSE_ONLY"
+}
