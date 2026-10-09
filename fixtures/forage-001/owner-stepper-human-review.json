@@ -1,0 +1,25 @@
+{
+  "schema": "static-os.forage-human-review/v0",
+  "lead_ref": "fixture:offered-stepper-001",
+  "reviewer_ref": "fixture:human-reviewer",
+  "reviewed_on": "2026-10-09",
+  "decision": "SCOPED_PERMISSION_ASSERTED",
+  "authority_kind": "SOURCE_OWNER",
+  "authority_ref": "fixture:operator-claimed-owner",
+  "basis": "DIRECT_OWNER_GRANT",
+  "evidence_ref": "fixture:synthetic-offer-message",
+  "scope": {
+    "site_ref": "fixture:owner-handoff-site",
+    "item_ref": "fixture:stepper-motor-001",
+    "max_amount": 1,
+    "unit": "ITEM",
+    "purpose": "COMMUNITY_NONCOMMERCIAL",
+    "valid_from": "2026-10-09",
+    "valid_until": "2026-11-01",
+    "permission_action": "ENTER_AND_REMOVE_SPECIFIED_ITEMS"
+  },
+  "entry_and_removal_checked_by_human": true,
+  "site_and_species_rules_checked_by_human": true,
+  "hazard_review_by_human": "CLEAR",
+  "evidence_authenticated_by_software": false
+}
