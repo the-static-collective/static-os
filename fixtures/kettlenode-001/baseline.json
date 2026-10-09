@@ -1,0 +1,8 @@
+{
+  "schema": "static-os.kettlenode-energy-sample/v0",
+  "source_id": "thermal-simulator-001",
+  "session_id": "session-001",
+  "sequence": 0,
+  "cumulative_millijoules": 0,
+  "observation_kind": "simulation"
+}
