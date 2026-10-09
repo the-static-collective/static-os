@@ -1,0 +1,21 @@
+{
+  "schema": "static-os.forage-lead/v0",
+  "lead_ref": "fixture:curbside-laptop-001",
+  "item_ref": "fixture:laptop-001",
+  "description": "Unverified curbside laptop, ownership and data security uncertain",
+  "category": "TECH_ELECTRONICS",
+  "source_kind": "CURBSIDE_UNVERIFIED",
+  "land_class": "UNKNOWN",
+  "site_ref": "fixture:street-location-undisclosed",
+  "steward_ref": "fixture:owner-unidentified",
+  "purpose": "COMMUNITY_NONCOMMERCIAL",
+  "quantity": {
+    "amount": 1,
+    "unit": "ITEM"
+  },
+  "hazards": [
+    "BATTERY_PRESENT"
+  ],
+  "observation": "No owner offer or municipal reusable-item policy has been identified",
+  "operator_claim_of_ownership": false
+}
