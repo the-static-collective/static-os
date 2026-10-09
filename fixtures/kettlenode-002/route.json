@@ -1,0 +1,11 @@
+{
+  "schema": "static-os.heat-route-request/v0",
+  "request_id": "FIRST-HEAT-CANDIDATE-001",
+  "source": "solar-bank",
+  "destination": "fish-tank",
+  "transfer_j": 100000,
+  "exchanger_id": "hx-fish",
+  "selection": "human",
+  "authority_request": "none",
+  "admission_request": "none"
+}
