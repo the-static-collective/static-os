@@ -1,0 +1,43 @@
+{
+  "schema": "static-os.kettlenode-manifest/v0",
+  "id": "KETTLENODE-002",
+  "title": "HEAT COMMONS — Inert routing of thermal energy across isolated biological and machine circuits",
+  "status": "executable-simulation-only",
+  "stacked_on": {
+    "static_os_pr": 78,
+    "static_os_commit": "99d3a12faf1cd5502793091a0ac99754a75d39fc"
+  },
+  "owner": "the-static-collective/static-os",
+  "specimens": [
+    "crank/heat_commons.py",
+    "scripts/heat-commons.py",
+    "fixtures/kettlenode-002/world.json",
+    "fixtures/kettlenode-002/route.json",
+    "tests/test_kettlenode_002.py",
+    "docs/KETTLENODE-002.md"
+  ],
+  "laws": [
+    "HEAT != ELECTRICITY",
+    "POSSIBILITY != ACTUATION",
+    "HEAT TRANSFER != FLUID INTERCONNECTION",
+    "ENERGY != AUTHORITY",
+    "LIVING SYSTEMS != HEAT DUMP",
+    "PHYSICAL GRADIENT != COMPUTATIONAL INFERENCE",
+    "RECEIPT != VERIFIED PHYSICAL PERFORMANCE"
+  ],
+  "claims": {
+    "simulated_lumped_heat_capacity_model_present": true,
+    "simulated_conservation_and_gradient_gates_present": true,
+    "distinct_fluid_media_isolation_in_model": true,
+    "simulated_biological_safety_flags_present": true,
+    "unsigned_inert_receipt_present": true,
+    "physical_device_observed": false,
+    "actual_temperature_sensor_observed": false,
+    "actual_heat_moved": false,
+    "electricity_generated": false,
+    "pump_or_valve_actuated": false,
+    "real_fish_or_hydroponics_connected": false,
+    "bio_water_safety_independently_validated": false,
+    "signed_relatte_crossing_created": false
+  }
+}
