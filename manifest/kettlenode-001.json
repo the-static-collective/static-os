@@ -1,0 +1,38 @@
+{
+  "schema": "static-os.kettlenode-manifest/v0",
+  "id": "KETTLENODE-001",
+  "status": "simulated-host-only-energy-allowance-specimen",
+  "stacked_on": {
+    "static_os_pr": 49,
+    "static_os_commit": "7c80ccca540464e6fae8c412bbb6c365ad883366"
+  },
+  "owner": "the-static-collective/static-os",
+  "contracts": [
+    "static-os.kettlenode-energy-sample/v0",
+    "static-os.kettlenode-policy/v0",
+    "static-os.kettlenode-ledger/v0",
+    "static-os.kettlenode-reservation/v0"
+  ],
+  "laws": [
+    "ENERGY != AUTHORITY",
+    "ALLOWANCE != STORED CHARGE",
+    "RESERVATION != EXECUTION",
+    "METER REPORT != INDEPENDENT MEASUREMENT",
+    "ONE HUMAN TURN = AT MOST ONE ATTEMPT"
+  ],
+  "claims": {
+    "deterministic_simulation_fixture_present": true,
+    "source_session_sequence_replay_checks_executable": true,
+    "durable_fsync_before_work_reservation_executable": true,
+    "distinct_operator_requested_crank_turn_executable": true,
+    "simulated_millijoule_quota_not_device_power": true,
+    "physical_kettle_observed": false,
+    "turbine_or_thermoelectric_device_observed": false,
+    "energy_sensor_calibrated": false,
+    "electrical_energy_metered": false,
+    "computation_physically_powered_by_heat": false,
+    "energy_source_cryptographically_authenticated": false,
+    "signed_relatte_crossing_created": false,
+    "real_battery_state_of_charge_observed": false
+  }
+}

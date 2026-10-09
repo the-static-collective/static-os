@@ -1,0 +1,15 @@
+{
+  "schema": "static-os.crank-turn-request/v0",
+  "turn_id": "KETTLE-TURN-001",
+  "source": {
+    "kind": "human",
+    "id": "local-operator"
+  },
+  "selected_capability": "TEXT.HASH",
+  "budget_units": 1,
+  "authority_request": "none",
+  "admission_request": "none",
+  "payload": {
+    "text": "the kettle boils; the node computes"
+  }
+}

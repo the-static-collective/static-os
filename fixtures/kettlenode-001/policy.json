@@ -1,0 +1,13 @@
+{
+  "schema": "static-os.kettlenode-policy/v0",
+  "source_id": "thermal-simulator-001",
+  "session_id": "session-001",
+  "observation_kind": "simulation",
+  "max_increment_mj": 12000,
+  "min_reserve_mj": 1000,
+  "capability_allowances_mj": {
+    "TEXT.HASH": 5000,
+    "TEXT.UPPERCASE": 6000,
+    "AI.PROPOSE": 8000
+  }
+}
