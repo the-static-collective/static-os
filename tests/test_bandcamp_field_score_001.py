@@ -137,6 +137,24 @@ class BandcampScoreTests(unittest.TestCase):
         with self.assertRaises(Refuse):
             self.items()
 
+    def test_unhashable_hostile_enum_values_fail_closed(self):
+        mutations = [
+            (("cues", 0, "role"), {"exec": "no"}),
+            (("observations", 0, "channel"), ["QR"]),
+            (("observations", 0, "integrity"), {"PASS": True}),
+            (("observations", 0, "cue_id"), ["house"]),
+            (("decision",), ["INSPECT"])
+        ]
+        for route, invalid in mutations:
+            self.source = json.loads(FIXTURE.read_text())
+            target = self.source
+            for key in route[:-1]:
+                target = target[key]
+            target[route[-1]] = invalid
+            self.save()
+            with self.subTest(route=route), self.assertRaises(Refuse):
+                self.items()
+
     def test_empty_missing_or_oversized_file_refused(self):
         self.path.write_bytes(b"x" * 65537)
         with self.assertRaises(Refuse):
