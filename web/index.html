@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1018"><meta name="description" content="An exact-address fractal world tuner from STATIC OS.">
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/world-field.css">
+<title>MANDELBROT WORLD FIELD · STATIC OS</title>
+</head><body>
+<a class="skip" href="#field">Skip to the world field</a>
+<div class="shell">
+<header class="top">
+  <div class="identity"><span class="glyph" aria-hidden="true">⊚</span><div><div class="overline">STATIC OS / ELEVEN-HEAP</div><strong>MANDELBROT <span>WORLD FIELD</span></strong></div></div>
+  <div class="top-status"><span class="indicator" aria-hidden="true"></span><span>LOCAL · NO BROADCAST</span></div>
+</header>
+<section class="hero">
+  <div class="headline"><div class="eyebrow">001 / THE INFINITE TUNING INSTRUMENT</div>
+   <h1>Scroll into<br><em>another world.</em></h1>
+   <p>Up and down tune the field. Left and right change granularity. Enter a world to carry both eleven-position dials into the next nested address.</p>
+  </div>
+  <div class="constellation" aria-hidden="true"><span>11</span><small>INSIDE<br>11</small></div>
+</section>
+<main>
+<section class="instrument" aria-label="Fractal tuning instrument">
+  <div class="instrument-head"><div class="instrument-title">
+    <span class="eyebrow">WORLD VIEW / MANDELBROT PARAMETER PLANE</span>
+    <div class="instrument-sub">Explore by gesture, scroll, keyboard or dial.</div>
+  </div><div id="render-status" class="pill">Preparing fractal…</div></div>
+  <div class="viewport" id="field" tabindex="0" role="region" aria-label="Mandelbrot fractal. Drag up or down to tune, left or right to change granularity; press Enter to nest and Backspace to rise.">
+    <canvas id="fractal" width="500" height="310" aria-hidden="true"></canvas>
+    <canvas id="guides" width="500" height="310" aria-hidden="true"></canvas>
+    <div class="view-label top-left">c → z² + c <span class="light">/ 11 × 11</span></div>
+    <div class="view-label top-right"><span id="zoom-readout">1.0×</span><span class="light"> · approximate</span></div>
+    <div class="view-label bottom-left" id="precision-label">Exact address · finite renderer</div>
+    <div class="view-label bottom-right">NO STREAM CONNECTED</div>
+    <div id="preview-hold" class="preview-hold" hidden><strong>DISPLAY LIMIT</strong>
+    <span>The nested address is preserved exactly. This floating-point fractal renderer cannot resolve this depth reliably.</span></div>
+  </div>
+  <div class="meter-row">
+    <div class="meter">
+      <div class="meter-head"><label for="tuning">↕ VERTICAL / TUNING</label><strong id="tune-number">06 <small>/11</small></strong></div>
+      <div class="slider-line"><button id="tune-down" aria-label="Tune down one step">−</button>
+      <input id="tuning" type="range" min="1" max="11" step="1" value="6" aria-label="Tuning on a scale of 1 to 11">
+      <button id="tune-up" aria-label="Tune up one step">+</button></div>
+      <div class="step-label"><span>01 · LOWER</span><span>06 · CENTER</span><span>11 · HIGHER</span></div>
+    </div>
+    <div class="meter">
+      <div class="meter-head"><label for="granularity">↔ HORIZONTAL / GRANULARITY</label><strong id="grain-number">06 <small>/11</small></strong></div>
+      <div class="slider-line"><button id="grain-down" aria-label="Zoom out one granularity step">−</button>
+      <input id="granularity" type="range" min="1" max="11" step="1" value="6" aria-label="Granularity on a scale of 1 to 11">
+      <button id="grain-up" aria-label="Zoom in one granularity step">+</button></div>
+      <div class="step-label"><span>01 · BROADER</span><span>06 · CENTER</span><span>11 · FINER</span></div>
+    </div>
+  </div>
+  <div class="action-row">
+    <button id="enter" class="action primary"><span>↓</span> Enter nested world</button>
+    <button id="rise" class="action"><span>↑</span> Rise one level</button>
+    <button id="root" class="action"><span>⌂</span> Root</button>
+    <button id="bookmark" class="action"><span>♧</span> Copy world address</button>
+  </div>
+</section>
+<section class="addresses">
+  <div class="section-title"><span>02 / THE ADDRESS</span><span>EXACT · RESUMABLE · NON-AUTHORITATIVE</span></div>
+  <div class="address-content">
+    <div><div class="hint">Nested location / ELEVEN-HEAP compatible digits 1–11</div><code id="world-address">MWF1/t06g06</code>
+      <p class="micro">The address is exact. The preview is an approximation. No dial position can authorize listening, broadcasting, computing, or crossing.</p>
+    </div>
+    <div class="address-metrics"><div><span>DEPTH</span><strong id="depth-number">0</strong></div><div><span>CELL RADIX</span><strong>11</strong></div><div><span>LIVE AUDIO</span><strong>OFF</strong></div></div>
+  </div>
+  <div class="breadcrumb" id="breadcrumbs" aria-label="Nested world ancestry"></div>
+  <details><summary>Exact base-11 intervals <span>inspect witness</span></summary><pre id="exact-intervals"></pre></details>
+</section>
+<section class="doors">
+  <div class="section-title"><span>03 / RADIO WORLD · SOURCE DOORS</span><span>EXPLICIT CATALOG, NOT FRACTAL INFERENCE</span></div>
+  <div class="door-head"><h2>The signal has neighbors.</h2><p>Two independently owned worlds are available as intentional exit doors. Moving the fractal never starts either stream.</p></div>
+  <div class="door-grid" id="door-list"></div>
+</section>
+<section class="limits"><div class="section-title"><span>04 / OPERATING LAW</span><span>TOUCH IS NOT PERMISSION</span></div>
+  <div class="law-grid"><div><span>01</span><strong>Tune</strong><small>Move attention only</small></div><div><span>02</span><strong>Select</strong><small>Choose an address explicitly</small></div><div><span>03</span><strong>Cross</strong><small>Requires independent admission</small></div><div><span>04</span><strong>Play</strong><small>Requires source rights and an explicit act</small></div></div>
+</section>
+</main>
+<footer><p><strong>MANDELBROT WORLD FIELD / 001</strong> — Genuine locally rendered Mandelbrot mathematics and exact nested addresses. This is a research preview, not a booted STATIC OS distribution or an active radio player.</p>
+<p id="notice" role="status" aria-live="polite">No broadcast, compute task, or stream has started.</p></footer>
+</div><script type="module" src="/world-field.js"></script>
+</body></html>
