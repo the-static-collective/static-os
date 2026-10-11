@@ -1,4 +1,3 @@
-# FIELD-CELL-001 SYNTHETIC ONLY; generated RC exponential fixture; NOT measured hardware.
 trial_id,condition,phase,time_s,supply_v,node_v
 fixed-1,fixed,charge,0,3.05,0.0000
 fixed-1,fixed,charge,5,3.05,0.9099
