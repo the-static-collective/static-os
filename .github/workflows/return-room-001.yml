@@ -1,0 +1,51 @@
+name: RETURN ROOM 001 — native signed question custody
+on:
+  pull_request:
+    paths:
+      - 'return_room/**'
+      - 'scripts/return-room.mjs'
+      - 'tests/return-room-001.test.mjs'
+      - 'docs/RETURN-ROOM-001.md'
+      - '.github/workflows/return-room-001.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  question-custody:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/reLATTE
+          ref: dcc8cdca84c440aa4294134f020fb7095bf87f24
+          path: .deps/reLATTE
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/national-treasure
+          ref: d6ff149a7a2d59dcb41c2c61606204b20b56a2fa
+          path: .deps/national-treasure
+          persist-credentials: false
+      - name: Install pinned native cryptographic donor
+        run: npm install --prefix .deps/reLATTE --no-audit --no-fund
+      - name: Run native Question Box tests
+        working-directory: .deps/national-treasure
+        run: |
+          node tools/question-box/test.mjs
+          node tools/question-box/memento.test.mjs
+      - name: Native P-256 signed transfer, offline desk, malicious imports and restart
+        env:
+          RELATTE_SRC: .deps/reLATTE
+          NATIONAL_TREASURE_SRC: .deps/national-treasure
+        run: node --test --experimental-strip-types tests/return-room-001.test.mjs
+      - name: Refuse deployment and source private material in tracked artifacts
+        run: |
+          test ! -e .deps/MEMENTO
+          test ! -e .deps/reLATTE/.env
+          node --check scripts/return-room.mjs
+          node --check return_room/room.mjs
