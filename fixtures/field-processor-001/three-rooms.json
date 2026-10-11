@@ -1,0 +1,88 @@
+{
+  "schema": "static-os.field-source/v0",
+  "classification": "SYNTHETIC_ONLY",
+  "now": "2026-10-11T18:04:00Z",
+  "offers": [
+    {
+      "id": "A",
+      "opted_in": true,
+      "revoked": false,
+      "expires_at": "2026-10-11T18:15:00Z",
+      "modes": [
+        "SONG_SEAT",
+        "ROOM_RHYME"
+      ],
+      "share": [
+        "song_ref",
+        "texture",
+        "weather"
+      ],
+      "song_ref": "recording:rosemary-roses-cut-001",
+      "texture": "soft-low-hum",
+      "weather": "rain",
+      "weather_basis": "SELF_REPORTED",
+      "ground_event": null,
+      "ground_basis": null
+    },
+    {
+      "id": "B",
+      "opted_in": true,
+      "revoked": false,
+      "expires_at": "2026-10-11T18:15:00Z",
+      "modes": [
+        "SONG_SEAT"
+      ],
+      "share": [
+        "song_ref"
+      ],
+      "song_ref": "recording:rosemary-roses-cut-001",
+      "texture": null,
+      "weather": null,
+      "weather_basis": null,
+      "ground_event": null,
+      "ground_basis": null
+    },
+    {
+      "id": "C",
+      "opted_in": true,
+      "revoked": false,
+      "expires_at": "2026-10-11T18:15:00Z",
+      "modes": [
+        "ROOM_RHYME"
+      ],
+      "share": [
+        "texture",
+        "weather"
+      ],
+      "song_ref": "recording:unrelated-cut-002",
+      "texture": "soft-low-hum",
+      "weather": "rain",
+      "weather_basis": "SELF_REPORTED",
+      "ground_event": null,
+      "ground_basis": null
+    },
+    {
+      "id": "D",
+      "opted_in": false,
+      "revoked": false,
+      "expires_at": "2026-10-11T18:15:00Z",
+      "modes": [
+        "SONG_SEAT"
+      ],
+      "share": [
+        "song_ref"
+      ],
+      "song_ref": "recording:rosemary-roses-cut-001",
+      "texture": null,
+      "weather": null,
+      "weather_basis": null,
+      "ground_event": null,
+      "ground_basis": null
+    }
+  ],
+  "decisions": {
+    "A": "ACCEPT",
+    "B": "DECLINE",
+    "C": "HOLD"
+  }
+}
