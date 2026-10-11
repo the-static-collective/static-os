@@ -141,3 +141,17 @@ A piezo pickup could later measure traffic-like mechanical vibration on an isola
 **PlanZ:** chronology, ownership, exact proposal/field evidence distinction and remaining test gates.
 
 > The first triumph is not a living soil computer. It is a measurable, falsifiable handshake between ordinary material conditions and a real computational state.
+
+
+## 9. Scrap-orchestra pivot: prioritize intact machines first
+
+The operator subsequently reported a working multimeter, old routers, several laptop and desktop computer bodies, Bluetooth CD hardware, mixers, amplifiers, entertainment receivers and wireless doorbells. **These are reported opportunities, not yet identified/verified models.**
+
+Before the copper/soil RC fixture is soldered, see [SCRAP-ORCHESTRA-001](SCRAP-ORCHESTRA-001.md) and the [Body Passport](SCRAP-BODY-PASSPORT.md). The first physical observation can be earned more cheaply and safely using intact equipment:
+
+    existing audio emitter -> actual air/room -> existing laptop microphone
+       -> local WAV -> hashed bounded feature evidence -> optional STATIC-OS HOLD
+
+A second candidate uses an **unmodified battery-operated paired wireless doorbell** as a human-triggered event and its original chime as an acoustic proxy; this does NOT prove a laptop heard raw RF. A third separately proven lane uses a healthy, firmware-assessed router only as an isolated private network.
+
+The original current-limited AA/copper/soil RC experiment remains intact. We have **changed priority**, not erased the physical-state goal or claimed newly built hardware. Avoid dismantling any powered receiver, dangerous capacitor enclosure, swollen laptop battery or old router for undocumented pin-level experiments.
