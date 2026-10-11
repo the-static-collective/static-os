@@ -103,6 +103,31 @@ class FieldProcessorTests(unittest.TestCase):
         self.save()
         self.assertFalse([c for c in self.candidates() if c["mode"] == "GROUND_ECHO"])
 
+    def test_single_declared_condition_perturbation_changes_only_room_rhyme(self):
+        before = self.candidates()
+        before_song = [x for x in before if x["mode"] == "SONG_SEAT"]
+        self.source["offers"][2]["weather"] = "dry"
+        self.save()
+        after = self.candidates()
+        self.assertEqual([x for x in after if x["mode"] == "SONG_SEAT"], before_song)
+        self.assertFalse([x for x in after if x["mode"] == "ROOM_RHYME"])
+
+    def test_roomtone_source_hash_changes_with_one_perturbation(self):
+        before = self.adapter.describe().source["sha256"]
+        self.source["offers"][2]["texture"] = "irregular-metal-hum"
+        self.save()
+        after = self.adapter.describe().source["sha256"]
+        self.assertNotEqual(before, after)
+
+    def test_no_ground_identity_when_classification_is_unknown(self):
+        for o in self.source["offers"][:2]:
+            o["modes"].append("GROUND_ECHO")
+            o["share"].append("ground_event")
+            o["ground_event"] = "same-vibration-tag"
+            o["ground_basis"] = None
+        self.save()
+        self.assertFalse([x for x in self.candidates() if x["mode"] == "GROUND_ECHO"])
+
     def test_unknown_fields_and_control_smuggling_refused(self):
         for key in ("raw_audio", "gps", "connect", "transmit", "secret"):
             original = copy.deepcopy(self.source)
