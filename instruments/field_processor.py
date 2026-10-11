@@ -89,17 +89,6 @@ def _read(path: Path) -> tuple[bytes, dict]:
     return raw, data
 
 
-def evaluate_field(data: dict) -> dict:
-    """Pure finite pair comparison; does not publish, transmit, invite or connect."""
-    require(type(data) is dict, "field source must be object")
-    # Revalidate even if called directly outside _read.
-    _read_bytes = json.dumps(data, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
-    require(len(_read_bytes) <= MAX_SOURCE_BYTES, "field source over budget")
-    # _read owns the full file schema validation in the adapter. Direct callers
-    # must be bounded and fully structurally validated via this common validator.
-    return _evaluate_validated(data)
-
-
 def _evaluate_validated(data: dict) -> dict:
     now = _utc(data["now"])
     active = sorted((
@@ -166,15 +155,14 @@ class FieldProcessorAdapter:
         self.path = path.resolve()
         self.instrument_id = instrument_id
 
-    def describe(self) -> InstrumentDescriptorV0:
-        raw, _ = _read(self.path)
+    def _descriptor(self, raw: bytes) -> InstrumentDescriptorV0:
         source_hash = sha256(raw).hexdigest()
         return InstrumentDescriptorV0(
             self.instrument_id, "static-os.field-processor/v0",
             "ROOMTONE SYNTHETIC FIELD (NO SENSOR HARDWARE)",
             {
                 "kind": "synthetic-field-fixture",
-                "reference": self.path.as_uri(),
+                "reference": "fixture-sha256:" + source_hash,
                 "history": ["FIELD-PROCESSOR-001", "declared opt-in simulation only",
                             "no real persons, actual weather, or ground sensors"],
                 "sha256": source_hash
@@ -184,9 +172,13 @@ class FieldProcessorAdapter:
             controls("candidate index", "synthetic ordinal", [0, MAX_CANDIDATES])
         )
 
+    def describe(self) -> InstrumentDescriptorV0:
+        raw, _ = _read(self.path)
+        return self._descriptor(raw)
+
     def observe(self) -> dict:
-        descriptor = self.describe()
-        _, data = _read(self.path)
+        raw, data = _read(self.path)
+        descriptor = self._descriptor(raw)
         result = _evaluate_validated(data)
         # Only consented candidate references enter durable host observation.
         # Nonparticipant identities and raw offered features are not exported.
