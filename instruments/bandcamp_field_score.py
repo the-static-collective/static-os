@@ -85,7 +85,7 @@ def _read(path: Path):
         cue_id = _short(c["id"], "cue id", 48)
         cue_ids.add(cue_id)
         _short(c["track_title"], "track title")
-        require(c["role"] in ROLES, "invalid cue role")
+        require(type(c["role"]) is str and c["role"] in ROLES, "invalid cue role")
         digest = c["recording_sha256"]
         require(digest is None or (type(digest) is str and SHA256_RE.fullmatch(digest)),
                 "invalid declared recording digest")
@@ -103,16 +103,18 @@ def _read(path: Path):
         oid = _short(o["id"], "observation ID")
         require(oid not in obs_ids, "duplicate observation occurrence")
         obs_ids.add(oid)
-        require(o["channel"] in CHANNELS and o["integrity"] in INTEGRITIES,
+        require(type(o["channel"]) is str and o["channel"] in CHANNELS
+                and type(o["integrity"]) is str and o["integrity"] in INTEGRITIES,
                 "unknown channel/integrity")
-        require(o["cue_id"] in cue_ids, "unknown cue")
+        require(type(o["cue_id"]) is str and o["cue_id"] in cue_ids, "unknown cue")
         _short(o["referent"], "observation referent")
         _short(o["clock_domain"], "clock domain")
         require(type(o["sequence"]) is int and 0 <= o["sequence"] <= 1000000,
                 "invalid local sequence")
         require(o["capture_kind"] == "SIMULATED",
                 "no physical observation is supported")
-    require(data["decision"] in DECISIONS, "invalid simulated human decision")
+    require(type(data["decision"]) is str and data["decision"] in DECISIONS,
+            "invalid simulated human decision")
     return raw, data
 
 
