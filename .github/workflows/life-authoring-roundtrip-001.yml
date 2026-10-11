@@ -1,0 +1,36 @@
+name: LIFE-AUTHORING-ROUNDTRIP-001
+
+on:
+  push:
+    paths:
+      - "specimens/open-page-001/**"
+      - "scripts/validate-open-page.py"
+      - "scripts/validate_life_authoring_roundtrip.py"
+      - "tests/test_open_page_001.py"
+      - "tests/test_life_authoring_roundtrip.py"
+      - ".github/workflows/life-authoring-roundtrip-001.yml"
+  pull_request:
+    paths:
+      - "specimens/open-page-001/**"
+      - "scripts/validate-open-page.py"
+      - "scripts/validate_life_authoring_roundtrip.py"
+      - "tests/test_open_page_001.py"
+      - "tests/test_life_authoring_roundtrip.py"
+      - ".github/workflows/life-authoring-roundtrip-001.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  roundtrip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check original Open Page 001
+        run: python3 scripts/validate-open-page.py
+      - name: Check append-only authoring roundtrip
+        run: python3 scripts/validate_life_authoring_roundtrip.py
+      - name: Run non-collapse tests
+        run: python3 -m unittest discover -s tests -p "test_*page*.py" -v
+      - name: Run roundtrip refusal tests
+        run: python3 -m unittest discover -s tests -p "test_life_authoring_roundtrip.py" -v

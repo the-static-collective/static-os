@@ -1,0 +1,61 @@
+{
+  "schema": "static-os.life-authoring.expectation-comparison/v0",
+  "comparison_id": "open-page-001:comparison:roundtrip-001",
+  "action_id": "open-page-001:act:roundtrip-001",
+  "occurrence_id": "open-page-001:occurrence:roundtrip-001",
+  "comparisons": [
+    {
+      "dimension": "branch-head-advance",
+      "expected": "branch head advances",
+      "observed": "20dc9202f08796cd457d0c8f287ba64471300174",
+      "status": "MATCH",
+      "evidence_ref": "open-page-001:occurrence:roundtrip-001"
+    },
+    {
+      "dimension": "source-manifest-immutability",
+      "expected": "a913665b0e7319e782f2237afabc41b5b4d6a7ca",
+      "observed": "a913665b0e7319e782f2237afabc41b5b4d6a7ca",
+      "status": "MATCH",
+      "evidence_ref": "open-page-001:occurrence:roundtrip-001"
+    },
+    {
+      "dimension": "source-page-immutability",
+      "expected": "8bd8a206b121ac682b92d6f7eda107839475aa08",
+      "observed": "8bd8a206b121ac682b92d6f7eda107839475aa08",
+      "status": "MATCH",
+      "evidence_ref": "open-page-001:occurrence:roundtrip-001"
+    },
+    {
+      "dimension": "append-only-door-choice-action",
+      "expected": "three new roundtrip records present",
+      "observed": "three new roundtrip records present",
+      "status": "MATCH",
+      "evidence_ref": "open-page-001:occurrence:roundtrip-001"
+    },
+    {
+      "dimension": "full-verification",
+      "expected": "roundtrip validator can pass",
+      "observed": "NOT_YET_OBSERVED_AT_ACTION_WITNESS",
+      "status": "OPEN",
+      "evidence_ref": null
+    },
+    {
+      "dimension": "external-life-effect",
+      "expected": "none asserted",
+      "observed": "NOT_OBSERVED",
+      "status": "OPEN",
+      "evidence_ref": "open-page-001:occurrence:roundtrip-001"
+    }
+  ],
+  "interpretation": "The selected repository action has an observed consequence: a Git branch advanced while its original source page remained intact. This does not imply any external life event or validate the artistic depiction as history.",
+  "mythic_echo": {
+    "mode": "artistic",
+    "statement": "The next page arrived; the first page did not change.",
+    "historical_claim": false
+  },
+  "laws": [
+    "EXPECTED CONSEQUENCE != OBSERVED CONSEQUENCE",
+    "CONSEQUENCE != MEANING",
+    "MYTHIC TRUTH != HISTORICAL CLAIM"
+  ]
+}
