@@ -1,0 +1,101 @@
+{
+  "schema": "static-os.bandcamp-score-source/v0",
+  "classification": "SYNTHETIC_ONLY",
+  "edition": {
+    "artist": "the static collective",
+    "archive_label": "BandCamp (4).txt — multi-release lyric export",
+    "evidence_level": "LYRIC_EXPORT_ONLY"
+  },
+  "score": {
+    "id": "score:singing-sigil-bandcamp-001",
+    "referent": "artifact:singing-sigil-companion-001",
+    "ordered_cues": [
+      "house",
+      "tesla",
+      "wormhole"
+    ]
+  },
+  "cues": [
+    {
+      "id": "house",
+      "track_title": "The House Takes Attendance",
+      "role": "SENSE",
+      "recording_sha256": null
+    },
+    {
+      "id": "tesla",
+      "track_title": "Tesla in the Orchard",
+      "role": "ENCOUNTER",
+      "recording_sha256": null
+    },
+    {
+      "id": "wormhole",
+      "track_title": "# mundaneWORMHOLE",
+      "role": "PRESERVE",
+      "recording_sha256": null
+    }
+  ],
+  "observations": [
+    {
+      "id": "q1",
+      "channel": "QR",
+      "cue_id": "house",
+      "referent": "artifact:singing-sigil-companion-001",
+      "integrity": "PASS",
+      "clock_domain": "synthetic-sequence-1",
+      "sequence": 1,
+      "capture_kind": "SIMULATED"
+    },
+    {
+      "id": "a1",
+      "channel": "AUDIO",
+      "cue_id": "house",
+      "referent": "artifact:singing-sigil-companion-001",
+      "integrity": "PASS",
+      "clock_domain": "synthetic-sequence-1",
+      "sequence": 2,
+      "capture_kind": "SIMULATED"
+    },
+    {
+      "id": "a2",
+      "channel": "AUDIO",
+      "cue_id": "tesla",
+      "referent": "artifact:singing-sigil-companion-001",
+      "integrity": "PASS",
+      "clock_domain": "synthetic-sequence-1",
+      "sequence": 3,
+      "capture_kind": "SIMULATED"
+    },
+    {
+      "id": "a3",
+      "channel": "AUDIO",
+      "cue_id": "wormhole",
+      "referent": "artifact:singing-sigil-companion-001",
+      "integrity": "PASS",
+      "clock_domain": "synthetic-sequence-1",
+      "sequence": 4,
+      "capture_kind": "SIMULATED"
+    },
+    {
+      "id": "q1-replay",
+      "channel": "QR",
+      "cue_id": "house",
+      "referent": "artifact:singing-sigil-companion-001",
+      "integrity": "PASS",
+      "clock_domain": "synthetic-sequence-1",
+      "sequence": 5,
+      "capture_kind": "SIMULATED"
+    },
+    {
+      "id": "optical-other",
+      "channel": "OPTICAL",
+      "cue_id": "house",
+      "referent": "artifact:unrelated-b",
+      "integrity": "PASS",
+      "clock_domain": "synthetic-sequence-1",
+      "sequence": 6,
+      "capture_kind": "SIMULATED"
+    }
+  ],
+  "decision": "HOLD"
+}
