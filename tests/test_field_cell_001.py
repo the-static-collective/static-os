@@ -129,7 +129,7 @@ class FieldCellAnalysisTests(unittest.TestCase):
         cols[-1] = "0.3000"
         lines[1] = ",".join(cols)
         r = mod.analyze_bytes(edited(lines), "SYNTHETIC")
-        self.assertIn("INITIAL_VOLTAGE_NOT_RESET", r["trials"][0]["flags"])
+        self.assertIn("INITIAL_VOLTAGE_NOT_RESET", next(x for x in r["trials"] if x["trial_id"] == "fixed-1")["flags"])
         self.assertIn("REVIEW_TRIAL_WARNINGS", r["flags"])
 
     def test_missing_control_flagged_not_inferred(self):
