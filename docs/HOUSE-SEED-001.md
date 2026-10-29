@@ -47,10 +47,11 @@ python3 scripts/suitcase.py house-template > site.json
 python3 scripts/suitcase.py probe > host-inventory.json
 python3 scripts/suitcase.py house-compose --inventory host-inventory.json --site site.json --profile foundry --media grow --privacy private > living-house.json
 python3 scripts/suitcase.py house-verify living-house.json
+python3 scripts/suitcase.py house-render living-house.json > living-house-work-cards.html
 python3 -m unittest discover -s tests -p 'test_house_seed.py' -v
 ```
 
-Initially all spaces and parts are `UNOBSERVED`. Editing **only** documented public-safe observation states to `PRESENT_UNVERIFIED` creates specific bench candidates and missing-part HOLDs. `ABSENT` stays unavailable. `site_permission=OPERATOR_SELF_ATTESTED` means only an unverified self-report, **not** legal or technical authorization to build. A real address, coordinates, identities, child/survivor records, or private case details are not accepted by the schema and must not be placed in the file.
+The output `living-house-work-cards.html` is a **standalone, script-free printable document** for a phone or laptop; its plan hash can be compared to the verified JSON. No server, user account, network link or cloud provider is required to open it. It is a plan, not a live dashboard or device controller.\n\nInitially all spaces and parts are `UNOBSERVED`. Editing **only** documented public-safe observation states to `PRESENT_UNVERIFIED` creates specific bench candidates and missing-part HOLDs. `ABSENT` stays unavailable. `site_permission=OPERATOR_SELF_ATTESTED` means only an unverified self-report, **not** legal or technical authorization to build. A real address, coordinates, identities, child/survivor records, or private case details are not accepted by the schema and must not be placed in the file.
 
 The host probe sees the *current Python computer*, not the house, a future target disk, a solar panel, or the second device. The schema fixes which independent physical observations may affect the generated plan. Cold `house-verify` regenerates the entire plan, compares it exactly and refuses fabricated "BUILT", service, governance, discovery or safety claims. The SHA-256 digest is only an unkeyed integrity check, **not** a signature or approval.
 
