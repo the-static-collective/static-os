@@ -213,6 +213,7 @@ def legacy_to_cartridge(path):
     file = pathlib.Path(path)
     must(file.is_file() and file.stat().st_size <= 2048, "LEGACY_SIZE")
     value = json.loads(file.read_text(encoding="utf8"))
+    must(isinstance(value, dict), "LEGACY_SHAPE")
     if value.get("schema") == "static-os.wii-first-boot-intent/v1":
         bridge = _import_module("original_wii", ROOT/"scripts"/"wii-to-cannon.py")
         bridge.validate(value)
