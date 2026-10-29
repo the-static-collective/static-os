@@ -1,0 +1,6 @@
+device_label,kind,make_model_if_visible,cpu_architecture,ram_gb,storage_size_gb,operating_system,working_power_supply,available_interfaces,device_works,personal_data_present,safe_to_erase,notes_non_sensitive
+BOX-A,spare_computer,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,NO,Do not erase internal drives
+PHONE-A,phone,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,Android_or_iOS,UNKNOWN,WiFi_browser,UNKNOWN,YES,NO,Use browser only
+USB-A,spare_usb,UNKNOWN,N_A,N_A,UNKNOWN,N_A,N_A,USB,UNKNOWN,UNKNOWN,UNKNOWN,Select explicitly before writing ISO
+ROUTER-A,router,UNKNOWN,UNKNOWN,N_A,N_A,UNKNOWN,UNKNOWN,WiFi_Ethernet,UNKNOWN,UNKNOWN,NO,Keep WAN disconnected for test
+RADIO-A,radio,UNKNOWN,UNKNOWN,N_A,N_A,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,NO,Do not transmit or solder yet
