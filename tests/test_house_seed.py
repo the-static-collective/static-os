@@ -10,6 +10,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from suitcase.plan import INVENTORY_SCHEMA  # noqa: E402
+from suitcase.render import render_house  # noqa: E402
 from suitcase.house import (compose_house, verify_house, empty_survey,  # noqa: E402
                             validate_survey, MODULES, NO_EFFECTS)
 
@@ -100,6 +101,19 @@ class HouseSeedTests(unittest.TestCase):
         self.assertEqual(len(a['plan_sha256']), 64)
         self.assertTrue(verify_house(json.loads(json.dumps(a))))
 
+    def test_printable_cards_are_offline_nonscript_and_cold_verified(self):
+        p = compose_house(self.inventory, self.site)
+        html = render_house(p)
+        self.assertIn('Living House: Build Work Cards', html)
+        self.assertIn('solar budget', html)
+        self.assertIn('RELATIONAL_MEMORY_PROOF', html)
+        self.assertIn(p['plan_sha256'], html)
+        self.assertNotIn('<script', html)
+        bad = copy.deepcopy(p)
+        bad['outputs']['real_home'] = 'BUILT'
+        with self.assertRaises(ValueError):
+            render_house(bad)
+
     def test_cli_compose_verify_and_refuse_tampered_document(self):
         cmd = [sys.executable, str(ROOT / 'scripts' / 'suitcase.py')]
         template = subprocess.run(cmd+['house-template'], capture_output=True, text=True, check=True)
@@ -116,6 +130,9 @@ class HouseSeedTests(unittest.TestCase):
             p.write_text(run.stdout)
             self.assertEqual(subprocess.run(cmd+['house-verify',str(p)],
                                             capture_output=True).returncode, 0)
+            html_run = subprocess.run(cmd+['house-render',str(p)],
+                                      capture_output=True,text=True,check=True)
+            self.assertIn('Living House: Build Work Cards', html_run.stdout)
             bad = json.loads(run.stdout)
             bad['hardware_effects']['network_send'] = True
             p.write_text(json.dumps(bad))
