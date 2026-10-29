@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<app version="1">
+  <name>STATIC GENESIS / Hello World</name>
+  <coder>Static Collective</coder>
+  <version>0.1.0</version>
+  <short_description>A Wii can ask what to build together.</short_description>
+  <long_description>Independent, offline-first Wii Remote front door. Press A to approve a bounded mission and PLUS to save a public-safe proposal to SD. No network, execution, home modification, or witnessed work. Carry the file to a separately operated CANNON computer.</long_description>
+  <no_ios_reload/>
+</app>
