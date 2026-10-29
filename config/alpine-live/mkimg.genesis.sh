@@ -8,7 +8,7 @@ profile_genesis() {
     profile_abbrev="genesis"
     arch="x86_64"
     hostname="genesis"
-    apkovl="genapkovl-genesis.sh"
+    apkovl="scripts/genapkovl-genesis.sh"
     kernel_flavors="lts"
     kernel_cmdline="console=tty0 console=ttyS0,115200"
     syslinux_serial="0 115200"
