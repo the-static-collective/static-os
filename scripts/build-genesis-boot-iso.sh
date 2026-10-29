@@ -75,7 +75,23 @@ if [[ "${STATIC_OS_CI_VM_PROBE:-0}" == 1 ]]; then
  ln -s ../vm-genesis-probe.service \
    config/includes.chroot/etc/systemd/system/multi-user.target.wants/vm-genesis-probe.service
 fi
-lb build
+# The Ubuntu-packaged legacy live-build skips binary kernel copying when
+# Contents-amd64.gz is unavailable. We intentionally install linux-image-amd64
+# in the chroot and stage its *actual* kernel+initrd between chroot and binary.
+# Do not invent a kernel from the host or package a rootfs-only ISO.
+lb bootstrap
+lb chroot
+mkdir -p binary/live
+shopt -s nullglob
+kernels=(chroot/boot/vmlinuz-*); initrds=(chroot/boot/initrd.img-*)
+[[ ${#kernels[@]} -eq 1 && ${#initrds[@]} -eq 1 ]] || {
+  echo "REFUSE: expected precisely one installed Debian guest kernel and initrd" >&2
+  exit 2
+}
+cp -L -- "${kernels[0]}" "binary/live/${kernels[0]##*/}"
+cp -L -- "${initrds[0]}" "binary/live/${initrds[0]##*/}"
+printf 'STAGED GUEST BOOT: %s | %s\n' "${kernels[0]##*/}" "${initrds[0]##*/}"
+lb binary
 mapfile -t imgs < <(find . -maxdepth 1 -type f -name '*.iso' -print)
 [[ ${#imgs[@]} -eq 1 ]] || { echo "REFUSE: expected one ISO, found ${#imgs[@]}" >&2; exit 2; }
 sha256sum "${imgs[0]}" > image.sha256
