@@ -16,8 +16,12 @@ cd "$BUILD_DIR"
 lb config --mode debian --distribution bookworm --architectures amd64 \
  --mirror-bootstrap https://deb.debian.org/debian --mirror-chroot https://deb.debian.org/debian \
  --mirror-binary https://deb.debian.org/debian --binary-images iso-hybrid \
- --debian-installer none --archive-areas main --security false
+ --debian-installer none --archive-areas main --security false --linux-packages none
 cp -a "$ROOT/config/." config/
+# Hosted Ubuntu live-build's legacy kernel lookup points at obsolete
+# /dists/bookworm/Contents-amd64.gz (404). The official Debian kernel
+# metapackage is installed directly, so auto Contents detection is unnecessary.
+printf '%s\n' 'linux-image-amd64' >> config/package-lists/static.list.chroot
 # Explicit Bookworm security pocket: live-build's distro-agnostic old default
 # otherwise points at obsolete bookworm/updates under security.debian.org.
 mkdir -p config/archives
