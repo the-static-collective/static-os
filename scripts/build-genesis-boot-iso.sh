@@ -16,7 +16,7 @@ cd "$BUILD_DIR"
 lb config --mode debian --distribution bookworm --architectures amd64 \
  --mirror-bootstrap https://deb.debian.org/debian --mirror-chroot https://deb.debian.org/debian \
  --mirror-binary https://deb.debian.org/debian --binary-images iso-hybrid \
- --debian-installer none --archive-areas main --security false --linux-packages none
+ --debian-installer false --archive-areas main --security false --linux-packages none
 cp -a "$ROOT/config/." config/
 # Hosted Ubuntu live-build's legacy kernel lookup points at obsolete
 # /dists/bookworm/Contents-amd64.gz (404). The official Debian kernel
