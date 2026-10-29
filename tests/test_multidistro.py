@@ -17,7 +17,7 @@ class DistroTests(unittest.TestCase):
         self.assertIn("fedora:43", workflow)
         self.assertIn("apk add --no-cache", docker)
         self.assertIn("dnf install -y", docker)
-        self.assertIn("nodejs24-bin", docker)
+        self.assertIn("nodejs npm", docker)
         self.assertIn("USER 10001:10001", docker)
         self.assertIn("ENV HOME=", docker)
 
