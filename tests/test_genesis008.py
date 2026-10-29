@@ -73,6 +73,18 @@ class Genesis008CartridgeTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 c.validate_chain(list(chain))
 
+    def test_untrusted_json_types_hold_without_tracebacks(self):
+        x=c.mint("ASK","Living House","NINTENDO_GAMECUBE_SD")
+        for bad in ({**x,"source":[]},{**x,"focus":[]},{**x,"kind":[]},
+                    {**x,"source":{"injected":"role"}}):
+            with self.assertRaises(ValueError):
+                c.validate(bad)
+        with tempfile.TemporaryDirectory() as temp:
+            legacy=Path(temp)/"bad.json"
+            legacy.write_text("[\"not a valid source envelope\"]")
+            with self.assertRaises(ValueError):
+                cli.legacy_to_cartridge(legacy)
+
     def test_broken_portable_bits_rejected(self):
         a=c.mint("ASK","Living House","NINTENDO_GAMECUBE_SD")
         encoded=c.encode(a)
