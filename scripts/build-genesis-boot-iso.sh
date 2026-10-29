@@ -41,6 +41,8 @@ if [[ "${STATIC_OS_CI_VM_PROBE:-0}" == 1 ]]; then
    config/includes.chroot/etc/systemd/system
  install -m 0755 "$ROOT/tests/vm-genesis-probe.sh" \
    config/includes.chroot/usr/local/sbin/vm-genesis-probe
+ install -m 0755 "$ROOT/tests/vm-genesis-probe.py" \
+   config/includes.chroot/usr/local/sbin/vm-genesis-probe.py
  install -m 0644 "$ROOT/tests/vm-genesis-probe.service" \
    config/includes.chroot/etc/systemd/system/vm-genesis-probe.service
  ln -s ../vm-genesis-probe.service \
@@ -55,13 +57,15 @@ python3 - "${imgs[0]}" <<'PY'
 import json,os,sys,hashlib
 from pathlib import Path
 p=Path(sys.argv[1])
-root=p.cwd()
-m=json.loads((root / "../../manifest/genesis-boot-003.json").read_text()) if False else None
-source=Path(os.environ.get("STATIC_OS_SOURCE_MANIFEST",""))
+root=Path.cwd()
+h=hashlib.sha256()
+with p.open('rb') as reader:
+    for chunk in iter(lambda:reader.read(1024*1024), b''):
+        h.update(chunk)
 result={"schema":"static-os.genesis-boot-image-occurrence/v0",
         "status":"IMAGE_BUILT_NOT_BOOT_CONFIRMED",
         "iso_file":p.name,"iso_size_bytes":p.stat().st_size,
-        "iso_sha256":hashlib.sha256(p.read_bytes()).hexdigest(),
+        "iso_sha256":h.hexdigest(),
         "installed":False,"human_field_test":False,
         "iso_boot_observed":False,"source_selection":"EXACT_GIT_OPEN_BRANCHES_NOT_CANON"}
 (root/"image-build-receipt.json").write_text(json.dumps(result,indent=2)+"\n")
