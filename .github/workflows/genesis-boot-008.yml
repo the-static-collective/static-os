@@ -1,0 +1,186 @@
+name: GENESIS 008 — Universal Cartridge, Arcade Museum and Festival Reproduction
+on:
+  push:
+    branches: ['experiment/genesis-boot-008-universal-cartridge-festival']
+  pull_request:
+    paths:
+      - 'cartridges/**'
+      - 'scripts/genesis008.py'
+      - 'tests/test_genesis008.py'
+      - 'docs/GENESIS-BOOT-008.md'
+      - '.github/workflows/genesis-boot-008.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  portable-software:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test universal lineage, refusal, original legacy intent and acoustic-file codec
+        run: |
+          python3 -m unittest discover -s tests -p test_genesis008.py -v
+          python3 -m py_compile cartridges/genesis008.py cartridges/audio.py scripts/genesis008.py
+      - name: Build optional machine-readable QR SVG in isolated build environment
+        run: |
+          python3 -m venv /tmp/genesis008-qr-build
+          /tmp/genesis008-qr-build/bin/python -m pip install --disable-pip-version-check 'segno==1.6.6'
+          /tmp/genesis008-qr-build/bin/python scripts/genesis008.py demo \
+            --focus "Festival Table" --out-dir genesis008-output --qr
+          python3 scripts/genesis008.py inspect --text genesis008-output/ask.gc1
+          python3 scripts/genesis008.py inspect --wav genesis008-output/ask.wav
+      - name: Verify a real offline printable arcade, manually catalogued machines and next-festival candidate
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=Path('genesis008-output')
+          assert (d/'ask.svg').exists() and b'<svg' in (d/'ask.svg').read_bytes()
+          assert len(list(d.glob('*.wav')))==5
+          assert len(list(d.glob('*.gc1')))==5
+          assert all((d/x).stat().st_size>300 for x in ('festival.html','museum.html'))
+          chain=json.loads((d/'cartridges.json').read_text())
+          assert [x['kind'] for x in chain]==['ASK','OFFER','PROPOSE','WITNESS','REPLICATE']
+          assert all(not x['independent_witness'] and not x['human_permission'] for x in chain)
+          b=json.loads((d/'replication-blueprint-candidate.json').read_text())
+          assert b['stage']=='DRAFT_NOT_AUTHORIZED'
+          assert b['site_steward']=='NOT_IDENTIFIED'
+          assert b['real_participants']==0
+          assert json.loads((d/'chain-replay.json').read_text())['has_real_field_witness'] is False
+          print('GENESIS_008_ARCADE_FESTIVAL_MUSEUM_PRINT_AND_REPLAY_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: genesis008-universal-cartridges-museum-festival-qr-wav
+          path: genesis008-output/
+          retention-days: 30
+
+  independent-original-cannon:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: static-os-latest
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/CANNON
+          ref: 92a73324ec6918765cbd15b7a12cb83878b403eb
+          path: cannon
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/static-os
+          ref: b02b5016cbd5bf2f73d758d5ed1416246b789157
+          path: staticos
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/webZ
+          ref: 83b35070d8d56155156655279bfdcf50aa77794f
+          path: webz
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/GrO
+          ref: 9e6361105aae335ccb0657092809eef43e7ab4da
+          path: gro
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/GHoT
+          ref: 6f0cc9e93e2544cd2fc67a0aa43a06198825a654
+          path: ghot
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/JAR-VIS
+          ref: c9b8341f2eff16105f58dcd5bb9031245bcb0558
+          path: jarvis
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Convert original GameCube and Wii intents into new universal cartridge, then validate without executing
+        run: |
+          python3 - <<'PY'
+          import importlib.util,json
+          from pathlib import Path
+          root=Path('static-os-latest')
+          spec=importlib.util.spec_from_file_location('portable',root/'scripts/portable-to-cannon.py')
+          portable=importlib.util.module_from_spec(spec);spec.loader.exec_module(portable)
+          Path('original-gamecube.json').write_text(json.dumps(
+            portable.make_intent('NINTENDO_GAMECUBE_SD','Living House')))
+          spec=importlib.util.spec_from_file_location('wii',root/'scripts/wii-to-cannon.py')
+          wii=importlib.util.module_from_spec(spec);spec.loader.exec_module(wii)
+          payload={'schema':wii.SCHEMA,'mission':'living-house','focus':'Festival Table',
+           'question':wii.QUESTION['Festival Table'],'scenario':'FICTIONAL_A_B',
+           'mode':'OFFLINE_HOLD_ONLY','source_device':'WII_HOMEBREW_LOCAL_OPERATOR',
+           'operator_action':'PLUS_EXPORT_PRESSED','status':'PROPOSAL_ONLY_NOT_EXECUTED',
+           'transmitted':False,'physical_observation':False,
+           'signed':False,'independent_witness':False}
+          assert wii.validate(payload)
+          Path('original-wii.json').write_text(json.dumps(payload))
+          PY
+          python3 static-os-latest/scripts/genesis008.py import-legacy --input original-gamecube.json --out gamecube.gc1
+          python3 static-os-latest/scripts/genesis008.py import-legacy --input original-wii.json --out wii.gc1
+          python3 static-os-latest/scripts/genesis008.py bridge --text gamecube.gc1 --validate
+          python3 static-os-latest/scripts/genesis008.py bridge --text wii.gc1 --validate
+          test ! -e gamecube-result
+          test ! -e wii-result
+      - name: One explicitly approved cartridge runs original CANNON at exactly pinned unmerged commits
+        run: |
+          python3 static-os-latest/scripts/genesis008.py bridge --text gamecube.gc1 --execute \
+            --cannon cannon --staticos staticos --webz webz \
+            --gro gro --ghot ghot --jarvis jarvis --out gamecube-result
+          node cannon/scripts/genesis-boot.mjs verify \
+            --staticos staticos --webz webz --gro gro \
+            --ghot ghot --jarvis jarvis --out gamecube-result
+          python3 static-os-latest/scripts/genesis008.py bridge --text wii.gc1 --execute \
+            --cannon cannon --staticos staticos --webz webz \
+            --gro gro --ghot ghot --jarvis jarvis --out wii-result
+          node cannon/scripts/genesis-boot.mjs verify \
+            --staticos staticos --webz webz --gro gro \
+            --ghot ghot --jarvis jarvis --out wii-result
+      - name: Reject forged real witness claim and preserve original source independence
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r1=json.loads(Path('gamecube-result/boot-receipt.json').read_text())
+          r2=json.loads(Path('wii-result/boot-receipt.json').read_text())
+          for r in (r1,r2):
+              assert r['evidence']['originalSourceCodeInvoked'] is True
+              assert r['evidence']['physicalTestsCompleted']==0
+              assert r['evidence']['independentHumanStewards']==0
+              assert r['evidence']['automaticActuation'] is False
+          assert r1['receiptSha256'] != r2['receiptSha256']
+          print('GAMECUBE_AND_WII_CARTRIDGE_TO_ORIGINAL_CANNON_SOURCE_VERIFIED')
+          PY
+          for repo in cannon staticos webz gro ghot jarvis; do
+            git -C "$repo" diff --exit-code HEAD
+          done
+          cp gamecube.gc1 forged.gc1
+          python3 - <<'PY'
+          from pathlib import Path
+          f=Path('forged.gc1');s=f.read_text().strip();f.write_text(s[:-1]+'A\n')
+          PY
+          if python3 static-os-latest/scripts/genesis008.py bridge --text forged.gc1 --validate; then
+            echo 'REFUSE: forged carrier somehow accepted'; exit 1
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: genesis008-real-original-cannon-wii-gamecube-crossings
+          path: |
+            gamecube.gc1
+            wii.gc1
+            gamecube-result/
+            wii-result/
+          retention-days: 30
