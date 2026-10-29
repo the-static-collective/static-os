@@ -1,0 +1,107 @@
+name: GENESIS BOOT 005 — native Alpine bootable ISO and offline QEMU first boot
+on:
+  push:
+    branches: ['experiment/genesis-boot-005-alpine-live-iso']
+  pull_request:
+    paths:
+      - 'config/alpine-live/**'
+      - 'scripts/build-alpine-genesis-iso.sh'
+      - 'tests/test_alpine_live.py'
+      - '.github/workflows/genesis-boot-005-alpine-live.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  alpine-image-and-guest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Validate original source pins and Alpine profile requirements
+        run: |
+          python3 scripts/validate-boot-image.py manifest/genesis-boot-003.json
+          python3 -m unittest discover -s tests -p test_alpine_live.py -v
+          sh -n config/alpine-live/genapkovl-genesis.sh
+          sh -n config/alpine-live/static-genesis-start
+          sh -n config/alpine-live/genesis-local.start
+          sh -n scripts/build-alpine-genesis-iso.sh
+      - name: Stage source-owned original CANNON, GrO, GHoT, JAR;VIS and related donors inside Alpine
+        run: |
+          docker build --pull --progress=plain \
+            -f config/multidistro/Dockerfile \
+            --build-arg BASE_IMAGE=node:24-alpine \
+            --build-arg TARGET_DISTRO=alpine \
+            -t static-genesis:alpine-payload .
+          id="$(docker create static-genesis:alpine-payload)"
+          mkdir -p alpine-payload
+          docker cp "$id:/opt/static-os/genesis-sources/." alpine-payload/
+          docker rm "$id"
+          test -f alpine-payload/cannon/scripts/first-boot.mjs
+          test -f alpine-payload/garden/node_modules/tsx/dist/cli.mjs
+      - name: Create actual Alpine-native ISO with its own mkimage build stack
+        run: |
+          docker run --rm \
+            -e GENESIS_CI_VM_PROBE=1 \
+            -v "$PWD:/work:rw" \
+            -v "$PWD/alpine-payload:/payload:ro" \
+            alpine:3.23 /bin/sh /work/scripts/build-alpine-genesis-iso.sh
+          test "$(find alpine-images -maxdepth 1 -name '*.iso' | wc -l)" -eq 1
+          cd alpine-images && sha256sum -c iso.sha256
+      - name: Inspect Alpine ISO boot metadata without executing host machine writes
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            qemu-system-x86 xorriso
+          iso="$(find alpine-images -maxdepth 1 -name '*.iso' -print -quit)"
+          xorriso -indev "$iso" -report_el_torito plain
+      - name: Boot actual Alpine ISO in QEMU BIOS with network disabled and demand native source receipts
+        run: |
+          set -euo pipefail
+          iso="$(find alpine-images -maxdepth 1 -name '*.iso' -print -quit)"
+          test -n "$iso"
+          timeout 370 qemu-system-x86_64 \
+            -machine pc,accel=tcg -m 3072 -smp 2 -boot d -cdrom "$iso" \
+            -net none -display none -serial file:alpine-bios-serial.log -monitor none \
+            -no-reboot > alpine-qemu.stderr 2>&1 &
+          pid=$!
+          got=0
+          for i in $(seq 1 345); do
+            if grep -q 'STATIC-OS-ALPINE-QEMU-NATIVE-FIRST-BOOT-VERIFIED' alpine-bios-serial.log 2>/dev/null; then
+              got=1; break
+            fi
+            if grep -q 'STATIC-OS-ALPINE-CONSOLE-MISSING' alpine-bios-serial.log 2>/dev/null; then break; fi
+            if ! kill -0 "$pid" 2>/dev/null; then break; fi
+            sleep 1
+          done
+          kill "$pid" 2>/dev/null || true
+          wait "$pid" 2>/dev/null || true
+          grep 'STATIC-OS-' alpine-bios-serial.log || true
+          tail -n 120 alpine-bios-serial.log || true
+          test "$got" -eq 1
+          grep -q 'STATIC-OS-VM-HOUSE-A-B-NATIVE-OK' alpine-bios-serial.log
+          grep -q 'STATIC-OS-VM-WARM-THREAD-NATIVE-OK' alpine-bios-serial.log
+          echo ALPINE_BIOS_BOOT_INDEPENDENT_ORIGINAL_SOURCE_EXECUTION_VERIFIED
+      - name: Collect actual ISO, source receipts and guest serial results
+        if: always()
+        run: |
+          mkdir -p alpine-evidence
+          cp alpine-images/iso.sha256 alpine-evidence/ 2>/dev/null || true
+          cp alpine-bios-serial.log alpine-evidence/ 2>/dev/null || true
+          cp alpine-qemu.stderr alpine-evidence/ 2>/dev/null || true
+          printf '%s\n' 'Alpine standard/musl ISO with real immutable Git source trees; CI-only VM probe. BIOS serial test does not prove UEFI, GUI, physical Suitcase, independent human witness or actual community exchange.' \
+            > alpine-evidence/CLAIM-BOUNDARY.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: genesis-boot-005-alpine-bios-evidence
+          path: alpine-evidence/
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: genesis-boot-005-alpine-iso
+          path: alpine-images/*.iso
+          retention-days: 7
+          compression-level: 0
