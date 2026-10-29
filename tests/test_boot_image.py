@@ -69,7 +69,7 @@ class FirstBootImageTests(unittest.TestCase):
         s = (ROOT / "scripts" / "stage-genesis-boot.sh").read_text()
         self.assertIn("sha256sum -c -", s)
         self.assertIn("git -C \"$dest\" rev-parse HEAD", s)
-        self.assertIn("npm ci --prefix", s)
+        self.assertIn('"$NPM" ci --prefix', s)
         self.assertIn("--ignore-scripts", s)
         self.assertIn("/opt/static-os/genesis-sources/", s)
 
