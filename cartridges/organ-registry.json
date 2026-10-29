@@ -1,0 +1,128 @@
+{
+  "schema": "static-os.genesis-organ-registry/v1",
+  "status": "SOURCE_INVENTORY_NOT_DEVICE_DISCOVERY",
+  "qualification": "All hardware capabilities and field relationships require independent confirmation.",
+  "machines": [
+    {
+      "id": "wii",
+      "label": "Nintendo Wii",
+      "role": "Human question terminal",
+      "interface": "Wii Remote + FAT SD",
+      "software": "POWERPC_DOL_COMPILED",
+      "physical": "UNTESTED",
+      "transfer": "manual SD card",
+      "priority": "stage-1"
+    },
+    {
+      "id": "gamecube",
+      "label": "Nintendo GameCube",
+      "role": "The question gate",
+      "interface": "Controller + optional SD adapter",
+      "software": "POWERPC_DOL_COMPILED",
+      "physical": "UNTESTED",
+      "transfer": "external FAT adapter",
+      "priority": "stage-1"
+    },
+    {
+      "id": "nds",
+      "label": "Nintendo DS",
+      "role": "Portable offer desk",
+      "interface": "Buttons + DLDI-capable FAT",
+      "software": "ARM_NDS_COMPILED",
+      "physical": "UNTESTED",
+      "transfer": "compatible flashcart storage",
+      "priority": "stage-2"
+    },
+    {
+      "id": "esp32",
+      "label": "ESP32",
+      "role": "Tiny proposal and cable terminal",
+      "interface": "USB UART serial (no radio)",
+      "software": "NATIVE_FIRMWARE_COMPILED",
+      "physical": "UNTESTED",
+      "transfer": "manually captured serial text",
+      "priority": "stage-1"
+    },
+    {
+      "id": "android",
+      "label": "Older Android phone",
+      "role": "Pocket input / invitation desk",
+      "interface": "Termux Python3",
+      "software": "PYTHON_TERMINAL_TESTED",
+      "physical": "UNTESTED",
+      "transfer": "local file, manual share",
+      "priority": "stage-1"
+    },
+    {
+      "id": "pi",
+      "label": "Raspberry Pi-class ARM64",
+      "role": "Local CANNON coordination organ",
+      "interface": "ARM64 Linux original software",
+      "software": "NATIVE_ARM64_CI_EXECUTED",
+      "physical": "UNTESTED",
+      "transfer": "local loopback, original donor code",
+      "priority": "stage-1"
+    },
+    {
+      "id": "old-laptop",
+      "label": "Old laptop",
+      "role": "Archaeology and print workbench",
+      "interface": "Python3 terminal / optional browser",
+      "software": "PYTHON_TERMINAL_TESTED",
+      "physical": "UNTESTED",
+      "transfer": "create-only local file",
+      "priority": "stage-1"
+    },
+    {
+      "id": "fax",
+      "label": "Fax machine",
+      "role": "Paper invitation carrier",
+      "interface": "unimplemented",
+      "software": "CONCEPT_ONLY",
+      "physical": "UNTESTED",
+      "transfer": "human-delivered printed page (not actual fax protocol)",
+      "priority": "future"
+    },
+    {
+      "id": "cassette",
+      "label": "Cassette recorder",
+      "role": "Acoustic data carrier",
+      "interface": "WAV FSK file experiment only",
+      "software": "DIGITAL_WAV_ROUNDTRIP_PLANNED",
+      "physical": "UNTESTED",
+      "transfer": "physical magnetic-tape noise test NOT DONE",
+      "priority": "future"
+    },
+    {
+      "id": "dot-matrix",
+      "label": "Dot-matrix printer",
+      "role": "Offline blueprint paper archive",
+      "interface": "unimplemented print adapter",
+      "software": "CONCEPT_ONLY",
+      "physical": "UNTESTED",
+      "transfer": "paper; print compatibility not tested",
+      "priority": "future"
+    },
+    {
+      "id": "rotary-phone",
+      "label": "Rotary telephone",
+      "role": "Curiosity / question exhibit",
+      "interface": "unimplemented",
+      "software": "CONCEPT_ONLY",
+      "physical": "UNTESTED",
+      "transfer": "no call, modem or PSTN integration",
+      "priority": "future"
+    }
+  ],
+  "intake_template": {
+    "device_name": "OPERATOR_ENTERED_ONLY",
+    "steward_permission": "UNOBSERVED",
+    "hardware_condition": "UNINSPECTED",
+    "supported_interface": "UNKNOWN",
+    "safe_local_power": "NOT_CHECKED",
+    "adapter_permissions": "NOT_CHECKED",
+    "working_proof": "NONE",
+    "copied_blueprint": "NOT_YET",
+    "repair_or_reuse_candidate": "QUESTION_ONLY"
+  }
+}
