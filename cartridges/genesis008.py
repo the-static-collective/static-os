@@ -95,7 +95,7 @@ def validate(value):
     _require(value["schema"] == SCHEMA, "SCHEMA")
     _require(isinstance(value["kind"], str) and isinstance(value["focus"], str) and
              value["kind"] in KINDS and value["focus"] in FOCI, "KIND_OR_FOCUS")
-    _require(value["source"] in SOURCES, "SOURCE")
+    _require(isinstance(value["source"], str) and value["source"] in SOURCES, "SOURCE")
     _require(isinstance(value["parents"], list), "PARENTS_LIST")
     expected = mint(value["kind"], value["focus"],
                     value["source"], value["parents"])
