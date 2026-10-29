@@ -16,8 +16,13 @@ cd "$BUILD_DIR"
 lb config --mode debian --distribution bookworm --architectures amd64 \
  --mirror-bootstrap https://deb.debian.org/debian --mirror-chroot https://deb.debian.org/debian \
  --mirror-binary https://deb.debian.org/debian --binary-images iso-hybrid \
- --debian-installer none --archive-areas main
+ --debian-installer none --archive-areas main --security false
 cp -a "$ROOT/config/." config/
+# Explicit Bookworm security pocket: live-build's distro-agnostic old default
+# otherwise points at obsolete bookworm/updates under security.debian.org.
+mkdir -p config/archives
+printf '%s\n' 'deb https://security.debian.org/debian-security bookworm-security main' \
+ > config/archives/official-bookworm-security.list.chroot
 # Preserve original HOUSE source ownership and exact commit: GENESIS is the
 # human-facing starting door, and Workbench stays available as a separate organ.
 HOUSE_URL="$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["house"]["url"])' "$ROOT/manifest/genesis-001.json")"
