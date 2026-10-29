@@ -1,0 +1,100 @@
+name: GENESIS BOOT 004 — native Alpine + Fedora first-boot builds
+on:
+  push:
+    branches: ['experiment/genesis-boot-004-multidistro']
+  pull_request:
+    paths:
+      - 'config/multidistro/**'
+      - 'scripts/stage-genesis-portable.py'
+      - 'manifest/genesis-boot-003.json'
+      - 'tests/test_multidistro.py'
+      - '.github/workflows/genesis-boot-004-multidistro.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  cross-distro-native:
+    name: Native first boot / ${{ matrix.distro }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 38
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - distro: alpine
+            base: node:24-alpine
+          - distro: fedora
+            base: fedora:43
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Contract checks, no unreviewed installer or source selection
+        run: |
+          python3 -m unittest discover -s tests -p test_multidistro.py -v
+          python3 scripts/validate-boot-image.py manifest/genesis-boot-003.json
+          sh -n config/multidistro/run-genesis.sh
+          python3 -m py_compile scripts/stage-genesis-portable.py
+      - name: Build non-Debian image with eleven exact original Git histories
+        env:
+          DISTRO: ${{ matrix.distro }}
+          BASE_IMAGE: ${{ matrix.base }}
+        run: |
+          docker build --pull --progress=plain \
+            -f config/multidistro/Dockerfile \
+            --build-arg "BASE_IMAGE=$BASE_IMAGE" --build-arg "TARGET_DISTRO=$DISTRO" \
+            -t "static-genesis-boot-004:$DISTRO" .
+          docker image inspect "static-genesis-boot-004:$DISTRO" --format '{{.Os}}/{{.Architecture}} {{.Id}}'
+      - name: Run original CANNON and all eleven donor Git histories offline in nonroot container
+        env:
+          DISTRO: ${{ matrix.distro }}
+        run: |
+          set -euo pipefail
+          mkdir -p "artifacts/$DISTRO/runs"
+          sudo chown -R 10001:10001 "artifacts/$DISTRO/runs"
+          # Explicit network isolation: no GitHub, npm, DNS or remote actor at test runtime.
+          docker run --rm --network none --cap-drop ALL --security-opt no-new-privileges \
+            --read-only --tmpfs /tmp:rw,nosuid,size=256m \
+            -v "$PWD/artifacts/$DISTRO/runs:/home/genesis/.local/state/static-genesis/runs:rw" \
+            "static-genesis-boot-004:$DISTRO" test-native | tee "artifacts/$DISTRO/native-test.log"
+          test "$(find "artifacts/$DISTRO/runs" -name 'boot-receipt.json' | wc -l)" -eq 1
+          test "$(find "artifacts/$DISTRO/runs" -name 'warm-thread-receipt.json' | wc -l)" -eq 1
+          python3 - "$DISTRO" <<'PY'
+          import json,sys
+          from pathlib import Path
+          distro=sys.argv[1]
+          base=Path('artifacts')/distro/'runs'
+          house=list(base.glob('genesis-*/boot-receipt.json'))
+          warm=list(base.glob('warmthread-*/warm-thread-receipt.json'))
+          assert len(house)==len(warm)==1, (house,warm)
+          h=json.loads(house[0].read_text());w=json.loads(warm[0].read_text())
+          assert h['evidence']['originalSourceCodeInvoked'] is True
+          assert h['evidence']['generatedHousePlans']==2
+          assert h['evidence']['physicalTestsCompleted']==0
+          assert h['evidence']['independentHumanStewards']==0
+          assert h['results']['A']['planSha256'] != h['results']['B']['planSha256']
+          assert w['original']['body']['actualDelivery'] is False
+          assert w['original']['body']['actualPeople'] is False
+          assert w['original']['body']['band']['residualUnits']==1
+          assert w['original']['body']['band']['confirmedUnits']==0
+          assert (house[0].parent/'first-boot.html').exists()
+          assert (warm[0].parent/'warm-thread.html').exists()
+          print('NATIVE_NON_DEBIAN_ORIGINAL_SOURCE_EXECUTION_PASSED',distro)
+          PY
+      - name: Save offline-native evidence and separately pullable image
+        env:
+          DISTRO: ${{ matrix.distro }}
+        run: |
+          docker image inspect "static-genesis-boot-004:$DISTRO" \
+            --format '{{.Id}} {{json .RepoDigests}}' > "artifacts/$DISTRO/image-identity.txt"
+          docker save "static-genesis-boot-004:$DISTRO" | gzip -1 > "artifacts/$DISTRO/oci-image.tar.gz"
+          sha256sum "artifacts/$DISTRO/oci-image.tar.gz" > "artifacts/$DISTRO/oci-image.tar.gz.sha256"
+          printf '%s\n' 'Non-Debian userland/OCI image, NOT BIOS/UEFI-booted ISO; source-native logic executed offline with fictional sites.' \
+            > "artifacts/$DISTRO/CLAIM-BOUNDARY.txt"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: genesis-boot-004-${{ matrix.distro }}-original-code
+          path: artifacts/${{ matrix.distro }}/
+          retention-days: 7
+          compression-level: 0
