@@ -1,0 +1,28 @@
+[Unit]
+Description=STATIC OS GENESIS / source-native localhost first boot
+Documentation=file:/usr/share/static-os/genesis-boot-003.json
+After=default.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/static-genesis-start
+WorkingDirectory=%h
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=GIT_CONFIG_GLOBAL=/usr/share/static-os/genesis-gitconfig
+Environment=NODE_ENV=production
+Restart=on-failure
+RestartSec=2
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=false
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+RestrictSUIDSGID=true
+LockPersonality=true
+# No remote listener, controller, apt, installer, boot-time source download,
+# speech recognition or external automatic project execution.
+[Install]
+WantedBy=default.target
