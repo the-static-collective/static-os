@@ -67,7 +67,7 @@ jobs:
       - name: Compile genuine Nintendo DS ARM9/ARM7 .nds
         run: |
           docker run --rm -v "$PWD:/work" -w /work/ports/nds \
-            devkitpro/devkitarm:20261016 make -j2
+            devkitpro/devkitarm:20260610 make -j2
           test -s ports/nds/genesis.nds
           test -s ports/nds/genesis.elf
           file ports/nds/genesis.elf
