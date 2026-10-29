@@ -18,6 +18,7 @@ The [Living House generator](docs/HOUSE-SEED-001.md) takes a site/parts survey a
 python3 scripts/suitcase.py house-template > site.json
 python3 scripts/suitcase.py house-compose --site site.json --profile foundry --media grow > living-house.json
 python3 scripts/suitcase.py house-verify living-house.json
+python3 scripts/suitcase.py house-render living-house.json > living-house-work-cards.html
 ```
 
 The existing Suitcase Genesis code and its physical FIRST SIGNAL bench remain independent experimental gates.
