@@ -8,6 +8,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from suitcase.plan import compose, probe, verify, validate_inventory  # noqa: E402
 from suitcase.house import compose_house, verify_house, empty_survey, validate_survey  # noqa: E402
+from suitcase.render import render_house  # noqa: E402
 
 
 def read_json(path):
@@ -34,6 +35,8 @@ def main(argv=None):
     h.add_argument('--profile', choices=['commons','church','resilience','protected','foundry'], default='foundry')
     h.add_argument('--media', choices=['seed','grow','forest'], default='grow')
     h.add_argument('--privacy', choices=['private','invitation-only','public-candidate'], default='private')
+    hr = commands.add_parser('house-render', help='print standalone offline HTML build cards for a VERIFIED house plan')
+    hr.add_argument('plan')
     hv = commands.add_parser('house-verify', help='cold verify a house plan, without executing it')
     hv.add_argument('plan')
     commands.add_parser('house-template', help='emit a blank public-safe single-house survey')
@@ -49,6 +52,9 @@ def main(argv=None):
             observed = validate_inventory(read_json(args.inventory)) if args.inventory else probe()
             survey = validate_survey(read_json(args.site)) if args.site else empty_survey()
             result = compose_house(observed, survey, args.profile, args.media, args.privacy)
+        elif args.cmd == 'house-render':
+            sys.stdout.write(render_house(read_json(args.plan)))
+            return 0
         elif args.cmd == 'house-verify':
             verify_house(read_json(args.plan))
             print('VALID HOUSE PROPOSAL; NO BUILD, INSTALLATION OR AUTHORITY')
