@@ -16,12 +16,28 @@ cd "$BUILD_DIR"
 lb config --mode debian --distribution bookworm --architectures amd64 \
  --mirror-bootstrap https://deb.debian.org/debian --mirror-chroot https://deb.debian.org/debian \
  --mirror-binary https://deb.debian.org/debian --binary-images iso-hybrid \
- --debian-installer false --archive-areas main --security false --linux-packages none
+ --debian-installer false --archive-areas main --security false --linux-packages none --syslinux-theme live-build
 cp -a "$ROOT/config/." config/
 # Hosted Ubuntu live-build's legacy kernel lookup points at obsolete
 # /dists/bookworm/Contents-amd64.gz (404). The official Debian kernel
 # metapackage is installed directly, so auto Contents detection is unnecessary.
 printf '%s\n' 'linux-image-amd64' >> config/package-lists/static.list.chroot
+# Ubuntu-hosted legacy live-build bootloader templates contain absolute symlinks
+# to pre-Syslinux-6 paths. Debian Bookworm provides isolinux.bin in ISOLINUX
+# (separate isolinux package) and .c32 modules in syslinux/modules/bios.
+# Stage the original template, change only the broken symlink destinations,
+# and make BIOS default boot automatic after five seconds for the QEMU gate.
+printf '%s\n' 'isolinux' >> config/package-lists/static.list.chroot
+THEME_SOURCE=/usr/share/live/build/bootloaders/isolinux
+[[ -d "$THEME_SOURCE" ]] || { echo "REFUSE: original isolinux theme missing" >&2; exit 2; }
+mkdir -p config/bootloaders/isolinux
+cp -a "$THEME_SOURCE/." config/bootloaders/isolinux/
+ln -sfn /usr/lib/ISOLINUX/isolinux.bin config/bootloaders/isolinux/isolinux.bin
+for module in ldlinux.c32 vesamenu.c32 libcom32.c32 libgpl.c32 libmenu.c32 libutil.c32 hdt.c32; do
+  ln -sfn "/usr/lib/syslinux/modules/bios/$module" "config/bootloaders/isolinux/$module"
+done
+printf '%s\n' 'include menu.cfg' 'default vesamenu.c32' 'prompt 0' 'timeout 50' \
+ > config/bootloaders/isolinux/isolinux.cfg
 # Explicit Bookworm security pocket: live-build's distro-agnostic old default
 # otherwise points at obsolete bookworm/updates under security.debian.org.
 mkdir -p config/archives
