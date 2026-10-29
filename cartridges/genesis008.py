@@ -63,9 +63,9 @@ def _require(valid, reason):
 
 
 def mint(kind, focus, source, parents=()):
-    _require(kind in KINDS, "KIND")
-    _require(focus in FOCI, "FOCUS")
-    _require(source in SOURCES, "SOURCE")
+    _require(isinstance(kind, str) and kind in KINDS, "KIND")
+    _require(isinstance(focus, str) and focus in FOCI, "FOCUS")
+    _require(isinstance(source, str) and source in SOURCES, "SOURCE")
     _require(isinstance(parents, (list, tuple)) and len(parents) <= 3, "PARENTS")
     _require(all(isinstance(x, str) and DIGEST.fullmatch(x) for x in parents), "PARENT_DIGEST")
     _require(len(set(parents)) == len(parents), "DUPLICATE_PARENT")
@@ -93,7 +93,7 @@ def validate(value):
                  "delivered", "digest",
              }, "SHAPE")
     _require(value["schema"] == SCHEMA, "SCHEMA")
-    _require(value["kind"] in KINDS and value["focus"] in FOCI, "KIND_OR_FOCUS")
+    _require(isinstance(value["kind"], str) and isinstance(value["focus"], str) and\n             value["kind"] in KINDS and value["focus"] in FOCI, "KIND_OR_FOCUS")
     _require(value["source"] in SOURCES, "SOURCE")
     _require(isinstance(value["parents"], list), "PARENTS_LIST")
     expected = mint(value["kind"], value["focus"],
