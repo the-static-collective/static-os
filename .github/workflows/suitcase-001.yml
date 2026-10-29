@@ -1,0 +1,38 @@
+name: SUITCASE-001 Read-only composition contract
+
+on:
+  push:
+    branches: [experiment/suitcase-genesis-001-mission-composer]
+  pull_request:
+    paths:
+      - 'suitcase/**'
+      - 'scripts/suitcase.py'
+      - 'tests/test_suitcase.py'
+      - 'docs/SUITCASE-GENESIS-001.md'
+      - '.github/workflows/suitcase-001.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  no-effects:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate finite candidate, tamper refusals and CLI
+        run: python3 -m unittest discover -s tests -p 'test_suitcase.py' -v
+      - name: Observe host (no root)
+        run: python3 scripts/suitcase.py probe
+      - name: Compose and cold-verify HOLD-only church offline plan
+        run: |
+          python3 scripts/suitcase.py compose --profile church --media forest --privacy invitation-only > candidate.json
+          python3 scripts/suitcase.py verify candidate.json
+          python3 - <<'PY'
+          import json
+          p=json.load(open('candidate.json'))
+          assert p['status']=='HOLD_FOR_BUILD_AND_HUMAN_REVIEW'
+          assert not any(p['hardware_effects'].values())
+          assert p['federation']['discovery']=='DISABLED'
+          assert 'OFFLINE_PACKAGE_CLOSURE_NOT_VERIFIED' in p['holds']
+          PY
