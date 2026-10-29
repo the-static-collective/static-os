@@ -14,7 +14,7 @@ import subprocess
 import sys
 
 SCHEMA = "static-os.wii-first-boot-intent/v1"
-CANON_CANNON_SHA = "92a73324ec6918765cbd15b7a12cb83878b403eb"
+PINNED_CANNON_SHA = "92a73324ec6918765cbd15b7a12cb83878b403eb"
 FIELDS = frozenset((
     "schema", "mission", "focus", "question", "scenario", "mode",
     "source_device", "operator_action", "status", "transmitted",
@@ -86,7 +86,7 @@ def main(argv=None):
             ["git", "-C", str(cannon), "rev-parse", "HEAD"], text=True,
             stderr=subprocess.DEVNULL, timeout=10,
         ).strip()
-        if actual != CANON_CANNON_SHA:
+        if actual != PINNED_CANNON_SHA:
             raise ValueError("REFUSE_UNPINNED_CANNON_EXECUTABLE")
         launcher = cannon / "scripts" / "genesis-boot.mjs"
         if not launcher.is_file():
