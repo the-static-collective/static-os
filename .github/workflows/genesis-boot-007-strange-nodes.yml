@@ -1,0 +1,215 @@
+name: GENESIS BOOT 007 — strange nodes (GC, DS, ESP32, Android, Pi, laptop)
+on:
+  push:
+    branches: ['experiment/genesis-boot-007-strange-nodes']
+  pull_request:
+    paths:
+      - 'ports/**'
+      - 'scripts/portable-to-cannon.py'
+      - 'tests/test_strange_ports.py'
+      - 'tests/genesis_portable_host.c'
+      - '.github/workflows/genesis-boot-007-strange-nodes.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  portable-contract:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Human review, create-only files, no radio or invented witness
+        run: |
+          python3 -m unittest discover -s tests -p test_strange_ports.py -v
+          cc -std=c11 -Wall -Wextra -Werror tests/genesis_portable_host.c -o /tmp/genesis-intent
+          for device in NINTENDO_GAMECUBE_SD NINTENDO_DS_DLDI ESP32_USB_SERIAL; do
+            for i in 0 1 2 3; do
+              /tmp/genesis-intent "$i" "$device" > /tmp/portable-fixture.json
+              python3 scripts/portable-to-cannon.py --intent /tmp/portable-fixture.json --validate
+            done
+          done
+          sh -n ports/android/genesis-termux.sh
+          sh -n ports/legacy-linux/genesis.sh
+          sh -n ports/raspberry-pi/genesis-pi.sh
+  gamecube:
+    needs: portable-contract
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile genuine Nintendo GameCube PowerPC .dol
+        run: |
+          docker run --rm -v "$PWD:/work" -w /work/ports/gamecube \
+            devkitpro/devkitppc:20261016 make -j2
+          test -s ports/gamecube/boot.dol
+          test -s ports/gamecube/boot.elf
+          file ports/gamecube/boot.elf
+          python3 - <<'PY'
+          from pathlib import Path
+          elf=Path('ports/gamecube/boot.elf').read_bytes()
+          assert elf[:4]==b'\x7fELF'
+          assert elf[5]==2 and int.from_bytes(elf[18:20],'big')==20
+          print('GAMECUBE_NATIVE_POWERPC_ELF_DOL_BUILD_OK')
+          PY
+          mkdir -p artifacts/gamecube
+          cp ports/gamecube/boot.dol artifacts/gamecube/
+          sha256sum artifacts/gamecube/boot.dol > artifacts/gamecube/boot.dol.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: genesis-007-gamecube-powerpc-dol
+          path: artifacts/gamecube/
+          retention-days: 21
+  nds:
+    needs: portable-contract
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile genuine Nintendo DS ARM9/ARM7 .nds
+        run: |
+          docker run --rm -v "$PWD:/work" -w /work/ports/nds \
+            devkitpro/devkitarm:20260610 make -j2
+          test -s ports/nds/genesis.nds
+          test -s ports/nds/genesis.elf
+          file ports/nds/genesis.elf
+          python3 - <<'PY'
+          from pathlib import Path
+          elf=Path('ports/nds/genesis.elf').read_bytes()
+          assert elf[:4]==b'\x7fELF'
+          assert int.from_bytes(elf[18:20], 'little' if elf[5]==1 else 'big')==40
+          print('NDS_NATIVE_ARM9_ARM7_IMAGE_BUILD_OK')
+          PY
+          mkdir -p artifacts/nds
+          cp ports/nds/genesis.nds artifacts/nds/
+          sha256sum artifacts/nds/genesis.nds > artifacts/nds/genesis.nds.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: genesis-007-nintendo-ds-native-nds
+          path: artifacts/nds/
+          retention-days: 21
+  esp32:
+    needs: portable-contract
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile actual ESP32 firmware using the official Espressif IDF
+        run: |
+          docker run --rm -v "$PWD/ports:/ports" -w /ports/esp32 \
+            espressif/idf:v5.5.6 idf.py build
+          test -s ports/esp32/build/static_genesis_esp32.bin
+          mkdir -p artifacts/esp32
+          cp ports/esp32/build/static_genesis_esp32.bin artifacts/esp32/
+          sha256sum artifacts/esp32/static_genesis_esp32.bin > artifacts/esp32/firmware.sha256
+          echo "Compiled firmware, NOT flashed or physically witnessed." > artifacts/esp32/BOUNDARY.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: genesis-007-esp32-native-firmware
+          path: artifacts/esp32/
+          retention-days: 21
+  arm64-pi:
+    needs: portable-contract
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build real native ARM64 Linux source-owned CANNON runtime (Pi-class, not physical Pi)
+        run: |
+          test "$(uname -m)" = aarch64
+          docker build --pull --progress=plain \
+            -f config/multidistro/Dockerfile \
+            --build-arg BASE_IMAGE=node:24-alpine --build-arg TARGET_DISTRO=alpine \
+            -t static-genesis:arm64-pi-class .
+          test "$(docker image inspect static-genesis:arm64-pi-class --format '{{.Architecture}}')" = arm64
+      - name: Run native ARM64 source-pinned full first boot and Warm Thread offline
+        run: |
+          mkdir -p artifacts/pi/runs
+          sudo chown 10001:10001 artifacts/pi/runs
+          docker run --rm --network none --read-only --cap-drop ALL \
+            --security-opt no-new-privileges --tmpfs /tmp:rw,nosuid,size=256m \
+            -v "$PWD/artifacts/pi/runs:/home/genesis/.local/state/static-genesis/runs:rw" \
+            static-genesis:arm64-pi-class test-native | tee artifacts/pi/native-test.log
+          sudo chown -R "$(id -u):$(id -g)" artifacts/pi/runs
+          test "$(find artifacts/pi/runs -name boot-receipt.json | wc -l)" -eq 1
+          test "$(find artifacts/pi/runs -name warm-thread-receipt.json | wc -l)" -eq 1
+          docker save static-genesis:arm64-pi-class | gzip -1 > artifacts/pi/arm64-first-boot-oci.tar.gz
+          sha256sum artifacts/pi/arm64-first-boot-oci.tar.gz > artifacts/pi/arm64-first-boot-oci.tar.gz.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: genesis-007-raspberry-pi-class-arm64-runtime
+          path: artifacts/pi/
+          retention-days: 7
+          compression-level: 0
+  portable-crossing:
+    needs: portable-contract
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: static-os-latest
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/CANNON
+          ref: 92a73324ec6918765cbd15b7a12cb83878b403eb
+          path: cannon
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/static-os
+          ref: b02b5016cbd5bf2f73d758d5ed1416246b789157
+          path: staticos
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/webZ
+          ref: 83b35070d8d56155156655279bfdcf50aa77794f
+          path: webz
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/GrO
+          ref: 9e6361105aae335ccb0657092809eef43e7ab4da
+          path: gro
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/GHoT
+          ref: 6f0cc9e93e2544cd2fc67a0aa43a06198825a654
+          path: ghot
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/JAR-VIS
+          ref: c9b8341f2eff16105f58dcd5bb9031245bcb0558
+          path: jarvis
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Run three genuinely different fixed C encoders through the common source-receipt validator
+        run: |
+          cc -std=c11 -Wall -Wextra -Werror \
+            static-os-latest/tests/genesis_portable_host.c -o /tmp/genesis-intent
+          mkdir -p portable-results
+          for device in NINTENDO_GAMECUBE_SD NINTENDO_DS_DLDI ESP32_USB_SERIAL; do
+            /tmp/genesis-intent 0 "$device" > "portable-results/$device.json"
+            python3 static-os-latest/scripts/portable-to-cannon.py \
+              --intent "portable-results/$device.json" --validate
+          done
+      - name: Explicit operator-selected GameCube input runs original independent CANNON code
+        run: |
+          python3 static-os-latest/scripts/portable-to-cannon.py \
+            --intent portable-results/NINTENDO_GAMECUBE_SD.json --execute \
+            --cannon cannon --staticos staticos --webz webz \
+            --gro gro --ghot ghot --jarvis jarvis --out portable-results/gamecube-cannon
+          node cannon/scripts/genesis-boot.mjs verify \
+            --staticos staticos --webz webz --gro gro \
+            --ghot ghot --jarvis jarvis --out portable-results/gamecube-cannon
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          r=json.loads(Path('portable-results/gamecube-cannon/boot-receipt.json').read_text())
+          assert r['evidence']['originalSourceCodeInvoked']
+          assert r['evidence']['physicalTestsCompleted']==0
+          assert r['evidence']['independentHumanStewards']==0
+          assert (Path('portable-results/gamecube-cannon')/'first-boot.html').exists()
+          print('PORTABLE_OFFLINE_INTENT_TO_ORIGINAL_CANNON_NATIVE_CODE_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: genesis-007-retro-esp32-to-original-cannon-crossing
+          path: portable-results/
+          retention-days: 21
