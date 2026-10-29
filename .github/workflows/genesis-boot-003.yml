@@ -1,0 +1,118 @@
+name: GENESIS BOOT 003 — build real Debian live ISO and boot-test source-native GENESIS in QEMU
+
+on:
+  push:
+    branches: ['experiment/genesis-boot-003-live-first-boot-iso']
+  pull_request:
+    paths:
+      - 'manifest/genesis-boot-003.json'
+      - 'scripts/build-genesis-boot-iso.sh'
+      - 'scripts/stage-genesis-boot.sh'
+      - 'scripts/validate-boot-image.py'
+      - 'config/genesis-boot/**'
+      - 'tests/test_boot_image.py'
+      - 'tests/vm-genesis-probe*'
+      - '.github/workflows/genesis-boot-003.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Refuse mutable Git source, forged boot proof and automatically running house controllers
+        run: |
+          python3 scripts/validate-manifest.py manifest/genesis-001.json
+          python3 scripts/validate-boot-image.py manifest/genesis-boot-003.json
+          python3 -m unittest discover -s tests -v
+          bash -n scripts/build-genesis-boot-iso.sh
+          bash -n scripts/stage-genesis-boot.sh
+          sh -n config/genesis-boot/static-genesis-launch
+          sh -n config/genesis-boot/static-genesis-start
+          sh -n tests/vm-genesis-probe.sh
+
+  iso-native-bios:
+    needs: source-contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install root image construction prerequisites (ephemeral hosted runner only)
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            live-build debootstrap squashfs-tools xorriso git python3 python3-venv \
+            curl ca-certificates xz-utils qemu-system-x86 qemu-utils
+      - name: Produce an actual bootable Debian hybrid ISO with pinned source-owned GENESIS modules
+        env:
+          STATIC_OS_CI_VM_PROBE: '1'
+        run: |
+          sudo env STATIC_OS_CI_VM_PROBE=1 bash scripts/build-genesis-boot-iso.sh
+          test -f .build/genesis-boot-003/image.sha256
+          cd .build/genesis-boot-003
+          sha256sum -c image.sha256
+          test "$(find . -maxdepth 1 -name '*.iso' | wc -l)" -eq 1
+          cat image-build-receipt.json
+      - name: Boot actual ISO under emulated BIOS with serial probe, no disk installation
+        run: |
+          set -euo pipefail
+          iso="$(find .build/genesis-boot-003 -maxdepth 1 -name '*.iso' -print -quit)"
+          test -n "$iso"
+          echo "Booting BIOS ISO candidate $iso; no host disk attached or modified."
+          timeout 440 qemu-system-x86_64 \
+            -machine pc,accel=tcg -m 3072 -smp 2 \
+            -boot d -cdrom "$iso" -display none \
+            -serial file:vm-bios-serial.log -monitor none \
+            -netdev user,id=net0,restrict=on -device e1000,netdev=net0 \
+            -no-reboot >/tmp/genesis-qemu.log 2>&1 &
+          pid=$!
+          got=0
+          for i in $(seq 1 420); do
+            if grep -q 'STATIC-OS-GENESIS-BIOS-BOOT-VERIFIED' vm-bios-serial.log 2>/dev/null; then
+              got=1; break
+            fi
+            if grep -Eiq 'STATIC-OS-GENESIS-VM-(CONSOLE-UNAVAILABLE|NODE-REFUSED|LIVE-USER-MISSING)' vm-bios-serial.log 2>/dev/null; then
+              break
+            fi
+            if ! kill -0 "$pid" 2>/dev/null; then break; fi
+            sleep 1
+          done
+          kill "$pid" 2>/dev/null || true
+          wait "$pid" 2>/dev/null || true
+          echo "---- Guest serial proof markers ----"
+          grep 'STATIC-OS-' vm-bios-serial.log || true
+          echo "---- Guest serial tail ----"
+          tail -n 90 vm-bios-serial.log || true
+          test "$got" -eq 1
+          grep -q 'STATIC-OS-VM-HOUSE-A-B-NATIVE-OK' vm-bios-serial.log
+          grep -q 'STATIC-OS-VM-WARM-THREAD-NATIVE-OK' vm-bios-serial.log
+          echo 'BIOS_VM_BOOT_AND_ORIGINAL_OFFLINE_SOURCE_EXECUTION_VERIFIED'
+      - name: Save ISO SHA and original source inventory as independent build evidence
+        if: always()
+        run: |
+          mkdir -p build-evidence
+          cp .build/genesis-boot-003/image.sha256 build-evidence/ 2>/dev/null || true
+          cp .build/genesis-boot-003/image-build-receipt.json build-evidence/ 2>/dev/null || true
+          cp vm-bios-serial.log build-evidence/ 2>/dev/null || true
+          cp manifest/genesis-boot-003.json build-evidence/
+          printf '%s\n' 'ISO candidate: any VM marker proves this QEMU BIOS occurrence only, not UEFI, user XFCE graphical login, install, hardware safety or field witness.' > build-evidence/CLAIM-BOUNDARY.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: genesis-boot-003-bios-iso-evidence
+          path: build-evidence/
+          retention-days: 30
+      - name: Attach constructed ISO for independent QEMU inspection
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: genesis-boot-003-actual-hybrid-iso
+          path: .build/genesis-boot-003/*.iso
+          compression-level: 0
+          retention-days: 7
