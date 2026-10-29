@@ -1,0 +1,29 @@
+#!/bin/sh
+# Alpine OpenRC local.d entry. Only starts a local nonroot server; no
+# HOUSE BUILD or WARM crossing is invoked automatically. No remote listener.
+set -eu
+if ! id genesis >/dev/null 2>&1; then
+  adduser -D -u 10001 -h /home/genesis genesis
+fi
+mkdir -p /home/genesis/.local/state/static-genesis/runs
+chown -R genesis:genesis /home/genesis
+chmod 700 /home/genesis/.local/state/static-genesis/runs
+# Network-independent first boot, user identity isolation.
+su -s /bin/sh genesis -c \
+  "/usr/local/bin/static-genesis-start > /tmp/static-genesis.log 2>&1" &
+pid="$!"
+echo "STATIC-OS-ALPINE-LOCAL-SERVER-STARTED pid=$pid" > /dev/ttyS0 || true
+if [ -e /usr/share/static-os/CI-ONLY-NOT-FOR-FIELD-PILOT ]; then
+  i=0
+  until curl -fsS --max-time 1 http://127.0.0.1:8766/api/status >/dev/null 2>&1; do
+    i=$((i+1))
+    if [ "$i" -ge 45 ]; then
+      echo "STATIC-OS-ALPINE-CONSOLE-MISSING" > /dev/ttyS0
+      cat /tmp/static-genesis.log > /dev/ttyS0 || true
+      exit 1
+    fi
+    sleep 1
+  done
+  python3 /usr/local/sbin/vm-genesis-probe.py > /dev/ttyS0 2>&1
+  echo "STATIC-OS-ALPINE-QEMU-NATIVE-FIRST-BOOT-VERIFIED" > /dev/ttyS0
+fi
