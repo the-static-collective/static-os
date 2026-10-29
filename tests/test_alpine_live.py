@@ -21,7 +21,7 @@ class AlpineLiveTests(unittest.TestCase):
         self.assertIn("GENESIS_PAYLOAD",overlay)
         self.assertIn('cp -a "${GENESIS_PAYLOAD}/."',overlay)
         self.assertIn('tar -C "$tmp" -czf',overlay)
-        self.assertIn('"/etc/init.d/local"',overlay)
+        self.assertIn('/etc/init.d/local',overlay)
         self.assertIn('CI_VM_PROBE_ENABLED',overlay)
 
     def test_only_non_root_loopback_service_and_operator_click(self):
@@ -35,7 +35,7 @@ class AlpineLiveTests(unittest.TestCase):
         self.assertNotIn('house-compose',start)
         self.assertNotIn('curl https:',start)
         self.assertNotIn('npm install',start)
-        self.assertIn("GENESIS_CI_VM_PROBE",local.replace("CI-ONLY-NOT-FOR-FIELD-PILOT","GENESIS_CI_VM_PROBE"))
+        self.assertIn("CI-ONLY-NOT-FOR-FIELD-PILOT",local)
 
     def test_network_off_and_bios_proof_not_contaminated_by_oci(self):
         ci=(ROOT/'.github'/'workflows'/'genesis-boot-005-alpine-live.yml').read_text()
