@@ -13,7 +13,9 @@ BUILD_DIR="${STATIC_OS_BOOT_BUILD_DIR:-$ROOT/.build/genesis-boot-003}"
 [[ ! -e "$BUILD_DIR" ]] || { echo "REFUSE: prior build directory already exists" >&2; exit 2; }
 mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
-lb config --distribution bookworm --architectures amd64 --binary-images iso-hybrid \
+lb config --mode debian --distribution bookworm --architectures amd64 \
+ --mirror-bootstrap https://deb.debian.org/debian --mirror-chroot https://deb.debian.org/debian \
+ --mirror-binary https://deb.debian.org/debian --binary-images iso-hybrid \
  --debian-installer none --archive-areas main
 cp -a "$ROOT/config/." config/
 # Preserve original HOUSE source ownership and exact commit: GENESIS is the
