@@ -9,6 +9,7 @@ on:
       - 'scripts/suitcase.py'
       - 'scripts/bench-web.py'
       - 'tests/test_suitcase.py'
+      - 'tests/test_house_seed.py'
       - 'tests/test_bench_web.py'
       - 'docs/SUITCASE-*.md'
       - 'field/**'
@@ -27,6 +28,22 @@ jobs:
         run: python3 -m unittest discover -s tests -p 'test_suitcase.py' -v
       - name: Validate read-only local-link HTTP demonstration and LAN refusal gates
         run: python3 -m unittest discover -s tests -p 'test_bench_web.py' -v
+      - name: Test reproducible HOUSE-SEED construction, strict claims and refusal
+        run: python3 -m unittest discover -s tests -p 'test_house_seed.py' -v
+      - name: Compose and cold verify a Living House with all site facts unknown
+        run: |
+          python3 scripts/suitcase.py house-template > house-site.json
+          python3 scripts/suitcase.py house-compose --site house-site.json --profile foundry --media grow --privacy private > living-house.json
+          python3 scripts/suitcase.py house-verify living-house.json
+          python3 - <<'PY'
+          import json
+          p=json.load(open('living-house.json'))
+          assert p['status']=='HOLD_FOR_SITE_POWER_SAFETY_AND_HUMAN_REVIEW'
+          assert not any(p['hardware_effects'].values())
+          assert p['outputs']['real_home']=='NOT_BUILT'
+          assert p['outputs']['os_image']=='NOT_BUILT'
+          assert len(p['modules'])==8 and len(p['stages'])==5
+          PY
       - name: Observe CI host only (no root)
         run: python3 scripts/suitcase.py probe
       - name: Compose and cold-verify HOLD-only church offline plan
