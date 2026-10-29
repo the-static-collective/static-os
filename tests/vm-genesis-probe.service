@@ -1,0 +1,16 @@
+[Unit]
+Description=CI-only STATIC OS verified BIOS boot and original GENESIS first-boot source test
+After=systemd-user-sessions.service local-fs.target
+Wants=systemd-user-sessions.service
+ConditionPathExists=/opt/static-os/node24/bin/node
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/vm-genesis-probe
+TimeoutStartSec=210
+StandardOutput=journal+console
+StandardError=journal+console
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
