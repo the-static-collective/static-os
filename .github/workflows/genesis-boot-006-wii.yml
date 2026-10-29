@@ -1,0 +1,171 @@
+name: GENESIS BOOT 006 — real Wii PowerPC homebrew and offline SD to CANNON crossing
+on:
+  push:
+    branches: ['experiment/genesis-boot-006-wii-native-porch']
+  pull_request:
+    paths:
+      - 'ports/wii/**'
+      - 'scripts/wii-to-cannon.py'
+      - 'tests/test_wii_port.py'
+      - '.github/workflows/genesis-boot-006-wii.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+
+jobs:
+  wii-native-dol:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Test safe Wii Remote interface and inert, bounded SD-file contract
+        run: python3 -m unittest discover -s tests -p test_wii_port.py -v
+      - name: Compile real Wii PowerPC binary with official devkitPro SDK
+        run: |
+          docker pull devkitpro/devkitppc:20261016
+          docker run --rm \
+            -v "$PWD:/work" -w /work/ports/wii \
+            devkitpro/devkitppc:20261016 \
+            make -j2
+      - name: Package actual HBC app and verify build is PowerPC DOL (not host script)
+        run: |
+          test -s ports/wii/boot.dol
+          test -s ports/wii/boot.elf
+          mkdir -p artifacts/apps/static-genesis
+          cp ports/wii/boot.dol artifacts/apps/static-genesis/boot.dol
+          cp ports/wii/meta.xml artifacts/apps/static-genesis/meta.xml
+          sha256sum artifacts/apps/static-genesis/boot.dol > artifacts/boot.dol.sha256
+          file ports/wii/boot.elf > artifacts/elf-architecture.txt
+          grep -Ei 'PowerPC|Power PC' artifacts/elf-architecture.txt
+          python3 - <<'PY'
+          from pathlib import Path
+          import struct
+          elf=Path('ports/wii/boot.elf').read_bytes()
+          assert elf[:4]==b'\x7fELF', 'not ELF'
+          assert elf[5]==2, 'must be big-endian Wii PowerPC'
+          machine=int.from_bytes(elf[18:20],'big')
+          assert machine==20, ('expected PowerPC e_machine',machine)
+          dol=Path('ports/wii/boot.dol')
+          assert 1024 < dol.stat().st_size < 8_000_000
+          print('REAL_WII_POWERPC_ELF_AND_DOL_COMPILED',dol.stat().st_size)
+          PY
+          (cd artifacts && zip -qr static-genesis-wii-hbc.zip apps)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: genesis-boot-006-nintendo-wii-real-dol
+          path: artifacts/
+          retention-days: 30
+
+  wii-cannon-sd-native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: static-os-latest
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/CANNON
+          ref: 92a73324ec6918765cbd15b7a12cb83878b403eb
+          path: cannon
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/static-os
+          ref: b02b5016cbd5bf2f73d758d5ed1416246b789157
+          path: staticos
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/webZ
+          ref: 83b35070d8d56155156655279bfdcf50aa77794f
+          path: webz
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/GrO
+          ref: 9e6361105aae335ccb0657092809eef43e7ab4da
+          path: gro
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/GHoT
+          ref: 6f0cc9e93e2544cd2fc67a0aa43a06198825a654
+          path: ghot
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/JAR-VIS
+          ref: c9b8341f2eff16105f58dcd5bb9031245bcb0558
+          path: jarvis
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Produce exact public-safe Wii SD fixture from fixed mission
+        run: |
+          python3 - <<'PY'
+          import importlib.util,json
+          from pathlib import Path
+          p=Path('static-os-latest/scripts/wii-to-cannon.py')
+          spec=importlib.util.spec_from_file_location('bridge',p)
+          b=importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(b)
+          fixture={'schema':b.SCHEMA,'mission':'living-house',
+              'focus':'Living House','question':b.QUESTION['Living House'],
+              'scenario':'FICTIONAL_A_B','mode':'OFFLINE_HOLD_ONLY',
+              'source_device':'WII_HOMEBREW_LOCAL_OPERATOR',
+              'operator_action':'PLUS_EXPORT_PRESSED',
+              'status':'PROPOSAL_ONLY_NOT_EXECUTED',
+              'transmitted':False,'physical_observation':False,
+              'signed':False,'independent_witness':False}
+          assert b.validate(fixture)
+          Path('intent-001.json').write_text(json.dumps(fixture,indent=2)+'\n')
+          PY
+      - name: Validate SD request without acting
+        run: |
+          python3 static-os-latest/scripts/wii-to-cannon.py --intent intent-001.json --validate
+          test ! -e wii-native-output
+      - name: Explicitly execute original CANNON from inert Wii intent
+        run: |
+          python3 static-os-latest/scripts/wii-to-cannon.py \
+            --intent intent-001.json --execute \
+            --cannon cannon --staticos staticos --webz webz \
+            --gro gro --ghot ghot --jarvis jarvis --out wii-native-output
+          node cannon/scripts/genesis-boot.mjs verify \
+            --staticos staticos --webz webz --gro gro \
+            --ghot ghot --jarvis jarvis --out wii-native-output
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path('wii-native-output/boot-receipt.json').read_text())
+          assert p['evidence']['originalSourceCodeInvoked'] is True
+          assert p['evidence']['physicalTestsCompleted']==0
+          assert p['evidence']['independentHumanStewards']==0
+          assert p['results']['A']['planSha256'] != p['results']['B']['planSha256']
+          assert Path('wii-native-output/first-boot.html').exists()
+          print('WII_SD_FILE_TO_SOURCE_PINNED_CANNON_NATIVE_EXECUTION_VERIFIED')
+          PY
+      - name: Refuse tampered intent that invents independent human or actual completed work
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('intent-001.json')
+          x=json.loads(p.read_text())
+          x['independent_witness']=True
+          Path('intent-forged.json').write_text(json.dumps(x))
+          PY
+          if python3 static-os-latest/scripts/wii-to-cannon.py --intent intent-forged.json --validate; then
+            echo 'ERROR: manufactured field witness accepted'; exit 1
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: genesis-boot-006-wii-sd-to-original-cannon-receipts
+          path: |
+            intent-001.json
+            wii-native-output/
+          retention-days: 30
