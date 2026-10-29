@@ -9,7 +9,9 @@ RUN if [ "${TARGET_DISTRO}" = alpine ] && grep -q '^ID=alpine$' /etc/os-release;
       apk add --no-cache python3 git bash ca-certificates; \
     elif [ "${TARGET_DISTRO}" = fedora ] && grep -q '^ID=fedora$' /etc/os-release; then \
       dnf install -y --setopt=install_weak_deps=False \
-        python3 git-core ca-certificates nodejs npm && \
+        python3 git-core ca-certificates nodejs24 nodejs24-npm && \
+      ln -s /usr/bin/node-24 /usr/local/bin/node && \
+      ln -s /usr/bin/npm-24 /usr/local/bin/npm && \
       dnf clean all; \
     else echo "REFUSE_MISMATCHED_OS" >&2; exit 2; fi; \
     node -e "if (process.versions.node.split('.')[0] !== '24') process.exit(2)" && \
