@@ -1,0 +1,109 @@
+{
+  "schema": "static-os.genesis-first-boot-image/v1",
+  "status": "IMAGE_CANDIDATE_NOT_BOOT_PROOF",
+  "base": {
+    "family": "debian",
+    "codename": "bookworm",
+    "architecture": "amd64",
+    "image": "iso-hybrid",
+    "installer": false
+  },
+  "runtime": {
+    "name": "node",
+    "version": "v24.10.0",
+    "file": "node-v24.10.0-linux-x64.tar.xz",
+    "sha256": "2642f4428869aca32443660fd71b3918e2be1277a899bdcaeb64c93b54b5af17"
+  },
+  "service": {
+    "host": "127.0.0.1",
+    "port": 8766,
+    "start": "EXPLICIT_LOCAL_SESSION_START",
+    "auto_execution": false,
+    "public_network": false
+  },
+  "sources": [
+    {
+      "id": "cannon",
+      "repository": "the-static-collective/CANNON",
+      "commit": "92a73324ec6918765cbd15b7a12cb83878b403eb",
+      "url": "https://github.com/the-static-collective/CANNON.git"
+    },
+    {
+      "id": "staticos",
+      "repository": "the-static-collective/static-os",
+      "commit": "b02b5016cbd5bf2f73d758d5ed1416246b789157",
+      "url": "https://github.com/the-static-collective/static-os.git"
+    },
+    {
+      "id": "webz",
+      "repository": "the-static-collective/webZ",
+      "commit": "83b35070d8d56155156655279bfdcf50aa77794f",
+      "url": "https://github.com/the-static-collective/webZ.git"
+    },
+    {
+      "id": "gro",
+      "repository": "the-static-collective/GrO",
+      "commit": "9e6361105aae335ccb0657092809eef43e7ab4da",
+      "url": "https://github.com/the-static-collective/GrO.git"
+    },
+    {
+      "id": "ghot",
+      "repository": "the-static-collective/GHoT",
+      "commit": "6f0cc9e93e2544cd2fc67a0aa43a06198825a654",
+      "url": "https://github.com/the-static-collective/GHoT.git"
+    },
+    {
+      "id": "jarvis",
+      "repository": "the-static-collective/JAR-VIS",
+      "commit": "c9b8341f2eff16105f58dcd5bb9031245bcb0558",
+      "url": "https://github.com/the-static-collective/JAR-VIS.git"
+    },
+    {
+      "id": "cannon-warm",
+      "repository": "the-static-collective/CANNON",
+      "commit": "ee461d7be29795907384c791be88c18e030e0222",
+      "url": "https://github.com/the-static-collective/CANNON.git"
+    },
+    {
+      "id": "ghot-warm",
+      "repository": "the-static-collective/GHoT",
+      "commit": "3c8be40cbaef2f9c786e5424abf15d4b138d2966",
+      "url": "https://github.com/the-static-collective/GHoT.git"
+    },
+    {
+      "id": "full",
+      "repository": "the-static-collective/full-measure-world-layer",
+      "commit": "553e97401a8483a0ee3c369fed9d3fb8f1c9058d",
+      "url": "https://github.com/the-static-collective/full-measure-world-layer.git"
+    },
+    {
+      "id": "band",
+      "repository": "the-static-collective/band-runtime",
+      "commit": "f2c889df90905eda533fe6d978cd1a52c788a33e",
+      "url": "https://github.com/the-static-collective/band-runtime.git"
+    },
+    {
+      "id": "garden",
+      "repository": "the-static-collective/BananaSpork",
+      "commit": "6738230a8557060dd59aabc19caf21826806d16f",
+      "url": "https://github.com/the-static-collective/BananaSpork.git"
+    }
+  ],
+  "gate_status": {
+    "manifest": "UNVERIFIED",
+    "iso_build": "UNVERIFIED",
+    "bios_vm_boot": "UNVERIFIED",
+    "uefi_vm_boot": "UNVERIFIED",
+    "user_desktop": "UNVERIFIED",
+    "offline_first_boot": "UNVERIFIED",
+    "physical_hardware": "UNVERIFIED"
+  },
+  "claims": {
+    "no_installer": true,
+    "no_real_site": true,
+    "no_automatic_build": true,
+    "no_remote_service": true,
+    "original_source_unchanged": true,
+    "experimental_not_owner_canon": true
+  }
+}

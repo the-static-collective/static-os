@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=STATIC OS GENESIS / What shall we build together?
+Comment=Open the operator-reviewed source-native, loopback-only first boot
+Exec=/usr/local/bin/static-genesis-launch
+Terminal=false
+OnlyShowIn=XFCE;
+X-GNOME-Autostart-enabled=true

@@ -1,0 +1,16 @@
+#!/bin/sh
+# User-owned loopback server, never a root daemon; starts inert until clicked.
+set -eu
+umask 077
+BASE=/opt/static-os/genesis-sources
+STATE="${XDG_STATE_HOME:-$HOME/.local/state}/static-genesis"
+mkdir -p "$STATE/runs"
+chmod 700 "$STATE" "$STATE/runs"
+export GIT_CONFIG_GLOBAL=/usr/share/static-os/genesis-gitconfig
+export PYTHONDONTWRITEBYTECODE=1
+exec /opt/static-os/node24/bin/node "$BASE/cannon/scripts/first-boot.mjs" \
+ --staticos "$BASE/staticos" --webz "$BASE/webz" \
+ --gro "$BASE/gro" --ghot "$BASE/ghot" --jarvis "$BASE/jarvis" \
+ --warm-cannon "$BASE/cannon-warm" --warm-ghot "$BASE/ghot-warm" \
+ --warm-full "$BASE/full" --warm-band "$BASE/band" --warm-garden "$BASE/garden" \
+ --out-parent "$STATE/runs" --port 8766
