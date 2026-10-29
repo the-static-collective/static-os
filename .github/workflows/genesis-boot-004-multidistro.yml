@@ -57,6 +57,7 @@ jobs:
             --read-only --tmpfs /tmp:rw,nosuid,size=256m \
             -v "$PWD/artifacts/$DISTRO/runs:/home/genesis/.local/state/static-genesis/runs:rw" \
             "static-genesis-boot-004:$DISTRO" test-native | tee "artifacts/$DISTRO/native-test.log"
+          sudo chown -R "$(id -u):$(id -g)" "artifacts/$DISTRO/runs"
           test "$(find "artifacts/$DISTRO/runs" -name 'boot-receipt.json' | wc -l)" -eq 1
           test "$(find "artifacts/$DISTRO/runs" -name 'warm-thread-receipt.json' | wc -l)" -eq 1
           python3 - "$DISTRO" <<'PY'
