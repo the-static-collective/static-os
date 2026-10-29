@@ -1,0 +1,15 @@
+#!/bin/sh
+# This launcher runs as the independent genesis USER (not root).
+set -eu
+umask 077
+export GIT_CONFIG_GLOBAL=/usr/share/static-os/genesis-gitconfig
+export PYTHONDONTWRITEBYTECODE=1
+ROOT=/opt/static-os/genesis-sources
+OUTPUT="${XDG_STATE_HOME:-$HOME/.local/state}/static-genesis/runs"
+mkdir -p "$OUTPUT"
+exec /usr/bin/node "$ROOT/cannon/scripts/first-boot.mjs" \
+ --staticos "$ROOT/staticos" --webz "$ROOT/webz" \
+ --gro "$ROOT/gro" --ghot "$ROOT/ghot" --jarvis "$ROOT/jarvis" \
+ --warm-cannon "$ROOT/cannon-warm" --warm-ghot "$ROOT/ghot-warm" \
+ --warm-full "$ROOT/full" --warm-band "$ROOT/band" \
+ --warm-garden "$ROOT/garden" --out-parent "$OUTPUT" --port 8766
