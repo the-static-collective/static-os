@@ -17,6 +17,7 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=false
+ReadWritePaths=%h
 ProtectControlGroups=true
 ProtectKernelModules=true
 ProtectKernelTunables=true
