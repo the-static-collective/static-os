@@ -1,4 +1,4 @@
-name: SUITCASE-001 Read-only composition contract
+name: SUITCASE-001 Read-only composition and first-signal contract
 
 on:
   push:
@@ -7,8 +7,11 @@ on:
     paths:
       - 'suitcase/**'
       - 'scripts/suitcase.py'
+      - 'scripts/bench-web.py'
       - 'tests/test_suitcase.py'
-      - 'docs/SUITCASE-GENESIS-001.md'
+      - 'tests/test_bench_web.py'
+      - 'docs/SUITCASE-*.md'
+      - 'field/**'
       - '.github/workflows/suitcase-001.yml'
   workflow_dispatch:
 
@@ -22,7 +25,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate finite candidate, tamper refusals and CLI
         run: python3 -m unittest discover -s tests -p 'test_suitcase.py' -v
-      - name: Observe host (no root)
+      - name: Validate read-only local-link HTTP demonstration and LAN refusal gates
+        run: python3 -m unittest discover -s tests -p 'test_bench_web.py' -v
+      - name: Observe CI host only (no root)
         run: python3 scripts/suitcase.py probe
       - name: Compose and cold-verify HOLD-only church offline plan
         run: |
