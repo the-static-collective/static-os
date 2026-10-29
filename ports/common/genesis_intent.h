@@ -32,7 +32,7 @@ static int genesis_format_intent(char *output, size_t cap, unsigned selected,
        "  \"source_device\": \"%s\",\n"
        "  \"status\": \"PROPOSAL_ONLY_NOT_EXECUTED\",\n"
        "  \"operator_action\": \"EXPLICIT_LOCAL_EXPORT\",\n"
-       "  \"transmitted\": false,\n"
+       "  \"network_transmitted\": false,\n"
        "  \"physical_observation\": false,\n"
        "  \"signed\": false,\n"
        "  \"independent_witness\": false\n"
