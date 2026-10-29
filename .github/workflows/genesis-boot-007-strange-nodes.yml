@@ -94,7 +94,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Compile actual ESP32 firmware using the official Espressif IDF
         run: |
-          docker run --rm -v "$PWD/ports/esp32:/project" -w /project \
+          docker run --rm -v "$PWD/ports:/ports" -w /ports/esp32 \
             espressif/idf:v5.5.6 idf.py build
           test -s ports/esp32/build/static_genesis_esp32.bin
           mkdir -p artifacts/esp32
