@@ -7,6 +7,7 @@ no network, storage, model inference, render, approval or external operation.
 from __future__ import annotations
 
 from collections import Counter
+import re
 from copy import deepcopy
 from typing import Any
 
@@ -18,6 +19,7 @@ PROJECTION = "static-os.witness-memory-projection/v0"
 CAPSULE = "static-os.witness-memory-capsule/v0"
 FAMILY = "static-os.witness-candidate-family/v0"
 TRACE = "static-os.witness-influence-trace/v0"
+ARTIFACT = "static-os.artifact-observation/v0"
 RECENT_WINDOW = 12
 MAX_CANDIDATES = 6
 PRESSURE_CEILING = 12
@@ -28,14 +30,66 @@ def _require(condition: bool, reason: str) -> None:
         raise ValueError(reason)
 
 
+def witness_artifact(plan: dict, topic: str, output_sha256: str,
+                     *, consent: bool = False) -> dict:
+    """Build a *self-attested* output receipt supplied by an explicit caller.
+
+    The caller computes the output hash from actual materialized bytes.
+    We cannot independently authenticate that assertion and do not store it.
+    """
+    _require(consent is True, "HOLD_ARTIFACT_MEMORY_NOT_AUTHORIZED")
+    _require(isinstance(plan, dict) and plan.get("schema") == PLAN and
+             topic in plan.get("topics", []) and
+             isinstance(plan.get("plan_id"), str),
+             "HOLD_UNOWNED_ARTIFACT")
+    _require(isinstance(output_sha256, str) and
+             bool(re.fullmatch(r"[a-f0-9]{64}", output_sha256)),
+             "INVALID_ARTIFACT_DIGEST")
+    body = {
+        "schema": ARTIFACT, "source_plan_id": plan["plan_id"],
+        "topic": topic, "output_sha256": output_sha256,
+        "status": "SELF_ATTESTED_MATERIALIZED_OUTPUT",
+        "authority": "none", "verified_service": False,
+    }
+    return {**body, "observation_id": "artifact-observation:" + _digest(body)}
+
+
+def _validate_artifacts(receipts: object) -> list[dict]:
+    _require(isinstance(receipts, (tuple, list)) and len(receipts) <= 1000,
+             "INVALID_ARTIFACT_RECEIPT_COLLECTION")
+    distinct = {}
+    for receipt in receipts:
+        _require(isinstance(receipt, dict) and
+                 set(receipt) == {"schema", "source_plan_id", "topic",
+                                  "output_sha256", "status", "authority",
+                                  "verified_service", "observation_id"} and
+                 receipt["schema"] == ARTIFACT and
+                 receipt["status"] == "SELF_ATTESTED_MATERIALIZED_OUTPUT" and
+                 receipt["authority"] == "none" and
+                 receipt["verified_service"] is False and
+                 receipt["topic"] in CATALOGUE and
+                 isinstance(receipt["source_plan_id"], str) and
+                 bool(re.fullmatch(r"[a-f0-9]{64}", str(receipt["output_sha256"]))),
+                 "INVALID_ARTIFACT_RECEIPT")
+        body = {k: v for k, v in receipt.items() if k != "observation_id"}
+        _require(receipt["observation_id"] == "artifact-observation:" + _digest(body),
+                 "ARTIFACT_CONTENT_ADDRESS_MISMATCH")
+        _require(receipt["observation_id"] not in distinct,
+                 "DUPLICATE_ARTIFACT_RECEIPT")
+        distinct[receipt["observation_id"]] = deepcopy(receipt)
+    return [distinct[key] for key in sorted(distinct)]
+
+
 def _sorted_counts(counter: Counter) -> dict:
     return {name: int(counter.get(name, 0)) for name in sorted(CATALOGUE)}
 
 
-def project_receipt_memory(state: dict) -> dict:
+def project_receipt_memory(state: dict, artifact_receipts=()) -> dict:
     """Rebuild from attributable *self-reported* consent events, never mutate."""
     verify_state(state)
     events = state["events"]
+    artifacts = _validate_artifacts(artifact_receipts)
+    produced = Counter(x["topic"] for x in artifacts)
     tried = Counter(x["selected"] for x in events)
     helpful = Counter(x["selected"] for x in events if x["outcome"] == "helpful")
     refused = Counter(x["selected"] for x in events if x["outcome"] == "not_helpful")
@@ -46,12 +100,15 @@ def project_receipt_memory(state: dict) -> dict:
         "archive_cut": state["head"],
         "revision": state["revision"],
         "total_verdicts": len(events),
+        "total_artifact_observations": len(artifacts),
+        "observed_artifacts": _sorted_counts(produced),
         "tried": _sorted_counts(tried),
         "helpful": _sorted_counts(helpful),
         "not_helpful": _sorted_counts(refused),
         "recent": _sorted_counts(recent),
         "sources": {
-            name: sorted(x["hash"] for x in events if x["selected"] == name)
+            name: sorted([x["hash"] for x in events if x["selected"] == name] +
+                         [x["observation_id"] for x in artifacts if x["topic"] == name])
             for name in sorted(CATALOGUE)
         },
         "policy": "witness-learning-not-service-verification",
@@ -77,16 +134,16 @@ def _verify_plan(state: dict, plan: dict) -> None:
              plan.get("public_input_saved") is False, "INVALID_PROPOSAL_AUTHORITY")
 
 
-def compile_memory_capsule(state: dict, plan: dict) -> dict:
+def compile_memory_capsule(state: dict, plan: dict, artifact_receipts=()) -> dict:
     """Only topics the question's source-owned plan actually offered are legal."""
     _verify_plan(state, plan)
-    projection = project_receipt_memory(state)
+    projection = project_receipt_memory(state, artifact_receipts)
     topics = plan["topics"]
     pressures = []
-    low_count = min(projection["tried"][x] for x in topics)
+    low_count = min(projection["tried"][x] + projection["observed_artifacts"][x] for x in topics)
     for topic in topics:
         refs = projection["sources"][topic] or [projection["archive_cut"]]
-        observed = projection["tried"][topic]
+        observed = projection["tried"][topic] + projection["observed_artifacts"][topic]
         recent = projection["recent"][topic]
         liked = projection["helpful"][topic]
         disliked = projection["not_helpful"][topic]
@@ -117,15 +174,15 @@ def compile_memory_capsule(state: dict, plan: dict) -> dict:
     return {**core, "capsule_id": "witness-capsule:" + _digest(core)}
 
 
-def compile_candidate_family(state: dict, plan: dict) -> dict:
+def compile_candidate_family(state: dict, plan: dict, artifact_receipts=()) -> dict:
     """A constrained candidate family, up to six distinct path compositions.
 
     Unlike Toaster's visual six-up, this may produce fewer than six candidates
     when source-grounded topic diversity is insufficient. No fake diversity.
     """
     _verify_plan(state, plan)
-    capsule = compile_memory_capsule(state, plan)
-    projection = project_receipt_memory(state)
+    capsule = compile_memory_capsule(state, plan, artifact_receipts)
+    projection = project_receipt_memory(state, artifact_receipts)
     topics = plan["topics"]
     candidates = []
     seen = set()
@@ -150,7 +207,7 @@ def compile_candidate_family(state: dict, plan: dict) -> dict:
         candidates.append({**body, "candidate_id": "route-proposal:" + _digest(body)})
 
     offer("baseline", topics, "Follow the present question and current policy.")
-    least = min(topics, key=lambda t: (projection["tried"][t], t))
+    least = min(topics, key=lambda t: (projection["tried"][t] + projection["observed_artifacts"][t], t))
     offer("coverage-explore", [least], "A source-grounded route used least in consented feedback.")
     liked = [t for t in topics if projection["helpful"][t]]
     if liked:
