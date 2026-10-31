@@ -23,6 +23,7 @@ Instead of stealing creative source records or teaching the Toaster to direct vo
 a new person's question
     → RECOMPOSER-001 typed composition plan
     → rebuild witness-memory projection from owner-authorized feedback
+      and separately consented, self-attested output-artifact observations
     → bounded influence capsule
        (underexplored / previously helpful / counterexample / overrepeated)
     → a family of distinct source-relevant route proposals (up to six)
@@ -34,6 +35,10 @@ a new person's question
 
 All new code remains pure Python. The module does not write to disk, touch the network, call a model, read private visitor text from history, dispatch GHoT, validate a Haunted Toaster score or render anything.
 
+**Learning from something made (without a thumbs-up).** The added `witness_artifact(plan, topic, output_sha256, consent=True)` constructs a content-addressed **self-attested** observation referring to a materialized output hash supplied by the owning caller. The module does not read the output, validate that it exists, persist the record, or independently authenticate the creator. If the caller deliberately preserves that receipt and supplies it on the next turn, the projection's observed-artifact coverage changes and the machine can recommend an *underexplored* relevant route, without pretending the artifact was good, verified, or socially beneficial. Duplicate or modified receipts are rejected. A third-party receiver or actual Toaster renderer remains the authority over its own deliverables.
+
+A new visitor does not inherit another visitor's observations. The code has no default cross-user memory, and caller choice remains necessary before saving any receipt.
+
 **No fake six-up.** If only one relevant topic exists, exactly one candidate exists. If two exist, we vary scope and ordering without adding unrelated capabilities. Candidates are not new autonomous instruments; they are different route proposals. The earlier Static-OS typed graph still owns the proposed composition.
 
 The evidence ledger is self-reported, and hash-addressing is not cryptographic human identity verification. A "helpful" verdict is not proof that a neighbor was helped.
@@ -42,7 +47,7 @@ The evidence ledger is self-reported, and hash-addressing is not cryptographic h
 
 ```python
 from question_first.recomposer import genesis, compile_turn, observe_feedback
-from question_first.recomposer_witness import compile_candidate_family
+from question_first.recomposer_witness import compile_candidate_family, witness_artifact
 
 state = genesis()
 p0 = compile_turn(state, "music and food")
@@ -56,6 +61,12 @@ p1 = compile_turn(state, "music and food")
 f1 = compile_candidate_family(state, p1)
 assert f0["family_id"] != f1["family_id"]
 print(f1["influence_trace"]["evidence_refs"])
+
+# An additional, separately consented observation from an actual output:
+receipt = witness_artifact(p1, "music", "a" * 64, consent=True)
+# Demonstration only: "a" * 64 is a placeholder, not an observed output digest.
+f2 = compile_candidate_family(state, p1, [receipt])
+assert f2["family_id"] != f1["family_id"]
 ```
 
 Tests: `python3 -m unittest tests.test_recomposer_001 tests.test_recomposer_witness_002 -v`.
