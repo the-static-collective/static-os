@@ -4,7 +4,8 @@ import json
 import unittest
 from question_first.recomposer import genesis, compile_turn, observe_feedback
 from question_first.recomposer_witness import (
-    project_receipt_memory, compile_memory_capsule, compile_candidate_family
+    project_receipt_memory, compile_memory_capsule, compile_candidate_family,
+    witness_artifact
 )
 
 class TestToasterWitnessRecomposer(unittest.TestCase):
@@ -91,6 +92,40 @@ class TestToasterWitnessRecomposer(unittest.TestCase):
         self.assertTrue(p["uncertain"])
         self.assertEqual(f["status"],"PROPOSAL_ONLY")
         self.assertTrue(all(c["external_effect"] is False for c in f["candidates"]))
+
+    def test_every_created_artifact_can_change_coverage_without_verdict(self):
+        # No thumbs-up or rating: source-controlled output is an observation,
+        # not a quality judgment, external benefit or publication.
+        receipt=witness_artifact(self.plan,"food","a"*64,consent=True)
+        projection=project_receipt_memory(self.state,[receipt])
+        self.assertEqual(projection["observed_artifacts"]["food"],1)
+        self.assertEqual(projection["helpful"]["food"],0)
+        capsule=compile_memory_capsule(self.state,self.plan,[receipt])
+        exploration=[p["target"] for p in capsule["pressures"]
+                     if p["kind"]=="coverage-explore"]
+        self.assertEqual(exploration,["music"])
+        self.assertIn(receipt["observation_id"],projection["sources"]["food"])
+        family=compile_candidate_family(self.state,self.plan,[receipt])
+        self.assertEqual(family["capsule"]["capsule_id"],capsule["capsule_id"])
+        self.assertEqual(self.state["revision"],0)
+
+    def test_artifact_memory_opt_in_and_tampering(self):
+        with self.assertRaisesRegex(ValueError,"NOT_AUTHORIZED"):
+            witness_artifact(self.plan,"food","b"*64)
+        with self.assertRaisesRegex(ValueError,"INVALID_ARTIFACT_DIGEST"):
+            witness_artifact(self.plan,"food","not-a-digest",consent=True)
+        r=witness_artifact(self.plan,"music","b"*64,consent=True)
+        with self.assertRaisesRegex(ValueError,"DUPLICATE"):
+            project_receipt_memory(self.state,[r,r])
+        x=copy.deepcopy(r);x["topic"]="food"
+        with self.assertRaisesRegex(ValueError,"MISMATCH"):
+            project_receipt_memory(self.state,[x])
+
+    def test_artifact_receipt_order_does_not_change_projection(self):
+        a=witness_artifact(self.plan,"food","a"*64,consent=True)
+        b=witness_artifact(self.plan,"music","b"*64,consent=True)
+        self.assertEqual(project_receipt_memory(self.state,[a,b]),
+                         project_receipt_memory(self.state,[b,a]))
 
     def test_negative_feedback_affects_future_compilation(self):
         state=self.state
