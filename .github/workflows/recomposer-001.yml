@@ -1,0 +1,30 @@
+name: Static-OS Recomposer-001
+on:
+  pull_request:
+    paths:
+      - 'question_first/recomposer.py'
+      - 'tests/test_recomposer_001.py'
+      - 'docs/RECOMPOSER-001.md'
+      - '.github/workflows/recomposer-001.yml'
+  push:
+    branches:
+      - 'experiment/recomposer-001-bounded-self-assembly'
+    paths:
+      - 'question_first/recomposer.py'
+      - 'tests/test_recomposer_001.py'
+      - 'docs/RECOMPOSER-001.md'
+      - '.github/workflows/recomposer-001.yml'
+jobs:
+  bounded-recomposition:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify pure deterministic self-recomposition and refusal tests
+        run: python3 -m unittest tests.test_recomposer_001 -v
+      - name: Compile module
+        run: python3 -m py_compile question_first/recomposer.py
