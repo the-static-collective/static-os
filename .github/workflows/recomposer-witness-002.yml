@@ -1,0 +1,30 @@
+name: Static OS Witness Recomposer-002
+on:
+  pull_request:
+    paths:
+      - 'question_first/recomposer_witness.py'
+      - 'tests/test_recomposer_witness_002.py'
+      - 'docs/RECOMPOSER-002-TOASTER-WITNESS.md'
+      - '.github/workflows/recomposer-witness-002.yml'
+  push:
+    branches:
+      - 'experiment/recomposer-002-toaster-witness'
+    paths:
+      - 'question_first/recomposer_witness.py'
+      - 'tests/test_recomposer_witness_002.py'
+      - 'docs/RECOMPOSER-002-TOASTER-WITNESS.md'
+      - '.github/workflows/recomposer-witness-002.yml'
+jobs:
+  toasty-witness:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test both recomposition and witness-memory layering
+        run: python3 -m unittest tests.test_recomposer_001 tests.test_recomposer_witness_002 -v
+      - name: Static import syntax
+        run: python3 -m py_compile question_first/recomposer.py question_first/recomposer_witness.py
