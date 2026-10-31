@@ -5,6 +5,8 @@ on:
       - 'question_first/recomposer_witness.py'
       - 'tests/test_recomposer_witness_002.py'
       - 'docs/RECOMPOSER-002-TOASTER-WITNESS.md'
+      - 'scripts/recomposer-bridge.py'
+      - 'tests/test_recomposer_bridge_003.py'
       - '.github/workflows/recomposer-witness-002.yml'
   push:
     branches:
@@ -25,6 +27,6 @@ jobs:
         with:
           python-version: '3.12'
       - name: Test both recomposition and witness-memory layering
-        run: python3 -m unittest tests.test_recomposer_001 tests.test_recomposer_witness_002 -v
+        run: python3 -m unittest tests.test_recomposer_001 tests.test_recomposer_witness_002 tests.test_recomposer_bridge_003 -v
       - name: Static import syntax
-        run: python3 -m py_compile question_first/recomposer.py question_first/recomposer_witness.py
+        run: python3 -m py_compile question_first/recomposer.py question_first/recomposer_witness.py scripts/recomposer-bridge.py
