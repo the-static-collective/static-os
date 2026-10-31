@@ -42,6 +42,11 @@ def witness_artifact(plan: dict, topic: str, output_sha256: str,
              topic in plan.get("topics", []) and
              isinstance(plan.get("plan_id"), str),
              "HOLD_UNOWNED_ARTIFACT")
+    _require(plan.get("plan_id") == "recomposer-plan:" + _digest({
+                 k: v for k, v in plan.items() if k != "plan_id"
+             }) and plan.get("status") == "PROPOSAL_ONLY" and
+             plan.get("external_effect") is False,
+             "HOLD_ARTIFACT_PLAN_MISMATCH")
     _require(isinstance(output_sha256, str) and
              bool(re.fullmatch(r"[a-f0-9]{64}", output_sha256)),
              "INVALID_ARTIFACT_DIGEST")
