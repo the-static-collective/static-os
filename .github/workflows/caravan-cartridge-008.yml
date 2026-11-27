@@ -1,0 +1,35 @@
+name: CARAVAN cartridge 008
+on:
+  pull_request:
+    paths:
+      - 'scripts/caravan-cartridge.py'
+      - 'tests/test_caravan_cartridge.py'
+      - 'config/alpine-live/**'
+      - '.github/workflows/caravan-cartridge-008.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  cartridge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: the-static-collective/planZ
+          ref: 72f52f8265a388a8eee894df38fc8c858b01db1c
+          path: donor-caravan
+          persist-credentials: false
+      - name: Verify and stage immutable donor
+        run: |
+          export CARAVAN_TEST_SOURCE="$PWD/donor-caravan/experiments/caravan"
+          python3 -m unittest discover -s tests -p test_caravan_cartridge.py -v
+          python3 scripts/caravan-cartridge.py stage "$CARAVAN_TEST_SOURCE" "$RUNNER_TEMP/caravan-payload"
+          python3 scripts/caravan-cartridge.py plan church radio library
+          python3 scripts/suitcase.py caravan-plan church radio library
+          for f in config/alpine-live/static-caravan config/alpine-live/genapkovl-genesis.sh config/alpine-live/mkimg.genesis.sh scripts/build-alpine-genesis-iso.sh; do sh -n "$f"; done
+      - name: Original donor regression tests
+        run: |
+          python3 -m pip install -r "$RUNNER_TEMP/caravan-payload/requirements-crossing.txt"
+          cd "$RUNNER_TEMP/caravan-payload"
+          python3 -m unittest discover -v

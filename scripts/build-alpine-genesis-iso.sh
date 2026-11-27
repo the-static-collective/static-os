@@ -23,6 +23,10 @@ export PACKAGER='STATIC OS CI Alpine Builder <ci@localhost.invalid>'
 abuild-keygen -a -i -n
 cd /tmp/aports
 export GENESIS_PAYLOAD=/payload
+export GENESIS_CARAVAN="${GENESIS_CARAVAN:-0}"
+if [ "$GENESIS_CARAVAN" = 1 ]; then
+    python3 /work/scripts/caravan-cartridge.py verify /payload/caravan
+fi
 # CI-only test images include a probe. The normal invocation leaves it absent.
 export GENESIS_CI_VM_PROBE="${GENESIS_CI_VM_PROBE:-0}"
 sh scripts/mkimage.sh --arch x86_64 --profile genesis --tag 005 \

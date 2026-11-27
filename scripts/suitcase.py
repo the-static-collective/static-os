@@ -22,6 +22,8 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description='STATIC OS Suitcase candidate (read-only)')
     commands = parser.add_subparsers(dest='cmd', required=True)
     commands.add_parser('probe', help='inspect current host without modifying it')
+    cp = commands.add_parser('caravan-plan', help='compose optional CARAVAN mission presets')
+    cp.add_argument('vocations', nargs='+', choices=['church','studio','library','community','radio','workshop'])
     p = commands.add_parser('compose', help='print a deterministic HOLD-only plan')
     p.add_argument('--inventory', help='previously recorded JSON inventory; default: probe this host')
     p.add_argument('--profile', required=True,
@@ -44,7 +46,11 @@ def main(argv=None):
     v.add_argument('plan')
     args = parser.parse_args(argv)
     try:
-        if args.cmd == 'probe':
+        if args.cmd == 'caravan-plan':
+            import runpy
+            cartridge = runpy.run_path(str(Path(__file__).with_name('caravan-cartridge.py')))
+            result = cartridge['mission'](args.vocations)
+        elif args.cmd == 'probe':
             result = probe()
         elif args.cmd == 'house-template':
             result = empty_survey()

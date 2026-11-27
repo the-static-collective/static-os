@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+test "$(id -u)" != 0 || { echo "Use a normal local user, not root." >&2; exit 2; }
+umask 077
+base="/opt/static-os/caravan"
+state="${CARAVAN_DATA:-${XDG_STATE_HOME:-$HOME/.local/state}/caravan}"
+case "${1:-}" in
+  plan) shift; exec python3 "$base/caravan-cartridge.py" plan "$@" ;;
+  verify) exec python3 "$base/caravan-cartridge.py" verify "$base/source" ;;
+  run) shift; exec python3 "$base/caravan-cartridge.py" run --source "$base/source" --data "$state" "$@" ;;
+  *) echo "Usage: static-caravan plan church library | verify | run seed found NAME | run caravan serve"; exit 2 ;;
+esac
