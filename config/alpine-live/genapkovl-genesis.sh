@@ -62,6 +62,8 @@ if [ "${GENESIS_CARAVAN:-0}" = 1 ]; then
     python3 /work/scripts/caravan-cartridge.py verify /payload/caravan
     mkdir -p "$tmp/opt/static-os/caravan"
     python3 /work/scripts/caravan-cartridge.py stage /payload/caravan "$tmp/opt/static-os/caravan/source"
+    chmod 0755 "$tmp/opt/static-os/caravan/source"
+    chmod -R a+rX "$tmp/opt/static-os/caravan/source"
     install -m 0644 /work/scripts/caravan-cartridge.py "$tmp/opt/static-os/caravan/caravan-cartridge.py"
     install -m 0755 /work/config/alpine-live/static-caravan "$tmp/usr/local/bin/static-caravan"
     printf '%s\n' py3-cryptography ffmpeg >> "$tmp/etc/apk/world"

@@ -1,11 +1,11 @@
 # CARAVAN 008 — EMBODIMENT
-Optional community application cartridge for STATIC OS, stacked on GENESIS BOOT 008 PR #97 (exact base b4cf776fae485b9035812196db7abb6553a78972). CARAVAN owner: planZ PR #49, exact original source commit 72f52f8265a388a8eee894df38fc8c858b01db1c; 20 manifest entries plus the pinned manifest. No fork of application logic. Existing five Suitcase planning profiles and old cartridges unchanged. The separate CARAVAN plan selects one or more six-vocation advisory presets (all source code included; presets are not access control).
+Optional community application cartridge for STATIC OS, stacked on GENESIS BOOT 008 PR #97 (exact base b4cf776fae485b9035812196db7abb6553a78972). CARAVAN owner: planZ PR #49, exact original source commit 72f52f8265a388a8eee894df38fc8c858b01db1c; 20 manifest entries plus the pinned manifest. No fork of application logic. Existing five Suitcase planning profiles and old cartridges unchanged; the native Suitcase CLI adds an optional caravan-plan subcommand. The separate CARAVAN plan selects one or more six-vocation advisory presets (all source code included; presets are not access control).
 
 ## Existing Linux first (no root)
 Obtain an exact checkout of planZ commit above while connected. From STATIC OS checkout:
 ```sh
 python3 scripts/caravan-cartridge.py stage /path/to/planZ/experiments/caravan ./caravan-payload
-python3 scripts/caravan-cartridge.py plan church radio library
+python3 scripts/suitcase.py caravan-plan church radio library
 python3 -m venv .caravan-venv
 .caravan-venv/bin/pip install -r caravan-payload/requirements-crossing.txt
 mkdir -p "$HOME/.local/state"

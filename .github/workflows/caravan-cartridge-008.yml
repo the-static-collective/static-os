@@ -26,7 +26,8 @@ jobs:
           python3 -m unittest discover -s tests -p test_caravan_cartridge.py -v
           python3 scripts/caravan-cartridge.py stage "$CARAVAN_TEST_SOURCE" "$RUNNER_TEMP/caravan-payload"
           python3 scripts/caravan-cartridge.py plan church radio library
-          sh -n config/alpine-live/static-caravan config/alpine-live/genapkovl-genesis.sh config/alpine-live/mkimg.genesis.sh scripts/build-alpine-genesis-iso.sh
+          python3 scripts/suitcase.py caravan-plan church radio library
+          for f in config/alpine-live/static-caravan config/alpine-live/genapkovl-genesis.sh config/alpine-live/mkimg.genesis.sh scripts/build-alpine-genesis-iso.sh; do sh -n "$f"; done
       - name: Original donor regression tests
         run: |
           python3 -m pip install -r "$RUNNER_TEMP/caravan-payload/requirements-crossing.txt"

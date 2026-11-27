@@ -74,7 +74,7 @@ def run(source, data, tool, args):
         raise ValueError("run as a normal local user, not root")
     verify(source)
     source, data = Path(source).resolve(), Path(data).absolute()
-    if data == source or source in data.parents or data.is_symlink():
+    if data.is_symlink() or data.resolve() == source or source in data.resolve().parents:
         raise ValueError("data must be separate from the immutable source")
     # Fixed source entrypoints, no shell. Native applications retain their own controls.
     if tool not in ("caravan", "voice", "library", "crossing", "airwaves", "seed"):
