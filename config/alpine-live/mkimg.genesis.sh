@@ -14,4 +14,7 @@ profile_genesis() {
     syslinux_serial="0 115200"
     syslinux_timeout=30
     apks="$apks nodejs npm python3 git ca-certificates curl bash"
+    if [ "${GENESIS_CARAVAN:-0}" = 1 ]; then
+        apks="$apks py3-cryptography ffmpeg"
+    fi
 }

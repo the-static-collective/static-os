@@ -57,5 +57,15 @@ printf '%s\n' 'STATIC OS GENESIS — Alpine Live' \
   'Local console: static-genesis-start' \
   'Developer console: http://127.0.0.1:8766/ (same machine only).' \
  > "$tmp"/etc/motd
+# Optional community mission payload, prepared and verified at image build time.
+if [ "${GENESIS_CARAVAN:-0}" = 1 ]; then
+    python3 /work/scripts/caravan-cartridge.py verify /payload/caravan
+    mkdir -p "$tmp/opt/static-os/caravan"
+    python3 /work/scripts/caravan-cartridge.py stage /payload/caravan "$tmp/opt/static-os/caravan/source"
+    install -m 0644 /work/scripts/caravan-cartridge.py "$tmp/opt/static-os/caravan/caravan-cartridge.py"
+    install -m 0755 /work/config/alpine-live/static-caravan "$tmp/usr/local/bin/static-caravan"
+    printf '%s\n' py3-cryptography ffmpeg >> "$tmp/etc/apk/world"
+    printf '%s\n' 'CARAVAN optional: static-caravan plan church library; operate as genesis user.' >> "$tmp/etc/motd"
+fi
 # The overlay is installed at boot into RAM. No live source download occurs.
 tar -C "$tmp" -czf "$HOSTNAME.apkovl.tar.gz" etc opt usr
